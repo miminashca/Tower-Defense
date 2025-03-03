@@ -19,6 +19,7 @@ public static class EventBus
     public static event Action OnMoneyAmountChange;
     public static event Action<Tower> OnTowerBecameActive;
     
+    
     public static void TowerStartDrag(GameObject tower)
     {
         if(tower) OnTowerStartDrag?.Invoke(tower);
