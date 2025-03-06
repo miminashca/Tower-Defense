@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public static Timer timer { get; private set; }
     
     private int moneyEarned = 30;
+    public bool gameWon = false;
+    public bool gameLost = false;
     private void Awake()
     {
         if (gameManager == null)
@@ -44,12 +46,16 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventBus.OnMoneySpent += SpendMoney;
         EventBus.OnMoneyEarned += AddMoney;
+        EventBus.OnWin += Win;
+        EventBus.OnLose += Lose;
     }
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         EventBus.OnMoneySpent -= SpendMoney;
         EventBus.OnMoneyEarned -= AddMoney;
+        EventBus.OnWin -= Win;
+        EventBus.OnLose -= Lose;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -70,6 +76,15 @@ public class GameManager : MonoBehaviour
     {
         if(amount>GetMoney()) return;
         moneyEarned -= amount;
+    }
+
+    private void Win()
+    {
+        gameWon = true;
+    }
+    private void Lose()
+    {
+        gameLost = true;
     }
 }
 

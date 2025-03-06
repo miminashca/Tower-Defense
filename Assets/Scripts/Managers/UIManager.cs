@@ -10,10 +10,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI targetEnemyCounterText;
+    [SerializeField] private TextMeshProUGUI finalGameStateMessage;
 
     private void Awake()
     {
         if (waveText) EventBus.OnWaveStart += UpdateWaveText;
+        EventBus.OnLose += ShowLoseGameState;
+        EventBus.OnWin += ShowWinGameState;
     }
 
     private void Start()
@@ -55,10 +58,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void ShowLoseGameState()
+    {
+        finalGameStateMessage.gameObject.SetActive(true);
+        finalGameStateMessage.text = "YOU LOST!";
+        finalGameStateMessage.color = Color.red;
+        Debug.Log("GAME LOST!");
+    }
+    private void ShowWinGameState()
+    {
+        finalGameStateMessage.gameObject.SetActive(true);
+        finalGameStateMessage.text = "YOU WON!";
+        finalGameStateMessage.color = Color.cyan;
+        Debug.Log("GAME WON!");
+    }
+
     private void OnDisable()
     {
         EventBus.OnMoneyAmountChange -= UpdateMoneyText;
         EventBus.OnWaveStart -= UpdateWaveText;
         GameManager.enemyManager.OnEnemyReachedTarget -= UpdateEnemyCountText;
+        EventBus.OnLose -= ShowLoseGameState;
+        EventBus.OnWin -= ShowWinGameState;
     }
 }

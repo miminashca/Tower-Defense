@@ -5,6 +5,7 @@ public class TargetSelectingBehaviourClosest : TargetSelectingBehaviour
 {
     public override Entity GetTarget(List<Entity> targets)
     {
+        //List<Entity> chosenTargets = new List<Entity>();
         int relDistance = 100;
         Entity chosen = null;
         
@@ -17,6 +18,7 @@ public class TargetSelectingBehaviourClosest : TargetSelectingBehaviour
                     chosen = entity;
             }
         }
+        //chosenTargets.Add(chosen);
         return chosen;
     }
 }

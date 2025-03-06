@@ -41,32 +41,4 @@ public abstract class MoveBehaviour : MonoBehaviour
             if(gameObject) Stop();
         }
     }
-
-    // #region "animation related fields"
-    // [SerializeField]
-    // private Animator mAnimator;
-    // //If idling animation is already playing, don't play it again.
-    // private bool idleAnimationPlaying = false;
-    // //If moving animation is already playing, don't play it again.
-    // private bool moveAnimationPlaying = false;
-    // //Sub-classes can use the following functions to play animations accordingly
-    // protected void PlayMovingAnimation()
-    // {
-    //     idleAnimationPlaying = false;
-    //     if (!moveAnimationPlaying)
-    //     { 
-    //         mAnimator.Play("Move");
-    //         moveAnimationPlaying = true;
-    //     }
-    // }
-    // protected void PlayIdleAnimation()
-    // {
-    //     moveAnimationPlaying = false;
-    //     if (!idleAnimationPlaying)
-    //     {
-    //         mAnimator.Play("Idle");
-    //         idleAnimationPlaying = true;
-    //     }
-    // }
-    // #endregion
 }

@@ -88,14 +88,10 @@ public class TowerData : ScriptableObject
 
     public ImpactType GetImpactType()
     {
-        return ImpactType.Damage;
+        return towerBehaviour.impactType;
     }
     public TargetSelectingType GetTargetSelectingType()
     {
-        if (towerBehaviour is TowerBehaviourClosest) return TargetSelectingType.Closest;
-        else
-        {
-            return TargetSelectingType.Undefined;
-        }
+        return towerBehaviour.targetSelectingType;
     }
 }

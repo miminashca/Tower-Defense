@@ -10,15 +10,25 @@ public static class EventBus
     public static event Action<Tower> OnTowerUpgraded;
     public static event Action<TowerData> OnTowerBought;
     public static event Action<Vector3Int> OnTowerMovedToSnappedPosition;
+    public static event Action<Tower> OnTowerBecameActive;
+    
     public static event Action<int> OnWaveStart;
     public static event Action<int> OnWaveEnd;
+    
     public static event Action OnShopOpened;
     public static event Action OnShopClosed;
+    
     public static event Action<int> OnMoneySpent;
     public static event Action<int> OnMoneyEarned;
     public static event Action OnMoneyAmountChange;
-    public static event Action<Tower> OnTowerBecameActive;
     
+    public static event Action<Entity> OnEntityReceivedDamage;
+    public static event Action<Entity> OnEntityDeath;
+    
+    public static event Action OnLose;
+    public static event Action OnWavesCompleted;
+    public static event Action OnWin;
+
     
     public static void TowerStartDrag(GameObject tower)
     {
@@ -80,4 +90,27 @@ public static class EventBus
     {
         OnTowerBecameActive?.Invoke(tower);
     }
+    
+    public static void EntityReceivedDamage(Entity entity)
+    {
+        OnEntityReceivedDamage?.Invoke(entity);
+    }
+    public static void EntityDie(Entity entity)
+    {
+        OnEntityDeath?.Invoke(entity);
+    }
+    
+    public static void Lose()
+    {
+        OnLose?.Invoke();
+    }
+    public static void WavesCompleted()
+    {
+        OnWavesCompleted?.Invoke();
+    }
+    public static void Win()
+    {
+        OnWin?.Invoke();
+    }
+    
 }

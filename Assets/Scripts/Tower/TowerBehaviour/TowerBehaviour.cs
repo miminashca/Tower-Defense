@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TowerBehaviour : MonoBehaviour
+public class TowerBehaviour : MonoBehaviour
 {
     private SphereCollider trigger;
     protected List<Entity> targets;
@@ -11,10 +9,25 @@ public abstract class TowerBehaviour : MonoBehaviour
     private int impact;
     private float timer;
     private float threshold;
-    
-    protected TargetSelectingBehaviour targetSelectingBehaviour = null;
 
+    public TowerData.ImpactType impactType;
+    public TowerData.TargetSelectingType targetSelectingType;
+        
+    private TowerAttackBehaviour attackBehavior;
+    private TargetSelectingBehaviour selectingBehaviour; 
+    
     private bool initialized = false;
+
+    private void OnEnable()
+    {
+        EventBus.OnEntityDeath += RemoveEntityFromTargets;
+    }
+
+    private void OnDisable()
+    {
+        EventBus.OnEntityDeath -= RemoveEntityFromTargets;
+    }
+
     public void Initialize(int pRange, int pImpact, float pThreshold)
     {
         if(!trigger) trigger = gameObject.AddComponent(typeof(SphereCollider)) as SphereCollider;
@@ -30,8 +43,14 @@ public abstract class TowerBehaviour : MonoBehaviour
         initialized = true;
     }
 
-    protected void Start(){
+    protected void Awake(){
         targets = new List<Entity>();
+        
+        if (impactType == TowerData.ImpactType.Damage) attackBehavior = gameObject.AddComponent<TowerAttackBehaviourDamage>();
+        else if (impactType == TowerData.ImpactType.Debuff) attackBehavior = gameObject.AddComponent<TowerAttackBehaviourDebuff>();
+        
+        if (targetSelectingType == TowerData.TargetSelectingType.Closest) selectingBehaviour = gameObject.AddComponent<TargetSelectingBehaviourClosest>();;
+        //else if (targetSelectingType == TowerData.TargetSelectingType.AOE) selectingBehaviour = new TargetSelectingBehaviourAOE();
     }
     
     void Update()
@@ -46,19 +65,21 @@ public abstract class TowerBehaviour : MonoBehaviour
         if (timer >= threshold)
         {
             timer = 0;
-            Attack(ChooseTarget(targets));
+            
+            if (targets.Count != 0)
+            {
+                Attack(ChooseTarget(targets)); 
+                // List<Entity> currentTargets = ChooseTargets(targets);
+                // foreach (Entity target in currentTargets)
+                // {
+                //     Attack(target); 
+                // }
+            }
         }
-        //Debug.Log(targets.Count);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // if (targets == null)
-        // {
-        //     Debug.LogError("Targets list not initialized.");
-        //     return;
-        // }
-        // Check if the other GameObject has an Entity component
         Entity entity = other.GetComponent<Entity>();
         if (entity != null && !targets.Contains(entity))
         {
@@ -68,7 +89,6 @@ public abstract class TowerBehaviour : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        // Remove the entity when it exits the trigger
         Entity entity = other.GetComponent<Entity>();
         if (entity != null && targets.Contains(entity))
         {
@@ -76,29 +96,30 @@ public abstract class TowerBehaviour : MonoBehaviour
         }
     }
 
-    //Add tower battle behaviour (similar to tower selecting behaviour)
-    //Make virtual(or abstract) and rename to "GetImpact" and move to abstract TowerBattleBehaviour.
-    //Override in TowerBattleBehaviour subclasses (TowerBattleBehaviourDamage/TowerBattleBehaviourDebuff).
     protected void Attack(Entity entity)
     {
         if (entity && GetComponent<Tower>().isActive)
         {
             Debug.Log("Tower attacks enemy!");
-            if (entity.GetHP() <= 1)
-            {
-                targets.Remove(entity);
-            }
-            entity.GetDamage(impact);
+            attackBehavior.Attack(entity, impact);
         }
     }
 
     protected Entity ChooseTarget(List<Entity> pTargets)
     {
-        if(targetSelectingBehaviour) return targetSelectingBehaviour.GetTarget(pTargets);
+        if(selectingBehaviour) return selectingBehaviour.GetTarget(pTargets);
         else
         {
             Debug.Log("no target sel beh");
             return null;
+        }
+    }
+
+    private void RemoveEntityFromTargets(Entity entity)
+    {
+        if (targets.Contains(entity))
+        {
+            targets.Remove(entity);
         }
     }
 }

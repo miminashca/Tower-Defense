@@ -18,27 +18,24 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
+        EventBus.OnEntityDeath += OnEnemyDie;
+        MoveBehaviour.OnGameobjectReachedTarget += SmthReachedTarget;
+        EventBus.OnWavesCompleted += CheckGameFinalState;
+        
         if (!targetTransform) Debug.Log("target not set in enemy controller, using default");
         mainEnemiesList = new List<Enemy>();
     }
 
     private void Start()
     {
-        Enemy.OnEntityDeath += OnEnemyDie;
-        MoveBehaviour.OnGameobjectReachedTarget += SmthReachedTarget;
-
         targetPos = targetTransform.transform.position;
-    }
-
-    private void Update()
-    {
-        if(currentEnemiesAtGoal==maxEnemiesAllowed) Debug.Log($"Maximum amount of enemies at target: {maxEnemiesAllowed}. Game Over!!!");
     }
 
     private void OnDisable()
     {
-        Enemy.OnEntityDeath -= OnEnemyDie;
+        EventBus.OnEntityDeath -= OnEnemyDie;
         MoveBehaviour.OnGameobjectReachedTarget -= SmthReachedTarget;
+        EventBus.OnWavesCompleted -= CheckGameFinalState;
     }
 
     private void OnEnemyDie(Entity entity)
@@ -62,6 +59,7 @@ public class EnemyManager : MonoBehaviour
         if (obj.GetComponent<Enemy>() && tar == targetPos)
         {
             currentEnemiesAtGoal++;
+            if(currentEnemiesAtGoal==maxEnemiesAllowed) EventBus.Lose();
             OnEnemyReachedTarget?.Invoke();
         }
     }
@@ -81,5 +79,14 @@ public class EnemyManager : MonoBehaviour
     public int GetMaxEnemiesAtGoalAllowed()
     {
         return maxEnemiesAllowed;
+    }
+
+    private void CheckGameFinalState()
+    {
+        if(currentEnemiesAtGoal<maxEnemiesAllowed && !GameManager.gameManager.gameLost) EventBus.Win();
+        else if(!GameManager.gameManager.gameWon)
+        {
+            EventBus.Lose();
+        }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicEnemyData
   m_EditorClassIdentifier: 
   type: 1
-  healthPoints: 2
+  healthPoints: 3
   speed: 15
   carriedMoney: 10
   enemyModelPrefab: {fileID: 919132149155446097, guid: ecdb3a6ce83b74f5c9156a6a805bcbae, type: 3}

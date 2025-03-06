@@ -3,8 +3,5 @@ using UnityEngine;
 
 public abstract class TargetSelectingBehaviour : MonoBehaviour
 {
-    public virtual Entity GetTarget(List<Entity> targets)
-    {
-        return null;
-    }
+    public abstract Entity GetTarget(List<Entity> targets);
 }

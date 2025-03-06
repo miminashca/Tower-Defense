@@ -47,6 +47,10 @@ public class WaveManager : MonoBehaviour
 
             Invoke("EndWaveInSeconds", wavesData.tresholdBetweenWaves);
         }
+        else
+        {
+            EventBus.WavesCompleted();
+        }
     }
     
     private void EndWaveInSeconds()

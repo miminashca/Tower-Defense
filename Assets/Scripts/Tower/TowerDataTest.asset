@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86e0124af3a4c02acba1f47507b9d56, type: 3}
   m_Name: TowerDataTest
   m_EditorClassIdentifier: 
-  towerBehaviour: {fileID: -967008508184765513, guid: 2f35c4192c60a4d5682d01a6a57ab684, type: 3}
+  towerBehaviour: {fileID: 4086555253403981902, guid: 48665c596612840488cb72682554c475, type: 3}
   basicPrice: 10
   basicUiImage: {fileID: 21300000, guid: b94a3a088f197456a8cd7f2dbe378fc4, type: 3}
   basicModelPrefab: {fileID: 919132149155446097, guid: 9752feba6849946da905dc8f7da532f6, type: 3}
