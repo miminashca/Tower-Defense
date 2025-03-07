@@ -11,6 +11,7 @@ public abstract class MoveBehaviour : MonoBehaviour
     public static Action<GameObject, Vector3> OnGameobjectReachedTarget;
     public Action OnTargetReached;
     public Action OnTargetSet;
+    protected float speed; 
 
     protected bool targetReached = false;
     
@@ -34,8 +35,10 @@ public abstract class MoveBehaviour : MonoBehaviour
         OnTargetReached?.Invoke();
     }
 
-    private void Update()
+    protected void FixedUpdate()
     {
+        speed = gameObject.GetComponent<Entity>().GetSpeed();
+        Debug.Log(speed);
         if (Vector3.Magnitude(gameObject.transform.position - targetPos) <= targetRange && !targetReached)
         { 
             if(gameObject) Stop();

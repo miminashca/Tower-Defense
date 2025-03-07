@@ -21,7 +21,6 @@ public class NavMeshMoveBehaviour : MoveBehaviour
         }
 
         targetRange = 2f;
-        agent.speed = gameObject.GetComponent<Entity>().GetSpeed();
     }
     
     public override void SetTargetPosition(Vector3 position)
@@ -34,5 +33,11 @@ public class NavMeshMoveBehaviour : MoveBehaviour
     { 
         base.Stop();
         agent.ResetPath();
+    }
+
+    private void FixedUpdate()
+    {
+        base.FixedUpdate();
+        agent.speed = speed;
     }
 }

@@ -9,7 +9,7 @@ public class TowerBehaviour : MonoBehaviour
     private SphereCollider trigger;
     private List<Entity> targets;
     
-    private int impact;
+    private float impact;
     private float timer;
     private float threshold;
         
@@ -17,7 +17,7 @@ public class TowerBehaviour : MonoBehaviour
     private TargetSelectingBehaviour selectingBehaviour; 
     
     private bool initialized = false;
-    public void Initialize(int pRange, int pImpact, float pThreshold)
+    public void Initialize(float pRange, float pImpact, float pThreshold)
     {
         if(!trigger) trigger = gameObject.AddComponent(typeof(SphereCollider)) as SphereCollider;
         trigger.isTrigger = true;

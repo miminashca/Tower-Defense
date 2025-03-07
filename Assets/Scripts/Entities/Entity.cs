@@ -5,8 +5,19 @@ public abstract class Entity : MonoBehaviour
 {
     public EntityData data;
     protected float healthPoints;
-    protected int speed;
-    
+    protected float speed;
+
+    private bool debuffed = false;
+
+    private void OnEnable()
+    {
+        EventBus.OnTowerDebuffedEntity += GetDebuff;
+    }
+    private void OnDisable()
+    {
+        EventBus.OnTowerDebuffedEntity -= GetDebuff;
+    }
+
     protected void Init(EntityData.DataType pType)
     {
         if (data != null && data.type == pType)
@@ -20,7 +31,7 @@ public abstract class Entity : MonoBehaviour
             Debug.LogError($"No or wrong type data asset attached to {name}!!!");
         }
     }
-    public virtual void GetDamage(float amountOfDmg = 1)
+    public void GetDamage(float amountOfDmg = 1)
     {
         healthPoints -= amountOfDmg;
         EventBus.EntityReceivedDamage(this);
@@ -30,14 +41,30 @@ public abstract class Entity : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void GetDebuff(Entity entity, float debuffDuration = 1)
+    {
+        if(!entity ==this || debuffed) return;
+        debuffed = true;
+        speed *= 0.5f;
+        Invoke("RemoveDebuff", debuffDuration);
+    }
+
+    private void RemoveDebuff()
+    {
+        if(!debuffed) return;
+        debuffed = false;
+        speed = data.speed;
+    }
     
     public float GetHP()
     {
         return healthPoints;
     }
     
-    public int GetSpeed()
+    public float GetSpeed()
     {
         return speed;
     }
+    
+    
 }

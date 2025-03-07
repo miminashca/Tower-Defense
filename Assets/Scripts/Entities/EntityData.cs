@@ -12,5 +12,5 @@ public abstract class EntityData : ScriptableObject
 
     public DataType type = DataType.EntityData;
     public float healthPoints = 2;
-    public int speed = 2;
+    public float speed = 2;
 }

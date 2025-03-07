@@ -15,11 +15,11 @@ public class TowerData : ScriptableObject
     {
         public readonly int BasicPrice { get; }
         public readonly GameObject Model { get; }
-        public readonly int Range { get; }
-        public readonly int Impact { get; }
+        public readonly float Range { get; }
+        public readonly float Impact { get; }
         public readonly float Threshold { get; }
         public readonly Sprite PreviewImage { get; }
-        public TowerStruct(int basicPrice, GameObject model, int range, int impact, float threshold, Sprite previewImage)
+        public TowerStruct(int basicPrice, GameObject model, float range, float impact, float threshold, Sprite previewImage)
         {
             BasicPrice = basicPrice;
             Model = model;
@@ -36,15 +36,15 @@ public class TowerData : ScriptableObject
     [SerializeField] private int basicPrice;
     [SerializeField] private Sprite basicUiImage;
     [SerializeField] private GameObject basicModelPrefab;
-    [SerializeField] private int basicRange = 1;
-    [SerializeField] private int basicImpact = 1;
+    [SerializeField] private float basicRange = 1;
+    [SerializeField] private float basicImpact = 1;
     [SerializeField] private float basicThreshold = 1f;
     
     [SerializeField] private int upgrade1BasicPrice;
     [SerializeField] private Sprite u1UiImage;
     [SerializeField] private GameObject upgrade1ModelPrefab;
-    [SerializeField] private int upgrade1RangeModifier = 1;
-    [SerializeField] private int upgrade1ImpactModifier = 1;
+    [SerializeField] private float upgrade1RangeModifier = 1;
+    [SerializeField] private float upgrade1ImpactModifier = 1;
     [SerializeField] private float upgrade1ThresholdModifier = 0.7f;
     
     [SerializeField] private Sprite undefUiImage;

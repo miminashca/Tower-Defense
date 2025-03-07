@@ -3,5 +3,5 @@ using UnityEngine;
 
 public abstract class TowerAttackBehaviour
 {
-    public abstract void Attack(Entity target, int impact);
+    public abstract void Attack(Entity target, float impact);
 }

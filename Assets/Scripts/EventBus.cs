@@ -23,6 +23,7 @@ public static class EventBus
     public static event Action OnMoneyAmountChange;
     
     public static event Action<Entity> OnEntityReceivedDamage;
+    public static event Action<Entity, float> OnTowerDebuffedEntity;
     public static event Action<Entity> OnEntityDeath;
     
     public static event Action OnLose;
@@ -94,6 +95,10 @@ public static class EventBus
     public static void EntityReceivedDamage(Entity entity)
     {
         OnEntityReceivedDamage?.Invoke(entity);
+    }
+    public static void TowerDebuffEntity(Entity entity, float debuffPower)
+    {
+        OnTowerDebuffedEntity?.Invoke(entity, debuffPower);
     }
     public static void EntityDie(Entity entity)
     {
