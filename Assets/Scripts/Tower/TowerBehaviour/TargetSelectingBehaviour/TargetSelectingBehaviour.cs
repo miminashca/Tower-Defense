@@ -3,5 +3,5 @@ using UnityEngine;
 
 public abstract class TargetSelectingBehaviour
 {
-    public abstract Entity GetTarget(List<Entity> targets, Vector3 towerPos);
+    public abstract List<Entity> GetTargets(List<Entity> targets, Vector3 towerPos);
 }

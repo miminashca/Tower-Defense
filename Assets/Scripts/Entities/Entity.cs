@@ -22,9 +22,8 @@ public abstract class Entity : MonoBehaviour
     }
     public virtual void GetDamage(float amountOfDmg = 1)
     {
-        EventBus.EntityReceivedDamage(this);
         healthPoints -= amountOfDmg;
-        Debug.Log("Entity is attacked!!");
+        EventBus.EntityReceivedDamage(this);
         if (GetHP() <= 0)
         {
             EventBus.EntityDie(this);

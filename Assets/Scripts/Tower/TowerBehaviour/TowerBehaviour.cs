@@ -68,7 +68,15 @@ public class TowerBehaviour : MonoBehaviour
             
             if (targets.Count != 0)
             {
-                Attack(ChooseTarget(targets)); 
+                List<Entity> chosenTargets = ChooseTargets(targets);
+                if (chosenTargets.Count != 0)
+                {
+                    foreach (Entity target in chosenTargets)
+                    {
+                        Attack(target);
+                    }
+                }
+                //Attack(ChooseTarget(targets)); 
                 // List<Entity> currentTargets = ChooseTargets(targets);
                 // foreach (Entity target in currentTargets)
                 // {
@@ -105,9 +113,9 @@ public class TowerBehaviour : MonoBehaviour
         }
     }
 
-    protected Entity ChooseTarget(List<Entity> pTargets)
+    protected List<Entity> ChooseTargets(List<Entity> pTargets)
     {
-        return selectingBehaviour.GetTarget(pTargets, transform.position);
+        return selectingBehaviour.GetTargets(pTargets, transform.position);
     }
 
     private void RemoveEntityFromTargets(Entity entity)
