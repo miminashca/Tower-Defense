@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TargetSelectingBehaviourClosest : TargetSelectingBehaviour
 {
-    public override Entity GetTarget(List<Entity> targets)
+    public override Entity GetTarget(List<Entity> targets, Vector3 towerPos)
     {
         //List<Entity> chosenTargets = new List<Entity>();
         int relDistance = 100;
@@ -14,7 +14,7 @@ public class TargetSelectingBehaviourClosest : TargetSelectingBehaviour
             foreach (Entity entity in targets)
             {
                 if (!entity) continue;
-                if (Vector3.Magnitude(gameObject.transform.position - entity.transform.position) < relDistance)
+                if (Vector3.Magnitude(towerPos - entity.transform.position) < relDistance)
                     chosen = entity;
             }
         }

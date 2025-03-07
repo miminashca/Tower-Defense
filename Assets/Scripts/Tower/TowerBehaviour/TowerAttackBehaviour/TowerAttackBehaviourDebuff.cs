@@ -13,7 +13,7 @@ public class TowerAttackBehaviourDebuff : TowerAttackBehaviour
             //entity gets debuffed + sets isDebuffed true for the impact time
             debuffedTargets.Add(target);
             //target.getdebuff;
-            StartCoroutine(RemoveDebuffedTargetAfterTime(target, 3f));
+            //StartCoroutine(RemoveDebuffedTargetAfterTime(target, 3f));
         }
     }
 

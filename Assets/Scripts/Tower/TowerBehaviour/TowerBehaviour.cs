@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class TowerBehaviour : MonoBehaviour
 {
+    public TowerData.ImpactType impactType;
+    public TowerData.TargetSelectingType targetSelectingType;
+    
     private SphereCollider trigger;
-    protected List<Entity> targets;
+    private List<Entity> targets;
     
     private int impact;
     private float timer;
     private float threshold;
-
-    public TowerData.ImpactType impactType;
-    public TowerData.TargetSelectingType targetSelectingType;
         
     private TowerAttackBehaviour attackBehavior;
     private TargetSelectingBehaviour selectingBehaviour; 
@@ -46,10 +46,10 @@ public class TowerBehaviour : MonoBehaviour
     protected void Awake(){
         targets = new List<Entity>();
         
-        if (impactType == TowerData.ImpactType.Damage) attackBehavior = gameObject.AddComponent<TowerAttackBehaviourDamage>();
-        else if (impactType == TowerData.ImpactType.Debuff) attackBehavior = gameObject.AddComponent<TowerAttackBehaviourDebuff>();
+        if (impactType == TowerData.ImpactType.Damage) attackBehavior = new TowerAttackBehaviourDamage();
+        else if (impactType == TowerData.ImpactType.Debuff) attackBehavior = new TowerAttackBehaviourDebuff();
         
-        if (targetSelectingType == TowerData.TargetSelectingType.Closest) selectingBehaviour = gameObject.AddComponent<TargetSelectingBehaviourClosest>();;
+        if (targetSelectingType == TowerData.TargetSelectingType.Closest) selectingBehaviour = new TargetSelectingBehaviourClosest();
         //else if (targetSelectingType == TowerData.TargetSelectingType.AOE) selectingBehaviour = new TargetSelectingBehaviourAOE();
     }
     
@@ -107,12 +107,7 @@ public class TowerBehaviour : MonoBehaviour
 
     protected Entity ChooseTarget(List<Entity> pTargets)
     {
-        if(selectingBehaviour) return selectingBehaviour.GetTarget(pTargets);
-        else
-        {
-            Debug.Log("no target sel beh");
-            return null;
-        }
+        return selectingBehaviour.GetTarget(pTargets, transform.position);
     }
 
     private void RemoveEntityFromTargets(Entity entity)
