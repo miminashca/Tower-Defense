@@ -17,17 +17,6 @@ public class TowerBehaviour : MonoBehaviour
     private TargetSelectingBehaviour selectingBehaviour; 
     
     private bool initialized = false;
-
-    private void OnEnable()
-    {
-        EventBus.OnEntityDeath += RemoveEntityFromTargets;
-    }
-
-    private void OnDisable()
-    {
-        EventBus.OnEntityDeath -= RemoveEntityFromTargets;
-    }
-
     public void Initialize(int pRange, int pImpact, float pThreshold)
     {
         if(!trigger) trigger = gameObject.AddComponent(typeof(SphereCollider)) as SphereCollider;
@@ -43,14 +32,14 @@ public class TowerBehaviour : MonoBehaviour
         initialized = true;
     }
 
-    protected void Awake(){
+    protected void Start(){
         targets = new List<Entity>();
         
         if (impactType == TowerData.ImpactType.Damage) attackBehavior = new TowerAttackBehaviourDamage();
         else if (impactType == TowerData.ImpactType.Debuff) attackBehavior = new TowerAttackBehaviourDebuff();
         
         if (targetSelectingType == TowerData.TargetSelectingType.Closest) selectingBehaviour = new TargetSelectingBehaviourClosest();
-        //else if (targetSelectingType == TowerData.TargetSelectingType.AOE) selectingBehaviour = new TargetSelectingBehaviourAOE();
+        else if (targetSelectingType == TowerData.TargetSelectingType.AOE) selectingBehaviour = new TargetSelectingBehaviourAOE();
     }
     
     void Update()
@@ -76,7 +65,7 @@ public class TowerBehaviour : MonoBehaviour
                         Attack(target);
                     }
                 }
-                //Attack(ChooseTarget(targets)); 
+                //dAttack(ChooseTarget(targets)); 
                 // List<Entity> currentTargets = ChooseTargets(targets);
                 // foreach (Entity target in currentTargets)
                 // {
@@ -116,13 +105,5 @@ public class TowerBehaviour : MonoBehaviour
     protected List<Entity> ChooseTargets(List<Entity> pTargets)
     {
         return selectingBehaviour.GetTargets(pTargets, transform.position);
-    }
-
-    private void RemoveEntityFromTargets(Entity entity)
-    {
-        if (targets.Contains(entity))
-        {
-            targets.Remove(entity);
-        }
     }
 }

@@ -26,8 +26,9 @@ public class Tower : MonoBehaviour
             Debug.Log("Could not find State Machine in Tower!");
         }
         
-        gameObject.AddComponent(towerData.towerBehaviour.GetType());
-        towerBehaviour = GetComponent<TowerBehaviour>();
+        towerBehaviour = gameObject.AddComponent<TowerBehaviour>();
+        towerBehaviour.impactType = towerData.towerAttackBehaviourType;
+        towerBehaviour.targetSelectingType = towerData.towerTargetSelectingType;
         
         currentTowerLevel = TowerData.Level.Basic;
     }

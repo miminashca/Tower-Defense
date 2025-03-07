@@ -30,7 +30,8 @@ public class TowerData : ScriptableObject
         }
     }
     
-    public TowerBehaviour towerBehaviour;
+    public ImpactType towerAttackBehaviourType;
+    public TargetSelectingType towerTargetSelectingType;
     
     [SerializeField] private int basicPrice;
     [SerializeField] private Sprite basicUiImage;
@@ -74,24 +75,20 @@ public class TowerData : ScriptableObject
     public enum ImpactType
     {
         Damage,
-        Debuff,
-        
-        Undefined,
+        Debuff
     }
     public enum TargetSelectingType
     {
         Closest,
-        AOE,
-        
-        Undefined,
+        AOE
     }
 
     public ImpactType GetImpactType()
     {
-        return towerBehaviour.impactType;
+        return towerAttackBehaviourType;
     }
     public TargetSelectingType GetTargetSelectingType()
     {
-        return towerBehaviour.targetSelectingType;
+        return towerTargetSelectingType;
     }
 }
