@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class TowerBehaviour : MonoBehaviour
 {
     public TowerData.ImpactType impactType;
     public TowerData.TargetSelectingType targetSelectingType;
+    public Bullet bulletPrefab;
+    public float bulletSpeed = 1;
     
     private SphereCollider trigger;
     private List<Entity> targets;
@@ -97,8 +100,12 @@ public class TowerBehaviour : MonoBehaviour
     {
         if (entity && GetComponent<Tower>().isActive)
         {
+            //instantiate bullet
+            Bullet bullet = Instantiate(bulletPrefab, gameObject.transform.position, quaternion.identity);
+            bullet.GetComponent<Rigidbody>().linearVelocity =
+                Vector3.Normalize(entity.transform.position - gameObject.transform.position) * bulletSpeed;
             Debug.Log("Tower attacks enemy!");
-            attackBehavior.Attack(entity, impact);
+            attackBehavior.Attack(entity, impact, bullet);
         }
     }
 

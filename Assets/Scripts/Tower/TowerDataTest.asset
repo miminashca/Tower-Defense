@@ -17,7 +17,7 @@ MonoBehaviour:
   basicPrice: 10
   basicUiImage: {fileID: 21300000, guid: b94a3a088f197456a8cd7f2dbe378fc4, type: 3}
   basicModelPrefab: {fileID: 919132149155446097, guid: 9752feba6849946da905dc8f7da532f6, type: 3}
-  basicRange: 1.5
+  basicRange: 2
   basicImpact: 2
   basicThreshold: 1.5
   upgrade1BasicPrice: 20

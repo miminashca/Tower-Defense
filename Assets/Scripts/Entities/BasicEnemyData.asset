@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   healthPoints: 5
-  speed: 5
+  speed: 3
   carriedMoney: 10
   enemyModelPrefab: {fileID: 919132149155446097, guid: ecdb3a6ce83b74f5c9156a6a805bcbae, type: 3}

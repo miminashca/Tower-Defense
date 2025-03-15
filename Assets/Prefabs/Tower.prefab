@@ -126,6 +126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerData: {fileID: 11400000, guid: efece0382b81a43dfac497ec75819a80, type: 2}
+  bulletPrefab: {fileID: 7422464646055222650, guid: 05b3286ac922146b5990080874499158, type: 3}
+  bulletSpeed: 15
 --- !u!1 &9038701890916083123
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +186,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

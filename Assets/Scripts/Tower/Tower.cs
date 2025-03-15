@@ -4,6 +4,8 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     public TowerData towerData;
+    public Bullet bulletPrefab;
+    public float bulletSpeed;
     public TowerData.TowerStruct towerStruct { get; private set; }
     public TowerData.Level currentTowerLevel { get; private set; }
     private TowerBehaviour towerBehaviour;
@@ -29,6 +31,9 @@ public class Tower : MonoBehaviour
         towerBehaviour = gameObject.AddComponent<TowerBehaviour>();
         towerBehaviour.impactType = towerData.towerAttackBehaviourType;
         towerBehaviour.targetSelectingType = towerData.towerTargetSelectingType;
+
+        towerBehaviour.bulletPrefab = bulletPrefab;
+        towerBehaviour.bulletSpeed = bulletSpeed;
         
         currentTowerLevel = TowerData.Level.Basic;
     }

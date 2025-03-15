@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class TowerAttackBehaviourDebuff : TowerAttackBehaviour
 {
-    public override void Attack(Entity target, float impact)
+    protected override void DealImpact(Entity target)
     {
+        base.DealImpact(target);
         EventBus.TowerDebuffEntity(target, impact);
     }
 }
