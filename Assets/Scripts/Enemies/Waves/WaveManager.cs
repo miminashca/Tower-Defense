@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -42,7 +40,7 @@ public class WaveManager : MonoBehaviour
             enemySpawner.SpawnEnemies(newEnemiesList, wavesData.waves.ElementAt(currentWave).type,
                 spawnPointsManagerInstance);
 
-            GameManager.enemyManager.AddEnemies(newEnemiesList);
+            EnemyManager.Instance.AddEnemies(newEnemiesList);
             currentWave++;
 
             Invoke("EndWaveInSeconds", wavesData.tresholdBetweenWaves);

@@ -8,6 +8,6 @@ public class TowerAttackBehaviourDebuff : TowerAttackBehaviour
     protected override void DealImpact(Enemy target)
     {
         base.DealImpact(target);
-        EventBus.TowerDebuffEntity(target, impact);
+        target.GetDebuff(impact);
     }
 }

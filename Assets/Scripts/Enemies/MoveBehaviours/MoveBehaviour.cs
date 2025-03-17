@@ -1,41 +1,33 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// [RequireComponent(typeof(Animator))]
 public abstract class MoveBehaviour : MonoBehaviour
 {
     [SerializeField] protected float targetRange = 0.2f;
+    
     protected Vector3 targetPos;
-    public static Action<GameObject, Vector3> OnGameobjectReachedTarget;
-    public Action OnTargetReached;
-    public Action OnTargetSet;
     protected float speed; 
 
     protected bool targetReached = false;
     
     protected virtual void Awake()
     {
-        GetComponent<EnemyEventBus>().OnStartMoveToPosition += SetTargetPosition;
+        EnemyEventBus.OnEnemiesStartMoveToPosition += SetTargetPosition;
     }
 
     private void OnDestroy()
     {
-        GetComponent<EnemyEventBus>().OnStartMoveToPosition -= SetTargetPosition;
+        EnemyEventBus.OnEnemiesStartMoveToPosition -= SetTargetPosition;
     }
 
     public virtual void SetTargetPosition(Vector3 position)
     {
-        targetPos = position;
-        OnTargetSet?.Invoke();
+        if(!targetReached) targetPos = position;
     }
 
     protected virtual void Stop()
     {
         targetReached = true;
-        OnGameobjectReachedTarget?.Invoke(gameObject, targetPos); 
-        OnTargetReached?.Invoke();
+        EnemyEventBus.EnemyReachedTarget();
     }
 
     protected virtual void FixedUpdate()

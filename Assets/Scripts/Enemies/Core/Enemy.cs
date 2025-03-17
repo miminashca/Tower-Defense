@@ -5,20 +5,11 @@ using UnityEngine.Serialization;
 public class Enemy : MonoBehaviour
 {
     public EnemyData Data;
-    
     [NonSerialized] public MoveBehaviour MoveBehaviour;
+    
     private float currentHP;
     private float currentSpeed;
     private bool debuffed = false;
-
-    private void OnEnable()
-    {
-        EventBus.OnTowerDebuffedEntity += GetDebuff;
-    }
-    private void OnDisable()
-    {
-        EventBus.OnTowerDebuffedEntity -= GetDebuff;
-    }
     void Awake()
     {
         //Initialize Data
@@ -42,16 +33,16 @@ public class Enemy : MonoBehaviour
     public void GetDamage(float amountOfDmg = 1)
     {
         currentHP -= amountOfDmg;
-        EventBus.EntityReceivedDamage(this);
         if (GetCurrentHP() <= 0)
         {
-            EventBus.EntityDie(this);
+            EnemyEventBus.EnemyDied(this);
             Destroy(gameObject);
         }
     }
-    private void GetDebuff(Enemy enemy, float debuffDuration = 1)
+    public void GetDebuff(float debuffDuration = 1)
     {
-        if(!enemy ==this || debuffed) return;
+        if(debuffed) return;
+        
         debuffed = true;
         currentSpeed *= 0.5f;
         Invoke("RemoveDebuff", debuffDuration);
@@ -59,6 +50,7 @@ public class Enemy : MonoBehaviour
     private void RemoveDebuff()
     {
         if(!debuffed) return;
+        
         debuffed = false;
         currentSpeed = Data.Speed;
     }

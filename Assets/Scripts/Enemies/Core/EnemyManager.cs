@@ -3,39 +3,56 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyManager : MonoBehaviour
 {
-    public Vector3 targetPos { get; private set; }
+    [SerializeField] private Transform targetTransform;
+    [SerializeField] private int maxEnemiesAllowedAtTarget = 5;
+    [SerializeField] private GameObject coinPrefab;
+    public Vector3 TargetPosition { get; private set; }
+    
     private List<Enemy> mainEnemiesList;
     private int currentEnemiesAtGoal;
     
-    [SerializeField] private Transform targetTransform;
-    [SerializeField] private int maxEnemiesAllowed = 5;
-    [SerializeField] private GameObject coinPrefab;
-
-    public Action OnEnemyReachedTarget;
+    public static EnemyManager Instance { get; private set; }
 
     private void Awake()
     {
-        EventBus.OnEntityDeath += OnEnemyDie;
-        MoveBehaviour.OnGameobjectReachedTarget += SmthReachedTarget;
+        if (!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(Instance);
+        }
+        else Destroy(gameObject);
+        
+        mainEnemiesList = new List<Enemy>();
+        
         WaveEventBus.OnWavesCompleted += CheckGameFinalState;
         
-        if (!targetTransform) Debug.Log("target not set in enemy controller, using default");
-        mainEnemiesList = new List<Enemy>();
+        EnemyEventBus.OnEnemyDeath += OnEnemyDie;
+        EnemyEventBus.OnEnemyReachedTarget += EnemyReachedTarget;
     }
 
     private void Start()
     {
-        targetPos = targetTransform.transform.position;
+        if (!targetTransform) Debug.Log("target not set in enemy controller, using default");
+        TargetPosition = targetTransform.transform.position;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        EventBus.OnEntityDeath -= OnEnemyDie;
-        MoveBehaviour.OnGameobjectReachedTarget -= SmthReachedTarget;
         WaveEventBus.OnWavesCompleted -= CheckGameFinalState;
+        EnemyEventBus.OnEnemyDeath -= OnEnemyDie;
+        EnemyEventBus.OnEnemyReachedTarget -= EnemyReachedTarget;
+    }
+    public void AddEnemies(List<Enemy> enemiesToAdd)
+    {
+        foreach (Enemy enemy in enemiesToAdd)
+        {
+            if(!mainEnemiesList.Contains(enemy)) mainEnemiesList.Add(enemy);
+        }
+        EnemyEventBus.EnemiesStartMoveToPosition(TargetPosition);
     }
 
     private void OnEnemyDie(Enemy enemy)
@@ -51,23 +68,10 @@ public class EnemyManager : MonoBehaviour
         if (mainEnemiesList.Contains(enemy)) mainEnemiesList.Remove(enemy);
     }
 
-    private void SmthReachedTarget(GameObject obj, Vector3 tar)
+    private void EnemyReachedTarget()
     {
-        if (obj.GetComponent<Enemy>() && tar == targetPos)
-        {
-            currentEnemiesAtGoal++;
-            if(currentEnemiesAtGoal==maxEnemiesAllowed) EventBus.Lose();
-            OnEnemyReachedTarget?.Invoke();
-        }
-    }
-
-    public void AddEnemies(List<Enemy> enemiesToAdd)
-    {
-        foreach (Enemy enemy in enemiesToAdd)
-        {
-            if(!mainEnemiesList.Contains(enemy)) mainEnemiesList.Add(enemy);
-            enemy.GetComponent<EnemyEventBus>().StartMoveToPosition(targetPos);
-        }
+        currentEnemiesAtGoal++;
+        if(currentEnemiesAtGoal==maxEnemiesAllowedAtTarget) EventBus.Lose();
     }
 
     public int GetEnemiesAtGoal()
@@ -76,12 +80,12 @@ public class EnemyManager : MonoBehaviour
     }
     public int GetMaxEnemiesAtGoalAllowed()
     {
-        return maxEnemiesAllowed;
+        return maxEnemiesAllowedAtTarget;
     }
 
     private void CheckGameFinalState()
     {
-        if(currentEnemiesAtGoal<maxEnemiesAllowed && !GameManager.gameManager.gameLost) EventBus.Win();
+        if(currentEnemiesAtGoal<maxEnemiesAllowedAtTarget && !GameManager.gameManager.gameLost) EventBus.Win();
         else if(!GameManager.gameManager.gameWon)
         {
             EventBus.Lose();

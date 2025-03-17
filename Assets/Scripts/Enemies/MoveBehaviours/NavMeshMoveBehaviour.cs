@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,8 +16,6 @@ public class NavMeshMoveBehaviour : MoveBehaviour
         {
             agent = GetComponent<NavMeshAgent>();
         }
-
-        targetRange = 2f;
     }
     
     public override void SetTargetPosition(Vector3 position)

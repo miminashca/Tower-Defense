@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
             EventBus.OnMoneyAmountChange += UpdateMoneyText;
             moneyText.text = GameManager.gameManager.GetMoney().ToString();
         }
-        if (targetEnemyCounterText) GameManager.enemyManager.OnEnemyReachedTarget += UpdateEnemyCountText;
+        if (targetEnemyCounterText) EnemyEventBus.OnEnemyReachedTarget += UpdateEnemyCountText;
     }
 
     private void FixedUpdate()
@@ -51,11 +51,11 @@ public class UIManager : MonoBehaviour
     
     private void UpdateEnemyCountText()
     {
-        if(GameManager.enemyManager.GetEnemiesAtGoal()<=GameManager.enemyManager.GetMaxEnemiesAtGoalAllowed()) targetEnemyCounterText.text = GameManager.enemyManager.GetEnemiesAtGoal() + "/" +  GameManager.enemyManager.GetMaxEnemiesAtGoalAllowed();
-        else
-        {
-            targetEnemyCounterText.text = GameManager.enemyManager.GetMaxEnemiesAtGoalAllowed() + "/" +  GameManager.enemyManager.GetMaxEnemiesAtGoalAllowed();
-        }
+        int x = EnemyManager.Instance.GetEnemiesAtGoal();
+        int y = EnemyManager.Instance.GetMaxEnemiesAtGoalAllowed();
+        if (x > y) x = y;
+        
+        targetEnemyCounterText.text = x + "/" + y;
     }
 
     private void ShowLoseGameState()
@@ -77,7 +77,7 @@ public class UIManager : MonoBehaviour
     {
         EventBus.OnMoneyAmountChange -= UpdateMoneyText;
         WaveEventBus.OnWaveStart -= UpdateWaveText;
-        GameManager.enemyManager.OnEnemyReachedTarget -= UpdateEnemyCountText;
+        EnemyEventBus.OnEnemyReachedTarget -= UpdateEnemyCountText;
         EventBus.OnLose -= ShowLoseGameState;
         EventBus.OnWin -= ShowWinGameState;
     }

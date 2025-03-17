@@ -21,9 +21,6 @@ public static class EventBus
     public static event Action<int> OnMoneyEarned;
     public static event Action OnMoneyAmountChange;
     
-    public static event Action<Enemy> OnEntityReceivedDamage;
-    public static event Action<Enemy, float> OnTowerDebuffedEntity;
-    public static event Action<Enemy> OnEntityDeath;
     
     public static event Action OnLose;
     public static event Action OnWin;
@@ -81,19 +78,6 @@ public static class EventBus
     public static void TowerBecameActive(Tower tower)
     {
         OnTowerBecameActive?.Invoke(tower);
-    }
-    
-    public static void EntityReceivedDamage(Enemy enemy)
-    {
-        OnEntityReceivedDamage?.Invoke(enemy);
-    }
-    public static void TowerDebuffEntity(Enemy enemy, float debuffPower)
-    {
-        OnTowerDebuffedEntity?.Invoke(enemy, debuffPower);
-    }
-    public static void EntityDie(Enemy enemy)
-    {
-        OnEntityDeath?.Invoke(enemy);
     }
     
     public static void Lose()

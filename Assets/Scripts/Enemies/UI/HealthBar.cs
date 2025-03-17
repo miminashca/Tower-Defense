@@ -6,13 +6,13 @@ public class HealthBar : MonoBehaviour
 {
     private Slider healthSlider;
     private Enemy holder;
-    private void OnEnable()
+    private void Awake()
     {
-        EventBus.OnEntityReceivedDamage += UpdateHealthBar;
+        EnemyEventBus.OnUpdateEnemyHP += UpdateHealthBar;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
-        EventBus.OnEntityReceivedDamage -= UpdateHealthBar;
+        EnemyEventBus.OnUpdateEnemyHP -= UpdateHealthBar;
     }
 
     private void Start()

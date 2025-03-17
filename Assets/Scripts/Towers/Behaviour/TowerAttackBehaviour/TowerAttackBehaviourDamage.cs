@@ -6,6 +6,5 @@ public class TowerAttackBehaviourDamage : TowerAttackBehaviour
     {
         base.DealImpact(target);
         target.GetDamage(impact);
-        //Debug.Log($"Entity receives {impact} damage! Entities remaining health: {target.GetHP()}");
     }
 }
