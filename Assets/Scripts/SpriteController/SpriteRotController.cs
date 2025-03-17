@@ -1,10 +1,8 @@
-using System;
 using UnityEngine;
 
 public class SpriteRotController : MonoBehaviour
 {
     private Camera mainCam;
-    
     [SerializeField] private bool freezeXZAxis = false;
 
     protected void Start()

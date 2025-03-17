@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager { get; private set; }
-    public static WaveManager waveManager { get; private set; }
+    
     public static InputManager inputManager { get; private set; }
     public static UIManager uiManager { get; private set; }
     public static TowerManager towerManager { get; private set; }
@@ -31,14 +29,12 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
         
         if (!inputManager) inputManager = GetComponent<InputManager>();
-        if (!waveManager) waveManager = GetComponent<WaveManager>();
         if (!uiManager) uiManager = GetComponentInChildren<UIManager>();
         if (!towerManager) towerManager = GetComponent<TowerManager>();
         if (!shopManager) shopManager = GetComponentInChildren<ShopManager>();
         if (!timer) timer = GetComponent<Timer>();
         
         if (!inputManager) Debug.Log("No Input manager in Game manager!!!");
-        if (!waveManager) Debug.Log("No Wave manager in Game manager!!!");
         if (!uiManager) Debug.Log("No UI manager in Game manager!!!");
         if (!towerManager) Debug.Log("No Tower manager in Game manager!!!");
         if (!shopManager) Debug.Log("No Shop manager in Game manager!!!");

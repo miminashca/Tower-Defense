@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -46,6 +43,7 @@ public class EnemyManager : MonoBehaviour
         EnemyEventBus.OnEnemyDeath -= OnEnemyDie;
         EnemyEventBus.OnEnemyReachedTarget -= EnemyReachedTarget;
     }
+    
     public void AddEnemies(List<Enemy> enemiesToAdd)
     {
         foreach (Enemy enemy in enemiesToAdd)

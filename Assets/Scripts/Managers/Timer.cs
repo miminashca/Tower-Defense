@@ -36,7 +36,7 @@ public class Timer : MonoBehaviour
     }
     private void SetWaveTimer(int currentWave)
     {
-        SetTimer(GameManager.waveManager.wavesData.tresholdBetweenWaves);
+        SetTimer(WaveManager.Instance.wavesData.tresholdBetweenWaves);
     }
     private void ResetTimer()
     {

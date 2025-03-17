@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
     
     private void UpdateWaveText(int waveNum)
     {
-        waveText.text = waveNum + "/" + GameManager.waveManager.wavesData.GetNumberOfWaves();
+        waveText.text = waveNum + "/" + WaveManager.Instance.wavesData.GetNumberOfWaves();
     }
     
     private void UpdateEnemyCountText()

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class SpawnPointsManager : MonoBehaviour
 {
@@ -30,8 +29,6 @@ public class SpawnPointsManager : MonoBehaviour
 
                    Vector3Int gridPosition = new Vector3Int(column, 0, row); // Negative Y to go downwards
                    Vector3 worldPosition = GetComponent<Grid>().CellToWorld(gridPosition);
-
-                   //worldPosition += new Vector3(column, 0, -row);
 
                    SpawnPoint point = Instantiate(spawnPoint, worldPosition, Quaternion.identity, gameObject.transform);
                    spawnPoints.Add(point);

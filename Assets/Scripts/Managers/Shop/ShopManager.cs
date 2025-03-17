@@ -26,7 +26,7 @@ public class ShopManager : MonoBehaviour
 
     private void ActivateShop(int currentWave)
     {
-        if (currentWave <= GameManager.waveManager.wavesData.GetNumberOfWaves())
+        if (currentWave <= WaveManager.Instance.wavesData.GetNumberOfWaves())
         {
             shopIsOpen = true;
             Debug.Log("open shop");
