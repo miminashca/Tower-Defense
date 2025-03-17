@@ -7,13 +7,13 @@ public class Timer : MonoBehaviour
 
     private void Awake()
     {
-        EventBus.OnWaveStart += SetWaveTimer;
+        WaveEventBus.OnWaveStart += SetWaveTimer;
         EventBus.OnShopOpened += SetShopTimer;
     }
 
     private void OnDisable()
     {
-        EventBus.OnWaveStart -= SetWaveTimer;
+        WaveEventBus.OnWaveStart -= SetWaveTimer;
         EventBus.OnShopOpened -= SetShopTimer;
     }
 

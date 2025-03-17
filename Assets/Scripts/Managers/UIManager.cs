@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (waveText) EventBus.OnWaveStart += UpdateWaveText;
+        if (waveText) WaveEventBus.OnWaveStart += UpdateWaveText;
         EventBus.OnLose += ShowLoseGameState;
         EventBus.OnWin += ShowWinGameState;
     }
@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         EventBus.OnMoneyAmountChange -= UpdateMoneyText;
-        EventBus.OnWaveStart -= UpdateWaveText;
+        WaveEventBus.OnWaveStart -= UpdateWaveText;
         GameManager.enemyManager.OnEnemyReachedTarget -= UpdateEnemyCountText;
         EventBus.OnLose -= ShowLoseGameState;
         EventBus.OnWin -= ShowWinGameState;

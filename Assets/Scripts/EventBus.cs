@@ -12,8 +12,7 @@ public static class EventBus
     public static event Action<Vector3Int> OnTowerMovedToSnappedPosition;
     public static event Action<Tower> OnTowerBecameActive;
     
-    public static event Action<int> OnWaveStart;
-    public static event Action<int> OnWaveEnd;
+    
     
     public static event Action OnShopOpened;
     public static event Action OnShopClosed;
@@ -22,12 +21,11 @@ public static class EventBus
     public static event Action<int> OnMoneyEarned;
     public static event Action OnMoneyAmountChange;
     
-    public static event Action<Entity> OnEntityReceivedDamage;
-    public static event Action<Entity, float> OnTowerDebuffedEntity;
-    public static event Action<Entity> OnEntityDeath;
+    public static event Action<Enemy> OnEntityReceivedDamage;
+    public static event Action<Enemy, float> OnTowerDebuffedEntity;
+    public static event Action<Enemy> OnEntityDeath;
     
     public static event Action OnLose;
-    public static event Action OnWavesCompleted;
     public static event Action OnWin;
 
     
@@ -60,14 +58,7 @@ public static class EventBus
         OnTowerMovedToSnappedPosition?.Invoke(snappedPosition);
     }
     
-    public static void StartWave(int currentWave)
-    {
-        OnWaveStart?.Invoke(currentWave);
-    }
-    public static void EndWave(int currentWave)
-    {
-        OnWaveEnd?.Invoke(currentWave);
-    }
+    
     public static void OpenShop()
     {
         OnShopOpened?.Invoke();
@@ -92,27 +83,24 @@ public static class EventBus
         OnTowerBecameActive?.Invoke(tower);
     }
     
-    public static void EntityReceivedDamage(Entity entity)
+    public static void EntityReceivedDamage(Enemy enemy)
     {
-        OnEntityReceivedDamage?.Invoke(entity);
+        OnEntityReceivedDamage?.Invoke(enemy);
     }
-    public static void TowerDebuffEntity(Entity entity, float debuffPower)
+    public static void TowerDebuffEntity(Enemy enemy, float debuffPower)
     {
-        OnTowerDebuffedEntity?.Invoke(entity, debuffPower);
+        OnTowerDebuffedEntity?.Invoke(enemy, debuffPower);
     }
-    public static void EntityDie(Entity entity)
+    public static void EntityDie(Enemy enemy)
     {
-        OnEntityDeath?.Invoke(entity);
+        OnEntityDeath?.Invoke(enemy);
     }
     
     public static void Lose()
     {
         OnLose?.Invoke();
     }
-    public static void WavesCompleted()
-    {
-        OnWavesCompleted?.Invoke();
-    }
+    
     public static void Win()
     {
         OnWin?.Invoke();

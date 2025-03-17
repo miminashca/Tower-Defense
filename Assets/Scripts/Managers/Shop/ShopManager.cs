@@ -14,7 +14,7 @@ public class ShopManager : MonoBehaviour
 
     private void Awake()
     {
-        EventBus.OnWaveEnd += ActivateShop;
+        WaveEventBus.OnWaveEnd += ActivateShop;
         EventBus.OnTowerBought += InstantiateTower;
     }
 
@@ -52,7 +52,7 @@ public class ShopManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventBus.OnWaveEnd -= ActivateShop;
+        WaveEventBus.OnWaveEnd -= ActivateShop;
         EventBus.OnTowerBought -= InstantiateTower;
     }
 }

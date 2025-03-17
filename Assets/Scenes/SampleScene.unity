@@ -3237,7 +3237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wavesData: {fileID: 11400000, guid: 1946935df58324cde8eaf1503682275f, type: 2}
-  enemyPrefab: {fileID: 1095715367631474637, guid: eea7e2ad028eb401abfdb2e2883a35da, type: 3}
+  enemyPrefab: {fileID: 8555097725251826586, guid: eea7e2ad028eb401abfdb2e2883a35da, type: 3}
   spawnPointsManagerPrefab: {fileID: 4197571918945813153, guid: 080620d18fcfd469ea430e7b884ddc19, type: 3}
   pointPrefab: {fileID: 1624136659941420155, guid: d66d76fde00e64a33a764f1b8410d139, type: 3}
   enemySpawnTransform: {fileID: 110125404}
