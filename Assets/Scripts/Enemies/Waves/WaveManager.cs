@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    private int currentWave = 0;
+    public int currentWave = 0;
     private SpawnPointsManager spawnPointsManagerInstance;
 
     public EnemyWaveData wavesData;
@@ -26,7 +26,6 @@ public class WaveManager : MonoBehaviour
         
         if (!spawnPointsManagerPrefab) Debug.Log("spawn points manager prefab not set in wave controller");
         if (!enemyPrefab) Debug.Log("enemy prefab not set in wave controller");
-        EventBus.OnShopClosed += SpawnNewWave;
     }
     private void Start()
     {
@@ -36,9 +35,10 @@ public class WaveManager : MonoBehaviour
     
     public void SpawnNewWave()
     {
+        Debug.Log("Spawn wave");
         if (currentWave < wavesData.GetNumberOfWaves())
         {
-            WaveEventBus.StartWave(currentWave+1);
+            WaveEventBus.StartWave(currentWave);
             
             spawnPointsManagerInstance.Init(wavesData.waves.ElementAt(currentWave).number);
 
@@ -77,11 +77,6 @@ public class WaveManager : MonoBehaviour
     
     private void EndWaveInSeconds()
     {
-        WaveEventBus.EndWave(currentWave+1);
-    }
-
-    private void OnDestroy()
-    {
-        EventBus.OnShopClosed -= SpawnNewWave;
+        WaveEventBus.EndWave(currentWave);
     }
 }

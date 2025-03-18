@@ -1,11 +1,20 @@
+using System;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    private float timer = 0;
-
+    private float timer = -5;
+    public event Action OnTimerEnd;
+    public static Timer Instance { get; private set; }
     private void Awake()
     {
+        if (!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+        
         WaveEventBus.OnWaveStart += SetWaveTimer;
         EventBus.OnShopOpened += SetShopTimer;
     }
@@ -16,9 +25,14 @@ public class Timer : MonoBehaviour
         EventBus.OnShopOpened -= SetShopTimer;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if(timer>0) timer -= Time.deltaTime;
+        if (timer > 0f) timer -= Time.deltaTime;
+        else if((int)timer == 0)
+        {
+            Debug.Log("Timer ends");
+            OnTimerEnd?.Invoke();
+        }
     }
     public int GetTimeLeft()
     {
@@ -28,7 +42,6 @@ public class Timer : MonoBehaviour
     {
         timer = seconds;
     }
-
     private void SetShopTimer()
     {
         SetTimer(ShopManager.Instance.shopData.shopDuration);

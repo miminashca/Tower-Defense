@@ -7,7 +7,7 @@ public class AttackStateTower : IdleState
     }
     public override void OnEnterState()
     {
-        Debug.Log($"{SM.gameObject.name} enters attack state");
+        //Debug.Log($"{SM.gameObject.name} enters attack state");
         TowerEventBus.TowerStartAttack(SM.gameObject);
         EventBus.OnShopOpened += StartIdleShopState;
     }

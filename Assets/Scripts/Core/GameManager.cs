@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static TileFloor tileFloor { get; private set; }
-    public static Timer timer { get; private set; }
     
     private int moneyEarned = 30;
     public bool gameWon = false;
@@ -15,8 +14,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
-        this.fixedDeltaTime = Time.fixedDeltaTime;
-        
         if (!Instance)
         {
             Instance = this;
@@ -24,28 +21,53 @@ public class GameManager : MonoBehaviour
         }
         else Destroy(gameObject);
         
-        if (!timer) timer = GetComponent<Timer>();
-        
-        if (!timer) Debug.Log("No Timer in Game manager!!!");
+        this.fixedDeltaTime = Time.fixedDeltaTime;
 
+        Timer.Instance.OnTimerEnd += GameLoop;
+        //EventBus.OnShopClosed += WaveManager.Instance.SpawnNewWave;
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventBus.OnMoneySpent += SpendMoney;
         EventBus.OnMoneyEarned += AddMoney;
         EventBus.OnWin += Win;
         EventBus.OnLose += Lose;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
+        Timer.Instance.OnTimerEnd -= GameLoop;
+        //EventBus.OnShopClosed -= WaveManager.Instance.SpawnNewWave;
+        
         SceneManager.sceneLoaded -= OnSceneLoaded;
         EventBus.OnMoneySpent -= SpendMoney;
         EventBus.OnMoneyEarned -= AddMoney;
         EventBus.OnWin -= Win;
         EventBus.OnLose -= Lose;
     }
-
+    private void Start()
+    { 
+        ShopManager.Instance.DeactivateShop();
+        WaveManager.Instance.SpawnNewWave();
+    }
+    public void GameLoop()
+    {
+        Debug.Log("enter game loop");
+        
+        if (ShopManager.Instance.ShopIsOpen)
+        {
+            ShopManager.Instance.DeactivateShop();
+            WaveManager.Instance.SpawnNewWave();
+        }
+        else
+        {
+            if (WaveManager.Instance.currentWave < WaveManager.Instance.wavesData.GetNumberOfWaves())
+            {
+                ShopManager.Instance.ActivateShop();
+            }
+        }
+    }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Scene Loaded: " + scene.name);
+        //Debug.Log("Scene Loaded: " + scene.name);
         tileFloor = FindFirstObjectByType<TileFloor>(FindObjectsInactive.Include);
     }
     
@@ -71,7 +93,7 @@ public class GameManager : MonoBehaviour
     {
         gameLost = true;
     }
-
+    
     private void Update()
     { 
         // Time.timeScale = 0.5f; 

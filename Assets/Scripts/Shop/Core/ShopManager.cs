@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ShopManager : MonoBehaviour
 {
     public ShopData shopData;
-    public bool shopIsOpen = false;
-
+    public bool ShopIsOpen { get; private set; } = false;
     public static ShopManager Instance { get; private set; }
     private void Awake()
     {
@@ -13,35 +13,35 @@ public class ShopManager : MonoBehaviour
             Instance = this;
         }
    
-        WaveEventBus.OnWaveEnd += ActivateShop;
-        EventBus.OnTowerBought += InstantiateTower;
+        EventBus.OnTowerBought += BuyTower;
     }
 
     private void Start()
     {
         if(!shopData) Debug.Log("Shop data not set in shop manager!");
-        ActivateShop(1);
     }
 
-    private void ActivateShop(int currentWave)
-    {
-        if (currentWave <= WaveManager.Instance.wavesData.GetNumberOfWaves())
-        {
-            shopIsOpen = true;
-            Debug.Log("open shop");
-            EventBus.OpenShop();
-            Invoke("DeactivateShop", shopData.shopDuration);
-        }
+    public void ActivateShop()
+    { 
+        ShopIsOpen = true;
+        Debug.Log("open shop");
+        EventBus.OpenShop();
+        //Invoke("DeactivateShop", shopData.shopDuration);
     }
     public void DeactivateShop()
     {
         CancelInvoke(nameof(DeactivateShop));
-        shopIsOpen = false;
+        ShopIsOpen = false;
         Debug.Log("close shop");
         EventBus.CloseShop();
     }
+
+    public void CheckGameLoop()
+    {
+        GameManager.Instance.GameLoop();
+    }
     
-    private void InstantiateTower(TowerData towerData)
+    private void BuyTower(TowerData towerData)
     {
         EventBus.SpendMoney(towerData.GetStructAtLevel(TowerData.Level.Basic).BasicPrice);
         Tower newTower = Instantiate(TowerManager.Instance.TowerPrefab, Vector3.zero, Quaternion.identity, TowerManager.Instance.TowerParentObject.transform);
@@ -51,7 +51,6 @@ public class ShopManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        WaveEventBus.OnWaveEnd -= ActivateShop;
-        EventBus.OnTowerBought -= InstantiateTower;
+        EventBus.OnTowerBought -= BuyTower;
     }
 }

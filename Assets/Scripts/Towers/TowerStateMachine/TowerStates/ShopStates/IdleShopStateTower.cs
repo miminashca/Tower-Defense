@@ -7,7 +7,7 @@ public class IdleShopStateTower : IdleState
     }
     public override void OnEnterState()
     {
-        Debug.Log($"{SM.gameObject.name} enters idle state");
+        //Debug.Log($"{SM.gameObject.name} enters idle state");
         EventBus.OnShopClosed += StartAttackState;
     }
 

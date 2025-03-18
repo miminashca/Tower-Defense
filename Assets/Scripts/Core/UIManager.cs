@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        timerText.text = GameManager.timer.GetTimeLeft().ToString();
+        timerText.text = Timer.Instance.GetTimeLeft().ToString();
     }
     
     private void UpdateWaveText(int waveNum)

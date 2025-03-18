@@ -668,6 +668,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &197608275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 197608277}
+  - component: {fileID: 197608276}
+  m_Layer: 0
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &197608276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197608275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1ce8b5eeb2241d28a1e7e81f5c4f2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &197608277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197608275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.017999649, y: 1, z: -0.03999996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &260012734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,7 +1431,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1213939114}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: DeactivateShop
+        m_MethodName: CheckGameLoop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2175,7 +2219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopData: {fileID: 11400000, guid: 7138f9ecfe7184888809acf835cd5b50, type: 2}
-  shopIsOpen: 0
 --- !u!114 &1213939115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2807,6 +2850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24532256cda445238ed1933940f5ec51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentWave: 0
   wavesData: {fileID: 11400000, guid: 1946935df58324cde8eaf1503682275f, type: 2}
   enemyPrefab: {fileID: 8555097725251826586, guid: eea7e2ad028eb401abfdb2e2883a35da, type: 3}
   spawnPointsManagerPrefab: {fileID: 4197571918945813153, guid: 080620d18fcfd469ea430e7b884ddc19, type: 3}
@@ -3320,7 +3364,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1859786083}
   - component: {fileID: 1859786087}
-  - component: {fileID: 1859786090}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -3357,18 +3400,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameWon: 0
   gameLost: 0
---- !u!114 &1859786090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1859786081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1ce8b5eeb2241d28a1e7e81f5c4f2fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1874840659
 GameObject:
   m_ObjectHideFlags: 0
@@ -3596,6 +3627,7 @@ SceneRoots:
   - {fileID: 1513580078}
   - {fileID: 2128630140}
   - {fileID: 78620738}
+  - {fileID: 197608277}
   - {fileID: 1444049779}
   - {fileID: 1344034328}
   - {fileID: 1436308692}

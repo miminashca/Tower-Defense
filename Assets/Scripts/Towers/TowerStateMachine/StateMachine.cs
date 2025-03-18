@@ -5,7 +5,7 @@ public class StateMachine : MonoBehaviour
     private State currentState;
     private void Start()
     {
-        if (ShopManager.Instance.shopIsOpen)
+        if (ShopManager.Instance.ShopIsOpen)
         {
             if(GetComponent<Tower>().WasAlreadyPlaced) TransitToState(new IdleShopStateTower(this));
             else TransitToState(new DraggingShopStateTower(this));

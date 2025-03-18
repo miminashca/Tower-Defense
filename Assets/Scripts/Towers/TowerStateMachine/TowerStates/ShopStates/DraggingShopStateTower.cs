@@ -7,7 +7,7 @@ public class DraggingShopStateTower : State
     }
     public override void OnEnterState()
     {
-        Debug.Log($"{SM.gameObject.name} enters dragging state");
+        //Debug.Log($"{SM.gameObject.name} enters dragging state");
         TowerEventBus.TowerStartDrag(SM.gameObject);
         EventBus.OnShopClosed += StartAttackState;
     }
