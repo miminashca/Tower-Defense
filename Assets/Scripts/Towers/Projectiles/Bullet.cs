@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     public event Action<Enemy> OnBulletReachedTarget;
     
     private float timer = 0;
+    
     private void Update()
     {
         timer += Time.deltaTime;
