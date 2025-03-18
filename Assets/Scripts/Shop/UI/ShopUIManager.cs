@@ -20,7 +20,7 @@ public class ShopUIManager : MonoBehaviour
         EventBus.OnShopOpened += ActivateShopUI;
         EventBus.OnShopClosed += DeactivateShopUI;
         EventBus.OnMoneyAmountChange += CheckUpgradeAvailability;
-        EventBus.OnTowerBecameActive += OnTowerClicked;
+        TowerEventBus.OnTowerBecameActive += OnTowerClicked;
     }
 
     private void Start()
@@ -133,7 +133,7 @@ public class ShopUIManager : MonoBehaviour
         EventBus.OnShopOpened -= ActivateShopUI;
         EventBus.OnShopClosed -= DeactivateShopUI;
         EventBus.OnMoneyAmountChange -= CheckUpgradeAvailability;
-        EventBus.OnTowerBecameActive -= OnTowerClicked;
+        TowerEventBus.OnTowerBecameActive -= OnTowerClicked;
     }
     
     private void EnableUpgradeIndicators(bool enable = true)

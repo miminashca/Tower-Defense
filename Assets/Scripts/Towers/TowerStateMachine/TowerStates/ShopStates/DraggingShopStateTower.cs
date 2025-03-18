@@ -8,7 +8,7 @@ public class DraggingShopStateTower : State
     public override void OnEnterState()
     {
         Debug.Log($"{SM.gameObject.name} enters dragging state");
-        EventBus.TowerStartDrag(SM.gameObject);
+        TowerEventBus.TowerStartDrag(SM.gameObject);
         EventBus.OnShopClosed += StartAttackState;
     }
     public override void Handle()
@@ -26,13 +26,13 @@ public class DraggingShopStateTower : State
     
     private void EndDrag()
     {
-        EventBus.TowerEndDrag(SM.gameObject);
+        TowerEventBus.TowerEndDrag(SM.gameObject);
         SM.TransitToState(new IdleShopStateTower(SM));
     }
 
     private void StartAttackState()
     {
-        EventBus.TowerEndDrag(SM.gameObject);
+        TowerEventBus.TowerEndDrag(SM.gameObject);
         SM.TransitToState(new AttackStateTower(SM));
     }
 }

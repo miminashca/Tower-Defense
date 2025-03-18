@@ -21,11 +21,11 @@ public class TowerManager : MonoBehaviour
     
         TowersInScene = new List<Tower>();
         
-        EventBus.OnTowerStartDrag += SetActiveTower;
-        EventBus.OnTowerEndDrag += UnsetActiveTower;
+        TowerEventBus.OnTowerStartDrag += SetActiveTower;
+        TowerEventBus.OnTowerEndDrag += UnsetActiveTower;
 
-        EventBus.OnTowerPlaced += AddTower;
-        EventBus.OnTowerRemoved += RemoveTower;
+        TowerEventBus.OnTowerPlaced += AddTower;
+        TowerEventBus.OnTowerRemoved += RemoveTower;
     }
 
     private void Start()
@@ -39,7 +39,7 @@ public class TowerManager : MonoBehaviour
     private void SetActiveTower(GameObject tower)
     {
         ActiveTower = tower;
-        EventBus.TowerBecameActive(ActiveTower.GetComponent<Tower>());
+        TowerEventBus.TowerBecameActive(ActiveTower.GetComponent<Tower>());
     }
     private void UnsetActiveTower(GameObject tower)
     {
@@ -56,10 +56,10 @@ public class TowerManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        EventBus.OnTowerStartDrag -= SetActiveTower;
-        EventBus.OnTowerEndDrag -= UnsetActiveTower;
+        TowerEventBus.OnTowerStartDrag -= SetActiveTower;
+        TowerEventBus.OnTowerEndDrag -= UnsetActiveTower;
         
-        EventBus.OnTowerPlaced -= AddTower;
-        EventBus.OnTowerRemoved -= RemoveTower;
+        TowerEventBus.OnTowerPlaced -= AddTower;
+        TowerEventBus.OnTowerRemoved -= RemoveTower;
     }
 }

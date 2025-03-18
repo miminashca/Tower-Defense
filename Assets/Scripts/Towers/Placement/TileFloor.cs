@@ -11,17 +11,17 @@ public class TileFloor : MonoBehaviour
     private Dictionary<Vector3, GameObject> occupiedCells = new Dictionary<Vector3, GameObject>();
     private void Awake()
     {
-        EventBus.OnTowerStartDrag += StartPlacement;
-        EventBus.OnTowerEndDrag += EndPlacement;
-        EventBus.OnTowerRemoved += UnoccupyCellOfTower;
-        EventBus.OnTowerMovedToSnappedPosition += UpdateCellColour;
+        TowerEventBus.OnTowerStartDrag += StartPlacement;
+        TowerEventBus.OnTowerEndDrag += EndPlacement;
+        TowerEventBus.OnTowerRemoved += UnoccupyCellOfTower;
+        TowerEventBus.OnTowerMovedToSnappedPosition += UpdateCellColour;
     }
     private void OnDestroy()
     {
-        EventBus.OnTowerStartDrag -= StartPlacement;
-        EventBus.OnTowerEndDrag -= EndPlacement;
-        EventBus.OnTowerRemoved -= UnoccupyCellOfTower;
-        EventBus.OnTowerMovedToSnappedPosition -= UpdateCellColour;
+        TowerEventBus.OnTowerStartDrag -= StartPlacement;
+        TowerEventBus.OnTowerEndDrag -= EndPlacement;
+        TowerEventBus.OnTowerRemoved -= UnoccupyCellOfTower;
+        TowerEventBus.OnTowerMovedToSnappedPosition -= UpdateCellColour;
     }
     private void Start()
     {

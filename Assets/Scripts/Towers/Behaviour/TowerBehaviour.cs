@@ -40,13 +40,13 @@ public class TowerBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        EventBus.OnTowerStartAttack += SetTowerActive;
-        EventBus.OnTowerEndAttack += SetTowerUnactive;
+        TowerEventBus.OnTowerStartAttack += SetTowerActive;
+        TowerEventBus.OnTowerEndAttack += SetTowerUnactive;
     }
     private void OnDestroy()
     {
-        EventBus.OnTowerStartAttack -= SetTowerActive;
-        EventBus.OnTowerEndAttack -= SetTowerUnactive;
+        TowerEventBus.OnTowerStartAttack -= SetTowerActive;
+        TowerEventBus.OnTowerEndAttack -= SetTowerUnactive;
     }
 
     protected void Start(){

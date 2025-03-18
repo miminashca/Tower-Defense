@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float LifeTimeInSeconds = 3;
     public event Action<Enemy> OnBulletReachedTarget;
+    public float LifeTimeInSeconds = 3;
     
     private float timer = 0;
-    
-    
     private void Update()
     {
         timer += Time.deltaTime;

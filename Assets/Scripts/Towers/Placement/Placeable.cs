@@ -28,13 +28,13 @@ public class Placeable : MonoBehaviour
 
     private void OnEnable()
     {
-        EventBus.OnTowerStartDrag += StartPlacement;
-        EventBus.OnTowerEndDrag += EndPlacement;
+        TowerEventBus.OnTowerStartDrag += StartPlacement;
+        TowerEventBus.OnTowerEndDrag += EndPlacement;
     }
     private void OnDisable()
     {
-        EventBus.OnTowerStartDrag -= StartPlacement;
-        EventBus.OnTowerEndDrag -= EndPlacement;
+        TowerEventBus.OnTowerStartDrag -= StartPlacement;
+        TowerEventBus.OnTowerEndDrag -= EndPlacement;
     }
     
     public void StartPlacement(GameObject obj)
@@ -78,7 +78,7 @@ public class Placeable : MonoBehaviour
             snappedPosition.y = transform.position.y;
             transform.position = snappedPosition;
             
-            EventBus.TowerMovedToSnappedPosition(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
+            TowerEventBus.TowerMovedToSnappedPosition(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
         }
     }
 

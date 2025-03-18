@@ -39,12 +39,12 @@ public class Tower : MonoBehaviour
         EventBus.OnTowerUpgraded -= UpgradeTower;
         EventBus.OnShopOpened -= DeactivateTower;
         EventBus.OnShopClosed -= ActivateTower;
-        EventBus.RemoveTower(this);
+        TowerEventBus.RemoveTower(this);
     }
     private void Start()
     {
         InitTowerAtCurrentLevel();
-        EventBus.PlaceTower(this);
+        TowerEventBus.PlaceTower(this);
     }
 
     private void UpgradeTower(Tower tower)
