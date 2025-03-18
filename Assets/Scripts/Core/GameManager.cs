@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private int moneyEarned = 30;
     public bool gameWon = false;
     public bool gameLost = false;
     public bool OpenShopAtBeginning = false;
@@ -23,22 +22,16 @@ public class GameManager : MonoBehaviour
         this.fixedDeltaTime = Time.fixedDeltaTime;
 
         Timer.Instance.OnTimerEnd += GameLoop;
-        //EventBus.OnShopClosed += WaveManager.Instance.SpawnNewWave;
         
         SceneManager.sceneLoaded += OnSceneLoaded;
-        EventBus.OnMoneySpent += SpendMoney;
-        EventBus.OnMoneyEarned += AddMoney;
         EventBus.OnWin += Win;
         EventBus.OnLose += Lose;
     }
     private void OnDestroy()
     {
         Timer.Instance.OnTimerEnd -= GameLoop;
-        //EventBus.OnShopClosed -= WaveManager.Instance.SpawnNewWave;
         
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        EventBus.OnMoneySpent -= SpendMoney;
-        EventBus.OnMoneyEarned -= AddMoney;
         EventBus.OnWin -= Win;
         EventBus.OnLose -= Lose;
     }
@@ -53,8 +46,6 @@ public class GameManager : MonoBehaviour
     }
     public void GameLoop()
     {
-        Debug.Log("enter game loop");
-        
         if (ShopManager.Instance.ShopIsOpen)
         {
             ShopManager.Instance.DeactivateShop();
@@ -76,20 +67,6 @@ public class GameManager : MonoBehaviour
     {
         EventBus.ResetGame();
         //Debug.Log("Scene Loaded: " + scene.name);
-    }
-    
-    private void AddMoney(int amount)
-    {
-        moneyEarned += amount;
-    }
-    public int GetMoney()
-    {
-        return moneyEarned;
-    }
-    private void SpendMoney(int amount)
-    {
-        if(amount>GetMoney()) return;
-        moneyEarned -= amount;
     }
 
     private void Win()

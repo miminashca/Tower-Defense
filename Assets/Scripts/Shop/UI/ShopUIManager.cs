@@ -165,6 +165,6 @@ public class ShopUIManager : MonoBehaviour
 
     private bool CheckPurchaseAvailability(int price)
     {
-        return GameManager.Instance.GetMoney() >= price;
+        return EconomyManager.Instance.GetMoney() >= price;
     }
 }

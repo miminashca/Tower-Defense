@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
         if (moneyText)
         {
             EventBus.OnMoneyAmountChange += UpdateMoneyText;
-            moneyText.text = GameManager.Instance.GetMoney().ToString();
+            moneyText.text = EconomyManager.Instance.GetMoney().ToString();
         }
         if (targetEnemyCounterText) EnemyEventBus.OnEnemyReachedTarget += UpdateEnemyCountText;
     }
@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateMoneyText()
     {
-        moneyText.text = GameManager.Instance.GetMoney().ToString();
+        moneyText.text = EconomyManager.Instance.GetMoney().ToString();
     }
 
     private void UpdateTimer()
