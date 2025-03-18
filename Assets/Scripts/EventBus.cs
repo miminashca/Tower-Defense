@@ -3,7 +3,12 @@ using UnityEngine;
 
 public static class EventBus
 {
-    
+    public static event Action OnResetGame;
+    public static void ResetGame()
+    {
+        OnResetGame?.Invoke();
+    }
+
     
     public static event Action<int> OnMoneySpent;
     public static event Action<int> OnMoneyEarned;

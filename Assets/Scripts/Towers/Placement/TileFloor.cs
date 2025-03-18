@@ -9,8 +9,15 @@ public class TileFloor : MonoBehaviour
     
     private GameObject gridCellPointer;
     private Dictionary<Vector3, GameObject> occupiedCells = new Dictionary<Vector3, GameObject>();
+    
+    public static TileFloor Instance { get; private set; }
     private void Awake()
     {
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        
         TowerEventBus.OnTowerStartDrag += StartPlacement;
         TowerEventBus.OnTowerEndDrag += EndPlacement;
         TowerEventBus.OnTowerRemoved += UnoccupyCellOfTower;

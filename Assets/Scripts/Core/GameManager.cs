@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static TileFloor tileFloor { get; private set; }
-    
     private int moneyEarned = 30;
     public bool gameWon = false;
     public bool gameLost = false;
@@ -76,8 +74,8 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        EventBus.ResetGame();
         //Debug.Log("Scene Loaded: " + scene.name);
-        tileFloor = FindFirstObjectByType<TileFloor>(FindObjectsInactive.Include);
     }
     
     private void AddMoney(int amount)

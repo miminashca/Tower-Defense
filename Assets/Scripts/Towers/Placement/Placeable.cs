@@ -23,7 +23,7 @@ public class Placeable : MonoBehaviour
         snappedPosition.y = transform.position.y;
         transform.position = snappedPosition;
         
-        if(WasAlreadyPlaced) GameManager.tileFloor.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
+        if(WasAlreadyPlaced) TileFloor.Instance.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
     }
 
     private void OnEnable()
@@ -42,7 +42,7 @@ public class Placeable : MonoBehaviour
         if(obj != gameObject) return;
         
         initialPosition =  transform.position;
-        GameManager.tileFloor.UnoccupyCell(new Vector3Int((int)initialPosition.x, (int)initialPosition.y, (int)initialPosition.z));
+        TileFloor.Instance.UnoccupyCell(new Vector3Int((int)initialPosition.x, (int)initialPosition.y, (int)initialPosition.z));
 
         placementInProgress = true;
     }
@@ -52,7 +52,7 @@ public class Placeable : MonoBehaviour
         
         if(obj != gameObject) return;
         
-        if (GameManager.tileFloor.CellIsOccupied(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z)))
+        if (TileFloor.Instance.CellIsOccupied(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z)))
         {
             if (!WasAlreadyPlaced)
             {
@@ -61,7 +61,7 @@ public class Placeable : MonoBehaviour
             }
             transform.position = initialPosition;
         }
-        GameManager.tileFloor.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
+        TileFloor.Instance.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
         WasAlreadyPlaced = true;
     }
     public void FixedUpdate()
