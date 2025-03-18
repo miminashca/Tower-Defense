@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     {
         if (moneyText)
         {
-            EventBus.OnMoneyAmountChange += UpdateMoneyText;
+            EconomyEventBus.OnMoneyAmountChange += UpdateMoneyText;
             moneyText.text = EconomyManager.Instance.GetMoney().ToString();
         }
         if (targetEnemyCounterText) EnemyEventBus.OnEnemyReachedTarget += UpdateEnemyCountText;
@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        EventBus.OnMoneyAmountChange -= UpdateMoneyText;
+        EconomyEventBus.OnMoneyAmountChange -= UpdateMoneyText;
         WaveEventBus.OnWaveStart -= UpdateWaveText;
         EnemyEventBus.OnEnemyReachedTarget -= UpdateEnemyCountText;
         EventBus.OnLose -= ShowLoseGameState;

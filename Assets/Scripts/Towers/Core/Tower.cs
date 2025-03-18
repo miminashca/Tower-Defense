@@ -35,7 +35,7 @@ public class Tower : MonoBehaviour
     }
     private void OnDestroy()
     {
-        EventBus.EarnMoney(towerStruct.BasicPrice);
+        EconomyEventBus.EarnMoney(towerStruct.BasicPrice);
         ShopEventBus.OnTowerUpgraded -= UpgradeTower;
         ShopEventBus.OnShopOpened -= DeactivateTower;
         ShopEventBus.OnShopClosed -= ActivateTower;
@@ -52,7 +52,7 @@ public class Tower : MonoBehaviour
         if(tower!=this) return;
         CurrentTowerLevel++;
         InitTowerAtCurrentLevel();
-        EventBus.SpendMoney(towerStruct.BasicPrice);
+        EconomyEventBus.SpendMoney(towerStruct.BasicPrice);
     }
     
     private void InitTowerAtCurrentLevel()

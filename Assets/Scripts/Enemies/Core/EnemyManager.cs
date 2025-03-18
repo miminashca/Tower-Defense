@@ -55,7 +55,7 @@ public class EnemyManager : MonoBehaviour
 
     private void OnEnemyDie(Enemy enemy)
     {
-        EventBus.EarnMoney(enemy.GetCarriedMoney());
+        EconomyEventBus.EarnMoney(enemy.GetCarriedMoney());
         
         if (coinPrefab)
         {

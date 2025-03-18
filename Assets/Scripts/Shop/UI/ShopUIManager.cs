@@ -18,7 +18,7 @@ public class ShopUIManager : MonoBehaviour
     {
         ShopEventBus.OnShopOpened += ActivateShopUI;
         ShopEventBus.OnShopClosed += DeactivateShopUI;
-        EventBus.OnMoneyAmountChange += CheckUpgradeAvailability;
+        EconomyEventBus.OnMoneyAmountChange += CheckUpgradeAvailability;
         TowerEventBus.OnTowerBecameActive += OnTowerClicked;
     }
 
@@ -123,7 +123,7 @@ public class ShopUIManager : MonoBehaviour
     {
         ShopEventBus.OnShopOpened -= ActivateShopUI;
         ShopEventBus.OnShopClosed -= DeactivateShopUI;
-        EventBus.OnMoneyAmountChange -= CheckUpgradeAvailability;
+        EconomyEventBus.OnMoneyAmountChange -= CheckUpgradeAvailability;
         TowerEventBus.OnTowerBecameActive -= OnTowerClicked;
     }
     

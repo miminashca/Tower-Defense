@@ -42,7 +42,7 @@ public class ShopManager : MonoBehaviour
     
     private void BuyTower(TowerData towerData)
     {
-        EventBus.SpendMoney(towerData.GetStructAtLevel(TowerData.Level.Basic).BasicPrice);
+        EconomyEventBus.SpendMoney(towerData.GetStructAtLevel(TowerData.Level.Basic).BasicPrice);
         Tower newTower = Instantiate(TowerManager.Instance.TowerPrefab, Vector3.zero, Quaternion.identity, TowerManager.Instance.TowerParentObject.transform);
         newTower.TowerData = towerData;
         newTower.SM.TransitToState(new DraggingShopStateTower(newTower.SM));

@@ -16,13 +16,13 @@ public class EconomyManager : MonoBehaviour
 
         moneyEarned = StartCapital;
         
-        EventBus.OnMoneySpent += SpendMoney;
-        EventBus.OnMoneyEarned += EarnMoney;
+        EconomyEventBus.OnMoneySpent += SpendMoney;
+        EconomyEventBus.OnMoneyEarned += EarnMoney;
     }
     private void OnDestroy()
     {
-        EventBus.OnMoneySpent -= SpendMoney;
-        EventBus.OnMoneyEarned -= EarnMoney;
+        EconomyEventBus.OnMoneySpent -= SpendMoney;
+        EconomyEventBus.OnMoneyEarned -= EarnMoney;
     }
     
     private void EarnMoney(int amount)
