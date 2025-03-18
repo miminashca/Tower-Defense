@@ -64,7 +64,7 @@ public class Placeable : MonoBehaviour
         TileFloor.Instance.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
         WasAlreadyPlaced = true;
     }
-    public void FixedUpdate()
+    public void Update()
     {
         if (!grid || !placementInProgress) return;
         

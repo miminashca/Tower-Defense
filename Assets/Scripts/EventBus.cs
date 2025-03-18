@@ -8,6 +8,16 @@ public static class EventBus
         OnResetGame?.Invoke();
     }
     
+    public static event Action OnPauseGame;
+    public static void PauseGame()
+    {
+        OnPauseGame?.Invoke();
+    }
+    public static event Action OnResumeGame;
+    public static void ResumeGame()
+    {
+        OnResumeGame?.Invoke();
+    }
     
     public static event Action OnLose;
     public static event Action OnWin;

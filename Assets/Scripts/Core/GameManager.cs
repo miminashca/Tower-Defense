@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     public bool gameLost = false;
     public bool OpenShopAtBeginning = false;
     
-    private float fixedDeltaTime;
-    
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -18,10 +16,10 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-        
-        this.fixedDeltaTime = Time.fixedDeltaTime;
 
         Timer.Instance.OnTimerEnd += GameLoop;
+        ShopEventBus.OnShopOpened += EventBus.PauseGame;
+        ShopEventBus.OnShopClosed += EventBus.ResumeGame;
         
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventBus.OnWin += Win;
@@ -30,6 +28,10 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         Timer.Instance.OnTimerEnd -= GameLoop;
+        ShopEventBus.OnShopOpened -= EventBus.PauseGame;
+        ShopEventBus.OnShopClosed -= EventBus.ResumeGame;
+
+
         
         SceneManager.sceneLoaded -= OnSceneLoaded;
         EventBus.OnWin -= Win;
@@ -76,12 +78,6 @@ public class GameManager : MonoBehaviour
     private void Lose()
     {
         gameLost = true;
-    }
-    
-    private void Update()
-    { 
-        // Time.timeScale = 0.5f; 
-        // Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
     }
 }
 

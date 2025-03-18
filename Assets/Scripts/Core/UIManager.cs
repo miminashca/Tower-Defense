@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         if (targetEnemyCounterText) EnemyEventBus.OnEnemyReachedTarget += UpdateEnemyCountText;
     }
 
-    private void FixedUpdate()
+    private void Update()
     { 
         UpdateTimer();
     }

@@ -27,8 +27,15 @@ public class Timer : MonoBehaviour
 
     private void Update()
     {
-        if (timer > 0f) timer -= Time.deltaTime;
-        else if((int)timer == 0)
+        if (timer > 0f)
+        {
+            if(Time.timeScale == 0) timer -= Time.unscaledDeltaTime * TimeScaler.Instance.TimeScale;
+            else
+            {
+                timer -= Time.deltaTime;
+            }
+        }
+        else if ((int)timer == 0)
         {
             Debug.Log("Timer ends");
             OnTimerEnd?.Invoke();
