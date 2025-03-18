@@ -1,17 +1,17 @@
 using System;
 using UnityEngine;
+
 public class Bullet : MonoBehaviour
 {
-    public float lifeTimeInSeconds = 3;
+    public float LifeTimeInSeconds = 3;
+    public event Action<Enemy> OnBulletReachedTarget;
+    
     private float timer = 0;
-    public event Action <Enemy> OnBulletReachedTarget;
-
     private void Update()
     {
         timer += Time.deltaTime;
-        if(timer>=lifeTimeInSeconds) Destroy(gameObject);
+        if(timer>=LifeTimeInSeconds) Destroy(gameObject);
     }
-
     private void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();

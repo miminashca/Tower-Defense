@@ -1,11 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Image = UnityEngine.UI.Image;
 
 public class ShopManager : MonoBehaviour
 {
@@ -51,8 +44,8 @@ public class ShopManager : MonoBehaviour
     private void InstantiateTower(TowerData towerData)
     {
         EventBus.SpendMoney(towerData.GetStructAtLevel(TowerData.Level.Basic).BasicPrice);
-        Tower newTower = Instantiate(TowerManager.Instance.towerPrefab, Vector3.zero, Quaternion.identity, TowerManager.Instance.towerParentObject.transform);
-        newTower.towerData = towerData;
+        Tower newTower = Instantiate(TowerManager.Instance.TowerPrefab, Vector3.zero, Quaternion.identity, TowerManager.Instance.TowerParentObject.transform);
+        newTower.TowerData = towerData;
         newTower.SM.TransitToState(newTower.GetComponent<DraggingStateTower>());
     }
 

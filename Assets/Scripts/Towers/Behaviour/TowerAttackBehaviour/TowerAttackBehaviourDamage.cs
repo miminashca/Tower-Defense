@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class TowerAttackBehaviourDamage : TowerAttackBehaviour
 {
     protected override void DealImpact(Enemy target)

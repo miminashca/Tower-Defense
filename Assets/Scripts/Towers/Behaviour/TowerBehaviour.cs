@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class TowerBehaviour : MonoBehaviour
 {
-    public TowerData.ImpactType impactType;
-    public TowerData.TargetSelectingType targetSelectingType;
-    public Bullet bulletPrefab;
-    public float bulletSpeed = 1;
+    private TowerData.ImpactType impactType;
+    private TowerData.TargetSelectingType targetSelectingType;
+    private float impact;
+    private float threshold;
     
     private SphereCollider trigger;
     private List<Enemy> targets;
     
-    private float impact;
-    private float timer;
-    private float threshold;
-        
     private TowerAttackBehaviour attackBehavior;
     private TargetSelectingBehaviour selectingBehaviour; 
     
+    private float timer;
+    
     private bool initialized = false;
-    public void Initialize(float pRange, float pImpact, float pThreshold)
+    public void Initialize(TowerData.ImpactType pImpactType, TowerData.TargetSelectingType pTargetSelectingType, float pRange, float pImpact, float pThreshold)
     {
+        impactType = pImpactType;
+        targetSelectingType = pTargetSelectingType;
+        InitAttackAndSelectBeh();
+        
         if(!trigger) trigger = gameObject.AddComponent(typeof(SphereCollider)) as SphereCollider;
         trigger.isTrigger = true;
 
-        trigger.radius = 0;
         trigger.radius = pRange;
         impact = pImpact;
         threshold = pThreshold;
@@ -37,12 +38,6 @@ public class TowerBehaviour : MonoBehaviour
 
     protected void Start(){
         targets = new List<Enemy>();
-        
-        if (impactType == TowerData.ImpactType.Damage) attackBehavior = new TowerAttackBehaviourDamage();
-        else if (impactType == TowerData.ImpactType.Debuff) attackBehavior = new TowerAttackBehaviourDebuff();
-        
-        if (targetSelectingType == TowerData.TargetSelectingType.Closest) selectingBehaviour = new TargetSelectingBehaviourClosest();
-        else if (targetSelectingType == TowerData.TargetSelectingType.AOE) selectingBehaviour = new TargetSelectingBehaviourAOE();
     }
     
     void Update()
@@ -68,14 +63,17 @@ public class TowerBehaviour : MonoBehaviour
                         Attack(target);
                     }
                 }
-                //dAttack(ChooseTarget(targets)); 
-                // List<Entity> currentTargets = ChooseTargets(targets);
-                // foreach (Entity target in currentTargets)
-                // {
-                //     Attack(target); 
-                // }
             }
         }
+    }
+
+    private void InitAttackAndSelectBeh()
+    {
+        if (impactType == TowerData.ImpactType.Damage) attackBehavior = new TowerAttackBehaviourDamage();
+        else if (impactType == TowerData.ImpactType.Debuff) attackBehavior = new TowerAttackBehaviourDebuff();
+        
+        if (targetSelectingType == TowerData.TargetSelectingType.Closest) selectingBehaviour = new TargetSelectingBehaviourClosest();
+        else if (targetSelectingType == TowerData.TargetSelectingType.AOE) selectingBehaviour = new TargetSelectingBehaviourAOE();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -98,12 +96,12 @@ public class TowerBehaviour : MonoBehaviour
 
     protected void Attack(Enemy enemy)
     {
-        if (enemy && GetComponent<Tower>().isActive)
+        if (enemy && GetComponent<Tower>().IsActive)
         {
             //instantiate bullet
-            Bullet bullet = Instantiate(bulletPrefab, gameObject.transform.position, quaternion.identity);
+            Bullet bullet = Instantiate(GetComponent<Tower>().BulletPrefab, gameObject.transform.position, quaternion.identity);
             bullet.GetComponent<Rigidbody>().linearVelocity =
-                Vector3.Normalize(enemy.transform.position - gameObject.transform.position) * bulletSpeed;
+                Vector3.Normalize(enemy.transform.position - gameObject.transform.position) * GetComponent<Tower>().BulletSpeed;
             Debug.Log("Tower attacks enemy!");
             attackBehavior.Attack(enemy, impact, bullet);
         }

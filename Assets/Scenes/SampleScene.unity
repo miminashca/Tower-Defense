@@ -3159,9 +3159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88de60a45a830419883e99312c8cb86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridCellPointerPrefab: {fileID: 7024047403691290158, guid: 6f42be274a6d047078f44434c365b0ac, type: 3}
-  occupiedCellMaterial: {fileID: 2100000, guid: d318c9c12c0434e7488d5d6e9542b377, type: 2}
-  unoccupiedCellMaterial: {fileID: 2100000, guid: 7196f391a923a40ca85ce012cd390c23, type: 2}
+  GridCellPointerPrefab: {fileID: 7024047403691290158, guid: 6f42be274a6d047078f44434c365b0ac, type: 3}
+  OccupiedCellMaterial: {fileID: 2100000, guid: d318c9c12c0434e7488d5d6e9542b377, type: 2}
+  UnoccupiedCellMaterial: {fileID: 2100000, guid: 7196f391a923a40ca85ce012cd390c23, type: 2}
 --- !u!1 &1821744075
 GameObject:
   m_ObjectHideFlags: 0
@@ -3555,8 +3555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60272f5d52c45d3a8884caaa032699f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerParentObject: {fileID: 325350202}
-  towerPrefab: {fileID: 5418180081099278659, guid: f27850952b317472f967810702217283, type: 3}
+  TowerParentObject: {fileID: 325350202}
+  TowerPrefab: {fileID: 5418180081099278659, guid: f27850952b317472f967810702217283, type: 3}
 --- !u!4 &2128630140
 Transform:
   m_ObjectHideFlags: 0
@@ -3582,10 +3582,10 @@ SceneRoots:
   - {fileID: 1859786083}
   - {fileID: 1486673530}
   - {fileID: 1513580078}
+  - {fileID: 2128630140}
+  - {fileID: 78620738}
+  - {fileID: 1444049779}
   - {fileID: 1344034328}
   - {fileID: 1436308692}
   - {fileID: 110125404}
   - {fileID: 988510173}
-  - {fileID: 2128630140}
-  - {fileID: 78620738}
-  - {fileID: 1444049779}

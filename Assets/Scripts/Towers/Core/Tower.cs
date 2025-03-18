@@ -3,41 +3,42 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    public TowerData towerData;
-    public Bullet bulletPrefab;
-    public float bulletSpeed;
-    public TowerData.TowerStruct towerStruct { get; private set; }
-    public TowerData.Level currentTowerLevel { get; private set; }
+    public TowerData TowerData;
+    public Bullet BulletPrefab;
+    public float BulletSpeed;
+    public TowerData.Level CurrentTowerLevel { get; private set; }
+    public StateMachine SM { get; private set; }
+    
+    private TowerData.TowerStruct towerStruct;
     private TowerBehaviour towerBehaviour;
 
-    public StateMachine SM { get; private set; }
-    [NonSerialized] public bool isActive;
+    [NonSerialized] public bool IsActive;
 
     private void Awake()
     {
         EventBus.OnTowerUpgraded += UpgradeTower;
         EventBus.OnShopOpened += DeactivateTower;
         EventBus.OnShopClosed += ActivateTower;
-    }
-
-    private void OnEnable()
-    {
+    
         if(GetComponent<StateMachine>()) SM = GetComponent<StateMachine>();
         else
         {
             Debug.Log("Could not find State Machine in Tower!");
         }
         
+        //Initialize tower behaviour
         towerBehaviour = gameObject.AddComponent<TowerBehaviour>();
-        towerBehaviour.impactType = towerData.towerAttackBehaviourType;
-        towerBehaviour.targetSelectingType = towerData.towerTargetSelectingType;
-
-        towerBehaviour.bulletPrefab = bulletPrefab;
-        towerBehaviour.bulletSpeed = bulletSpeed;
         
-        currentTowerLevel = TowerData.Level.Basic;
+        CurrentTowerLevel = TowerData.Level.Basic;
     }
-
+    private void OnDestroy()
+    {
+        EventBus.EarnMoney(towerStruct.BasicPrice);
+        EventBus.OnTowerUpgraded -= UpgradeTower;
+        EventBus.OnShopOpened -= DeactivateTower;
+        EventBus.OnShopClosed -= ActivateTower;
+        EventBus.RemoveTower(this);
+    }
     private void Start()
     {
         InitTowerAtCurrentLevel();
@@ -47,34 +48,26 @@ public class Tower : MonoBehaviour
     private void UpgradeTower(Tower tower)
     {
         if(tower!=this) return;
-        currentTowerLevel++;
+        CurrentTowerLevel++;
         InitTowerAtCurrentLevel();
         EventBus.SpendMoney(towerStruct.BasicPrice);
     }
+    
     private void InitTowerAtCurrentLevel()
     {
         Transform oldPrefab = FindChildWithTag(this.transform, "Model");
         if(oldPrefab) Destroy(oldPrefab.gameObject);
         
-        towerStruct = towerData.GetStructAtLevel(currentTowerLevel);
+        towerStruct = TowerData.GetStructAtLevel(CurrentTowerLevel);
         
         GameObject newModelPrefab = towerStruct.Model;
         Instantiate(newModelPrefab, transform);
         newModelPrefab.tag = "Model";
         
-        towerBehaviour.Initialize(towerStruct.Range, towerStruct.Impact, towerStruct.Threshold);
-    }
-
-    private void OnDestroy()
-    {
-        EventBus.EarnMoney(towerStruct.BasicPrice);
-        EventBus.OnTowerUpgraded -= UpgradeTower;
-        EventBus.OnShopOpened -= DeactivateTower;
-        EventBus.OnShopClosed -= ActivateTower;
-        EventBus.RemoveTower(this);
+        towerBehaviour.Initialize(TowerData.towerAttackBehaviourType, TowerData.towerTargetSelectingType, towerStruct.Range, towerStruct.Impact, towerStruct.Threshold);
     }
     
-    public Transform FindChildWithTag(Transform parent, string tag)
+    private Transform FindChildWithTag(Transform parent, string tag)
     {
         foreach (Transform child in parent)
         {
@@ -88,11 +81,11 @@ public class Tower : MonoBehaviour
 
     private void ActivateTower()
     {
-        isActive = true;
+        IsActive = true;
     }
     private void DeactivateTower()
     {
-        isActive = false;
+        IsActive = false;
     }
 
 }

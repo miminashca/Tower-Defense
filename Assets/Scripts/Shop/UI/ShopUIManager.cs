@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
@@ -64,14 +61,14 @@ public class ShopUIManager : MonoBehaviour
     private void OnTowerClicked(Tower tower)
     {
         clickedTower = tower;
-        OnShopItemClicked(tower.towerData, tower.currentTowerLevel, true);
+        OnShopItemClicked(tower.TowerData, tower.CurrentTowerLevel, true);
         
-        // if (tower.currentTowerLevel + 1 == TowerData.Level.Undefined)
+        // if (tower.CurrentTowerLevel + 1 == TowerData.Level.Undefined)
         // {
         //     itemInfoPanel.SetActive(false);
         //     return;
         // }
-        //EnableUpgradeIndicatorForTower(tower, CheckPurchaseAvailability(tower.towerData.GetStructAtLevel(tower.currentTowerLevel+1).BasicPrice));
+        //EnableUpgradeIndicatorForTower(tower, CheckPurchaseAvailability(tower.TowerData.GetStructAtLevel(tower.CurrentTowerLevel+1).BasicPrice));
         
     }
     private void OnShopItemClicked(TowerData towerData, TowerData.Level currentLevel = TowerData.Level.Basic, bool towerIsAlreadyPlaced = false)
@@ -146,7 +143,7 @@ public class ShopUIManager : MonoBehaviour
             switch (enable)
             {
                 case true:
-                    EnableUpgradeIndicatorForTower(tower, CheckPurchaseAvailability(tower.towerData.GetStructAtLevel(tower.currentTowerLevel+1).BasicPrice));
+                    EnableUpgradeIndicatorForTower(tower, CheckPurchaseAvailability(tower.TowerData.GetStructAtLevel(tower.CurrentTowerLevel+1).BasicPrice));
                     break;
                 case false:
                     EnableUpgradeIndicatorForTower(tower, false);
@@ -162,7 +159,7 @@ public class ShopUIManager : MonoBehaviour
     {
         Renderer renderer = tower.gameObject.GetComponentInChildren<Renderer>();
         List<Material> materials = new List<Material>(renderer.materials);
-        if (enable && tower.currentTowerLevel + 1 != TowerData.Level.Undefined && shopPanel.activeInHierarchy)
+        if (enable && tower.CurrentTowerLevel + 1 != TowerData.Level.Undefined && shopPanel.activeInHierarchy)
         {
             if(materials.Count>=2) return;
             materials.Add(upgradeOutlineMat);

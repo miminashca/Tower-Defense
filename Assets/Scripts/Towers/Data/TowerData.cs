@@ -1,5 +1,4 @@
 using UnityEngine;
-using Image = UnityEngine.UI.Image;
 
 [CreateAssetMenu(menuName = "Data/TowerData")]
 public class TowerData : ScriptableObject

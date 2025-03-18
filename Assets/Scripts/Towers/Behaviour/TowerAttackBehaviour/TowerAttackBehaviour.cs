@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 public abstract class TowerAttackBehaviour
 {
     private Enemy target;

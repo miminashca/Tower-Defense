@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TowerManager : MonoBehaviour
 {
-    public GameObject towerParentObject;
-    public Tower towerPrefab;
+    public GameObject TowerParentObject;
+    public Tower TowerPrefab;
     
     [NonSerialized] public GameObject ActiveTower = null;
     [NonSerialized] public List<Tower> TowersInScene;
