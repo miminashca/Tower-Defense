@@ -18,9 +18,9 @@ public class Tower : MonoBehaviour
 
     private void Awake()
     {
-        EventBus.OnTowerUpgraded += UpgradeTower;
-        EventBus.OnShopOpened += DeactivateTower;
-        EventBus.OnShopClosed += ActivateTower;
+        ShopEventBus.OnTowerUpgraded += UpgradeTower;
+        ShopEventBus.OnShopOpened += DeactivateTower;
+        ShopEventBus.OnShopClosed += ActivateTower;
     
         if(GetComponent<StateMachine>()) SM = GetComponent<StateMachine>();
         else
@@ -36,9 +36,9 @@ public class Tower : MonoBehaviour
     private void OnDestroy()
     {
         EventBus.EarnMoney(towerStruct.BasicPrice);
-        EventBus.OnTowerUpgraded -= UpgradeTower;
-        EventBus.OnShopOpened -= DeactivateTower;
-        EventBus.OnShopClosed -= ActivateTower;
+        ShopEventBus.OnTowerUpgraded -= UpgradeTower;
+        ShopEventBus.OnShopOpened -= DeactivateTower;
+        ShopEventBus.OnShopClosed -= ActivateTower;
         TowerEventBus.RemoveTower(this);
     }
     private void Start()

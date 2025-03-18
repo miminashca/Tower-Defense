@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private int moneyEarned = 30;
     public bool gameWon = false;
     public bool gameLost = false;
+    public bool OpenShopAtBeginning = false;
     
     private float fixedDeltaTime;
     
@@ -45,8 +46,12 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     { 
-        ShopManager.Instance.DeactivateShop();
-        WaveManager.Instance.SpawnNewWave();
+        if(OpenShopAtBeginning) ShopManager.Instance.ActivateShop();
+        else
+        {
+            ShopManager.Instance.DeactivateShop();
+            WaveManager.Instance.SpawnNewWave();
+        }
     }
     public void GameLoop()
     {
@@ -62,6 +67,10 @@ public class GameManager : MonoBehaviour
             if (WaveManager.Instance.currentWave < WaveManager.Instance.wavesData.GetNumberOfWaves())
             {
                 ShopManager.Instance.ActivateShop();
+            }
+            else
+            {
+                WaveEventBus.WavesCompleted();
             }
         }
     }

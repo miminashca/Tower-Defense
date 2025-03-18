@@ -16,13 +16,13 @@ public class Timer : MonoBehaviour
         else Destroy(gameObject);
         
         WaveEventBus.OnWaveStart += SetWaveTimer;
-        EventBus.OnShopOpened += SetShopTimer;
+        ShopEventBus.OnShopOpened += SetShopTimer;
     }
 
     private void OnDisable()
     {
         WaveEventBus.OnWaveStart -= SetWaveTimer;
-        EventBus.OnShopOpened -= SetShopTimer;
+        ShopEventBus.OnShopOpened -= SetShopTimer;
     }
 
     private void Update()
@@ -44,7 +44,7 @@ public class Timer : MonoBehaviour
     }
     private void SetShopTimer()
     {
-        SetTimer(ShopManager.Instance.shopData.shopDuration);
+        SetTimer(ShopManager.Instance.shopData.ShopDuration);
     }
     private void SetWaveTimer(int currentWave)
     {

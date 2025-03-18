@@ -12,13 +12,12 @@ public class ShopUIManager : MonoBehaviour
     [SerializeField] private GameObject itemInfoPanel;
     [SerializeField] private Material upgradeOutlineMat;
 
-    //private Button currentButton;
-    public Tower clickedTower = null;
+    private Tower clickedTower = null;
 
     private void Awake()
     {
-        EventBus.OnShopOpened += ActivateShopUI;
-        EventBus.OnShopClosed += DeactivateShopUI;
+        ShopEventBus.OnShopOpened += ActivateShopUI;
+        ShopEventBus.OnShopClosed += DeactivateShopUI;
         EventBus.OnMoneyAmountChange += CheckUpgradeAvailability;
         TowerEventBus.OnTowerBecameActive += OnTowerClicked;
     }
@@ -61,15 +60,7 @@ public class ShopUIManager : MonoBehaviour
     private void OnTowerClicked(Tower tower)
     {
         clickedTower = tower;
-        OnShopItemClicked(tower.TowerData, tower.CurrentTowerLevel, true);
-        
-        // if (tower.CurrentTowerLevel + 1 == TowerData.Level.Undefined)
-        // {
-        //     itemInfoPanel.SetActive(false);
-        //     return;
-        // }
-        //EnableUpgradeIndicatorForTower(tower, CheckPurchaseAvailability(tower.TowerData.GetStructAtLevel(tower.CurrentTowerLevel+1).BasicPrice));
-        
+        OnShopItemClicked(tower.TowerData, tower.CurrentTowerLevel, true); 
     }
     private void OnShopItemClicked(TowerData towerData, TowerData.Level currentLevel = TowerData.Level.Basic, bool towerIsAlreadyPlaced = false)
     {
@@ -105,17 +96,17 @@ public class ShopUIManager : MonoBehaviour
     }
     private void ClickUpButton()
     {
-        if (clickedTower) EventBus.UpgradeTower(clickedTower);
+        if (clickedTower) ShopEventBus.UpgradeTower(clickedTower);
         itemInfoPanel.SetActive(false);
     }
     private void ClickBuyButton(TowerData towerData)
     {
-        EventBus.BuyTower(towerData);
+        ShopEventBus.BuyTower(towerData);
         itemInfoPanel.SetActive(false);
     }
     private void FillTheShop()
     {
-        foreach (TowerData towerData in ShopManager.Instance.shopData.towersToBuy)
+        foreach (TowerData towerData in ShopManager.Instance.shopData.TowersToBuy)
         {
             GameObject newShopItem = Instantiate(buttonPrefab, itemsPanel.transform);
             Image childImage = newShopItem.GetComponentsInChildren<Image>()[1]; // Gets the second Image (assuming 0 is parent)
@@ -130,8 +121,8 @@ public class ShopUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventBus.OnShopOpened -= ActivateShopUI;
-        EventBus.OnShopClosed -= DeactivateShopUI;
+        ShopEventBus.OnShopOpened -= ActivateShopUI;
+        ShopEventBus.OnShopClosed -= DeactivateShopUI;
         EventBus.OnMoneyAmountChange -= CheckUpgradeAvailability;
         TowerEventBus.OnTowerBecameActive -= OnTowerClicked;
     }

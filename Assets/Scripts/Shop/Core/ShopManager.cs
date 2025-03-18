@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ShopManager : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class ShopManager : MonoBehaviour
             Instance = this;
         }
    
-        EventBus.OnTowerBought += BuyTower;
+        ShopEventBus.OnTowerBought += BuyTower;
     }
 
     private void Start()
@@ -25,15 +24,15 @@ public class ShopManager : MonoBehaviour
     { 
         ShopIsOpen = true;
         Debug.Log("open shop");
-        EventBus.OpenShop();
-        //Invoke("DeactivateShop", shopData.shopDuration);
+        ShopEventBus.OpenShop();
+        //Invoke("DeactivateShop", shopData.ShopDuration);
     }
     public void DeactivateShop()
     {
         CancelInvoke(nameof(DeactivateShop));
         ShopIsOpen = false;
         Debug.Log("close shop");
-        EventBus.CloseShop();
+        ShopEventBus.CloseShop();
     }
 
     public void CheckGameLoop()
@@ -51,6 +50,6 @@ public class ShopManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventBus.OnTowerBought -= BuyTower;
+        ShopEventBus.OnTowerBought -= BuyTower;
     }
 }

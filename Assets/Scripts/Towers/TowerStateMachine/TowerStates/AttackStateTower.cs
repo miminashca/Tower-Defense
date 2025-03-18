@@ -9,7 +9,7 @@ public class AttackStateTower : IdleState
     {
         //Debug.Log($"{SM.gameObject.name} enters attack state");
         TowerEventBus.TowerStartAttack(SM.gameObject);
-        EventBus.OnShopOpened += StartIdleShopState;
+        ShopEventBus.OnShopOpened += StartIdleShopState;
     }
 
     public override void Handle()
@@ -19,7 +19,7 @@ public class AttackStateTower : IdleState
     public override void OnExitState()
     {
         TowerEventBus.TowerEndAttack(SM.gameObject);
-        EventBus.OnShopOpened -= StartIdleShopState;
+        ShopEventBus.OnShopOpened -= StartIdleShopState;
     }
     
     private void StartIdleShopState()

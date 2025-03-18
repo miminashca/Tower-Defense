@@ -8,7 +8,7 @@ public class IdleShopStateTower : IdleState
     public override void OnEnterState()
     {
         //Debug.Log($"{SM.gameObject.name} enters idle state");
-        EventBus.OnShopClosed += StartAttackState;
+        ShopEventBus.OnShopClosed += StartAttackState;
     }
 
     public override void Handle()
@@ -21,7 +21,7 @@ public class IdleShopStateTower : IdleState
 
     public override void OnExitState()
     {
-        EventBus.OnShopClosed -= StartAttackState; 
+        ShopEventBus.OnShopClosed -= StartAttackState; 
     }
     
     private void StartDrag()

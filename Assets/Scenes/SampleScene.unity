@@ -2236,7 +2236,6 @@ MonoBehaviour:
   itemsPanel: {fileID: 2062691771}
   itemInfoPanel: {fileID: 1271469138}
   upgradeOutlineMat: {fileID: 2100000, guid: af52ff0719f924376bf5e9ecb8b8f386, type: 2}
-  clickedTower: {fileID: 0}
 --- !u!1 &1271469138
 GameObject:
   m_ObjectHideFlags: 0
@@ -3400,6 +3399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameWon: 0
   gameLost: 0
+  OpenShopAtBeginning: 1
 --- !u!1 &1874840659
 GameObject:
   m_ObjectHideFlags: 0
