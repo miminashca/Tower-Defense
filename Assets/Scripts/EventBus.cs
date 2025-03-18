@@ -3,6 +3,8 @@ using UnityEngine;
 
 public static class EventBus
 {
+    public static event Action<GameObject> OnTowerStartAttack;
+    public static event Action<GameObject> OnTowerEndAttack;
     public static event Action<GameObject> OnTowerStartDrag;
     public static event Action<GameObject> OnTowerEndDrag;
     public static event Action<Tower> OnTowerPlaced;
@@ -26,6 +28,14 @@ public static class EventBus
     public static event Action OnWin;
 
     
+    public static void TowerStartAttack(GameObject tower)
+    {
+        if(tower) OnTowerStartAttack?.Invoke(tower);
+    }
+    public static void TowerEndAttack(GameObject tower)
+    {
+        if(tower) OnTowerEndAttack?.Invoke(tower);
+    }
     public static void TowerStartDrag(GameObject tower)
     {
         if(tower) OnTowerStartDrag?.Invoke(tower);

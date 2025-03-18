@@ -1,25 +1,24 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
     private State currentState;
-    private void OnEnable()
+    private void Start()
     {
-        // State[] states = GetComponents<State>();
-        // if (states.Length > 0)
-        // {
-        //     foreach (State state in states)
-        //     {
-        //         state.Init(this);
-        //     }
-        // }
-        TransitToState(new IdleStateTower(this));
+        if (ShopManager.Instance.shopIsOpen)
+        {
+            if(GetComponent<Tower>().WasAlreadyPlaced) TransitToState(new IdleShopStateTower(this));
+            else TransitToState(new DraggingShopStateTower(this));
+        }
+        else
+        {
+            TransitToState(new AttackStateTower(this));
+        }
     }
 
     void Update()
     {
-        currentState.Handle();
+        if(currentState != null) currentState.Handle();
     }
 
     public void TransitToState(State pState)
@@ -32,12 +31,8 @@ public class StateMachine : MonoBehaviour
         currentState.OnEnterState();
     }
 
-    // private void OnDestroy()
-    // {
-    //     List<State> states = new List<State>(GetComponents<State>());
-    //     foreach (State state in states)
-    //     {
-    //         Destroy(state);
-    //     }
-    // }
+    private void OnDestroy()
+    {
+        if(currentState!=null) currentState.OnExitState();
+    }
 }

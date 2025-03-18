@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class TowerBehaviour : MonoBehaviour
     
     private float timer;
     
+    private bool isActive = false;
     private bool initialized = false;
     public void Initialize(TowerData.ImpactType pImpactType, TowerData.TargetSelectingType pTargetSelectingType, float pRange, float pImpact, float pThreshold)
     {
@@ -36,11 +38,27 @@ public class TowerBehaviour : MonoBehaviour
         initialized = true;
     }
 
+    private void Awake()
+    {
+        EventBus.OnTowerStartAttack += SetTowerActive;
+        EventBus.OnTowerEndAttack += SetTowerUnactive;
+    }
+    private void OnDestroy()
+    {
+        EventBus.OnTowerStartAttack -= SetTowerActive;
+        EventBus.OnTowerEndAttack -= SetTowerUnactive;
+    }
+
     protected void Start(){
         targets = new List<Enemy>();
     }
     
     void Update()
+    {
+        if(isActive) Execute();
+    }
+
+    private void Execute()
     {
         if (!initialized)
         {
@@ -74,6 +92,15 @@ public class TowerBehaviour : MonoBehaviour
         
         if (targetSelectingType == TowerData.TargetSelectingType.Closest) selectingBehaviour = new TargetSelectingBehaviourClosest();
         else if (targetSelectingType == TowerData.TargetSelectingType.AOE) selectingBehaviour = new TargetSelectingBehaviourAOE();
+    }
+
+    private void SetTowerActive(GameObject tower)
+    {
+        if(tower == gameObject) isActive = true;
+    }
+    private void SetTowerUnactive(GameObject tower)
+    {
+        if(tower == gameObject) isActive = false;
     }
 
     private void OnTriggerEnter(Collider other)
