@@ -6,43 +6,58 @@ public class TowerManager : MonoBehaviour
 {
     public GameObject towerParentObject;
     public Tower towerPrefab;
-    public GameObject activeTower = null;
-
-    public List<Tower> towersInScene;
-
+    
+    [NonSerialized] public GameObject ActiveTower = null;
+    [NonSerialized] public List<Tower> TowersInScene;
+    public static TowerManager Instance { get; private set; }
     private void Awake()
     {
-        towersInScene = new List<Tower>();
+        if (!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+    
+        TowersInScene = new List<Tower>();
         
-        EventBus.OnTowerStartDrag += setActiveTower;
-        EventBus.OnTowerEndDrag += unsetActiveTower;
+        EventBus.OnTowerStartDrag += SetActiveTower;
+        EventBus.OnTowerEndDrag += UnsetActiveTower;
 
         EventBus.OnTowerPlaced += AddTower;
         EventBus.OnTowerRemoved += RemoveTower;
     }
 
-    private void setActiveTower(GameObject tower)
+    private void Start()
     {
-        activeTower = tower;
-        EventBus.TowerBecameActive(activeTower.GetComponent<Tower>());
+        foreach (Tower tower in FindObjectsByType<Tower>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            AddTower(tower);
+        }
     }
-    private void unsetActiveTower(GameObject tower)
+
+    private void SetActiveTower(GameObject tower)
     {
-        activeTower = null;
+        ActiveTower = tower;
+        EventBus.TowerBecameActive(ActiveTower.GetComponent<Tower>());
+    }
+    private void UnsetActiveTower(GameObject tower)
+    {
+        ActiveTower = null;
     }
 
     private void AddTower(Tower tower)
     {
-        towersInScene.Add(tower);
+        if(!TowersInScene.Contains(tower)) TowersInScene.Add(tower);
     }
     private void RemoveTower(Tower tower)
     {
-        towersInScene.Remove(tower);
+        if(TowersInScene.Contains(tower)) TowersInScene.Remove(tower);
     }
     private void OnDisable()
     {
-        EventBus.OnTowerStartDrag -= setActiveTower;
-        EventBus.OnTowerEndDrag -= unsetActiveTower;
+        EventBus.OnTowerStartDrag -= SetActiveTower;
+        EventBus.OnTowerEndDrag -= UnsetActiveTower;
         
         EventBus.OnTowerPlaced -= AddTower;
         EventBus.OnTowerRemoved -= RemoveTower;

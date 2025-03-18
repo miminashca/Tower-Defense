@@ -83,8 +83,8 @@ public class EnemyManager : MonoBehaviour
 
     private void CheckGameFinalState()
     {
-        if(currentEnemiesAtGoal<maxEnemiesAllowedAtTarget && !GameManager.gameManager.gameLost) EventBus.Win();
-        else if(!GameManager.gameManager.gameWon)
+        if(currentEnemiesAtGoal<maxEnemiesAllowedAtTarget && !GameManager.Instance.gameLost) EventBus.Win();
+        else if(!GameManager.Instance.gameWon)
         {
             EventBus.Lose();
         }

@@ -9,7 +9,7 @@ public class IdleStateTower : IdleState
     }
     private void OnMouseDown()
     {
-        if(!GameManager.towerManager.activeTower && GetComponent<PlacementSystem>().wasAlreadyPlaced && GameManager.shopManager.shopIsOpen) StartDrag();
+        if(!TowerManager.Instance.ActiveTower && GetComponent<Placeable>().WasAlreadyPlaced && ShopManager.Instance.shopIsOpen) StartDrag();
     }
 
     public override void OnEnterState()

@@ -3,12 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager gameManager { get; private set; }
-    
-    public static InputManager inputManager { get; private set; }
-    public static UIManager uiManager { get; private set; }
-    public static TowerManager towerManager { get; private set; }
-    public static ShopManager shopManager { get; private set; }
     public static TileFloor tileFloor { get; private set; }
     public static Timer timer { get; private set; }
     
@@ -17,27 +11,21 @@ public class GameManager : MonoBehaviour
     public bool gameLost = false;
     
     private float fixedDeltaTime;
+    
+    public static GameManager Instance { get; private set; }
     private void Awake()
     {
         this.fixedDeltaTime = Time.fixedDeltaTime;
         
-        if (gameManager == null)
+        if (!Instance)
         {
-            gameManager = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
         
-        if (!inputManager) inputManager = GetComponent<InputManager>();
-        if (!uiManager) uiManager = GetComponentInChildren<UIManager>();
-        if (!towerManager) towerManager = GetComponent<TowerManager>();
-        if (!shopManager) shopManager = GetComponentInChildren<ShopManager>();
         if (!timer) timer = GetComponent<Timer>();
         
-        if (!inputManager) Debug.Log("No Input manager in Game manager!!!");
-        if (!uiManager) Debug.Log("No UI manager in Game manager!!!");
-        if (!towerManager) Debug.Log("No Tower manager in Game manager!!!");
-        if (!shopManager) Debug.Log("No Shop manager in Game manager!!!");
         if (!timer) Debug.Log("No Timer in Game manager!!!");
 
         SceneManager.sceneLoaded += OnSceneLoaded;

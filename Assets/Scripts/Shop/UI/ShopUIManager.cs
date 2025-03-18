@@ -118,7 +118,7 @@ public class ShopUIManager : MonoBehaviour
     }
     private void FillTheShop()
     {
-        foreach (TowerData towerData in GameManager.shopManager.shopData.towersToBuy)
+        foreach (TowerData towerData in ShopManager.Instance.shopData.towersToBuy)
         {
             GameObject newShopItem = Instantiate(buttonPrefab, itemsPanel.transform);
             Image childImage = newShopItem.GetComponentsInChildren<Image>()[1]; // Gets the second Image (assuming 0 is parent)
@@ -141,7 +141,7 @@ public class ShopUIManager : MonoBehaviour
     
     private void EnableUpgradeIndicators(bool enable = true)
     {
-        foreach (Tower tower in GameManager.towerManager.towersInScene)
+        foreach (Tower tower in TowerManager.Instance.TowersInScene)
         {
             switch (enable)
             {
@@ -177,6 +177,6 @@ public class ShopUIManager : MonoBehaviour
 
     private bool CheckPurchaseAvailability(int price)
     {
-        return GameManager.gameManager.GetMoney() >= price;
+        return GameManager.Instance.GetMoney() >= price;
     }
 }

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-public class PlacementSystem : MonoBehaviour
+public class Placeable : MonoBehaviour
 {
-    public bool wasAlreadyPlaced = false;
+    public bool WasAlreadyPlaced = false;
     
     [SerializeField] private LayerMask placementLayerMask;
     private Grid grid;
@@ -16,7 +17,7 @@ public class PlacementSystem : MonoBehaviour
     {
         if (!GetComponentInParent<Grid>())
         {
-            Debug.Log("No grid in Placement System!!!");
+            Debug.Log("No grid in Placeable Parent!!!");
             return;
         }
         grid = transform.parent.GetComponentInParent<Grid>();
@@ -26,7 +27,7 @@ public class PlacementSystem : MonoBehaviour
         snappedPosition.y = transform.position.y;
         transform.position = snappedPosition;
         
-        if(wasAlreadyPlaced) GameManager.tileFloor.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
+        if(WasAlreadyPlaced) GameManager.tileFloor.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
     }
 
     private void OnEnable()
@@ -57,7 +58,7 @@ public class PlacementSystem : MonoBehaviour
         
         if (GameManager.tileFloor.CellIsOccupied(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z)))
         {
-            if (!wasAlreadyPlaced)
+            if (!WasAlreadyPlaced)
             {
                 Destroy(gameObject);
                 return;
@@ -65,13 +66,13 @@ public class PlacementSystem : MonoBehaviour
             transform.position = initialPosition;
         }
         GameManager.tileFloor.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
-        wasAlreadyPlaced = true;
+        WasAlreadyPlaced = true;
     }
     public void FixedUpdate()
     {
         if (!grid || !placementInProgress) return;
         
-        Vector3 mousePos = GameManager.inputManager.GetSelectedMapPosition(placementLayerMask);
+        Vector3 mousePos = InputManager.Instance.GetSelectedMapPosition(placementLayerMask);
         Vector3Int currentGridPos = grid.WorldToCell(mousePos);
 
         if (currentGridPos != lastGridPos)

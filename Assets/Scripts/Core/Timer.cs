@@ -32,7 +32,7 @@ public class Timer : MonoBehaviour
 
     private void SetShopTimer()
     {
-        SetTimer(GameManager.shopManager.shopData.shopDuration);
+        SetTimer(ShopManager.Instance.shopData.shopDuration);
     }
     private void SetWaveTimer(int currentWave)
     {

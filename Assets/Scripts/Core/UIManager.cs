@@ -12,8 +12,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI targetEnemyCounterText;
     [SerializeField] private TextMeshProUGUI finalGameStateMessage;
 
+    public static UIManager Instance { get; private set; }
     private void Awake()
     {
+        if (!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+    
         if (waveText) WaveEventBus.OnWaveStart += UpdateWaveText;
         EventBus.OnLose += ShowLoseGameState;
         EventBus.OnWin += ShowWinGameState;
@@ -24,7 +32,7 @@ public class UIManager : MonoBehaviour
         if (moneyText)
         {
             EventBus.OnMoneyAmountChange += UpdateMoneyText;
-            moneyText.text = GameManager.gameManager.GetMoney().ToString();
+            moneyText.text = GameManager.Instance.GetMoney().ToString();
         }
         if (targetEnemyCounterText) EnemyEventBus.OnEnemyReachedTarget += UpdateEnemyCountText;
     }
@@ -36,7 +44,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateMoneyText()
     {
-        moneyText.text = GameManager.gameManager.GetMoney().ToString();
+        moneyText.text = GameManager.Instance.GetMoney().ToString();
     }
 
     private void UpdateTimer()

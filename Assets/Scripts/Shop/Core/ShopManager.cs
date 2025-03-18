@@ -12,8 +12,14 @@ public class ShopManager : MonoBehaviour
     public ShopData shopData;
     public bool shopIsOpen = false;
 
+    public static ShopManager Instance { get; private set; }
     private void Awake()
     {
+        if (!Instance)
+        {
+            Instance = this;
+        }
+   
         WaveEventBus.OnWaveEnd += ActivateShop;
         EventBus.OnTowerBought += InstantiateTower;
     }
@@ -45,7 +51,7 @@ public class ShopManager : MonoBehaviour
     private void InstantiateTower(TowerData towerData)
     {
         EventBus.SpendMoney(towerData.GetStructAtLevel(TowerData.Level.Basic).BasicPrice);
-        Tower newTower = Instantiate(GameManager.towerManager.towerPrefab, Vector3.zero, Quaternion.identity, GameManager.towerManager.towerParentObject.transform);
+        Tower newTower = Instantiate(TowerManager.Instance.towerPrefab, Vector3.zero, Quaternion.identity, TowerManager.Instance.towerParentObject.transform);
         newTower.towerData = towerData;
         newTower.SM.TransitToState(newTower.GetComponent<DraggingStateTower>());
     }
