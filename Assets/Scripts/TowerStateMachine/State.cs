@@ -3,14 +3,10 @@ using UnityEngine;
 /// <summary>
 /// Base class for states
 /// </summary>
-public abstract class State : MonoBehaviour
+public abstract class State
 {
     protected StateMachine SM;
-    [SerializeField]
-    protected int _stateID;
-    public int stateID => _stateID;
-
-    public void Init(StateMachine pSM)
+    public State(StateMachine pSM)
     {
         SM = pSM;
     }

@@ -1,1 +1,6 @@
-public abstract class IdleState : State {}
+public abstract class IdleState : State
+{
+    protected IdleState(StateMachine pSM) : base(pSM)
+    {
+    }
+}

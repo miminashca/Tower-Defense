@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class DraggingStateTower : State
 {
+    public DraggingStateTower(StateMachine pSM) : base(pSM)
+    {
+    }
     public override void OnEnterState()
     {
         //Debug.Log($"{gameObject.name} enters dragging state");
@@ -17,7 +20,7 @@ public class DraggingStateTower : State
     
     private void EndDrag()
     {
-        EventBus.TowerEndDrag(gameObject);
-        SM.TransitToState(GetComponent<IdleStateTower>());
+        EventBus.TowerEndDrag(SM.gameObject);
+        SM.TransitToState(new IdleStateTower(SM));
     }
 }

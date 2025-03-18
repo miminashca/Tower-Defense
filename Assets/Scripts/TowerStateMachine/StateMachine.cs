@@ -6,15 +6,15 @@ public class StateMachine : MonoBehaviour
     private State currentState;
     private void OnEnable()
     {
-        State[] states = GetComponents<State>();
-        if (states.Length > 0)
-        {
-            foreach (State state in states)
-            {
-                state.Init(this);
-            }
-        }
-        TransitToState(GetComponent<IdleState>());
+        // State[] states = GetComponents<State>();
+        // if (states.Length > 0)
+        // {
+        //     foreach (State state in states)
+        //     {
+        //         state.Init(this);
+        //     }
+        // }
+        TransitToState(new IdleStateTower(this));
     }
 
     void Update()
@@ -32,12 +32,12 @@ public class StateMachine : MonoBehaviour
         currentState.OnEnterState();
     }
 
-    private void OnDestroy()
-    {
-        List<State> states = new List<State>(GetComponents<State>());
-        foreach (State state in states)
-        {
-            Destroy(state);
-        }
-    }
+    // private void OnDestroy()
+    // {
+    //     List<State> states = new List<State>(GetComponents<State>());
+    //     foreach (State state in states)
+    //     {
+    //         Destroy(state);
+    //     }
+    // }
 }
