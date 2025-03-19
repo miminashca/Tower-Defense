@@ -19,6 +19,7 @@ public class ShopUIManager : MonoBehaviour
         ShopEventBus.OnShopOpened += ActivateShopUI;
         ShopEventBus.OnShopClosed += DeactivateShopUI;
         EconomyEventBus.OnMoneyAmountChange += CheckUpgradeAvailability;
+        TowerEventBus.OnTowerPlaced += CheckUpgradeAvailabilityForTower;
         TowerEventBus.OnTowerBecameActive += OnTowerClicked;
     }
 
@@ -91,7 +92,11 @@ public class ShopUIManager : MonoBehaviour
 
     private void ClickSellButton()
     {
-        if(clickedTower) Destroy(clickedTower.gameObject);
+        if (clickedTower)
+        {
+            EconomyEventBus.EarnMoney(clickedTower.TowerStruct.BasicPrice);
+            Destroy(clickedTower.gameObject);
+        }
         itemInfoPanel.SetActive(false);
     }
     private void ClickUpButton()
@@ -124,6 +129,7 @@ public class ShopUIManager : MonoBehaviour
         ShopEventBus.OnShopOpened -= ActivateShopUI;
         ShopEventBus.OnShopClosed -= DeactivateShopUI;
         EconomyEventBus.OnMoneyAmountChange -= CheckUpgradeAvailability;
+        TowerEventBus.OnTowerPlaced -= CheckUpgradeAvailabilityForTower;
         TowerEventBus.OnTowerBecameActive -= OnTowerClicked;
     }
     
@@ -145,6 +151,10 @@ public class ShopUIManager : MonoBehaviour
     private void CheckUpgradeAvailability()
     {
         EnableUpgradeIndicators();
+    }
+    private void CheckUpgradeAvailabilityForTower(Tower tower)
+    {
+        EnableUpgradeIndicatorForTower(tower);
     }
     private void EnableUpgradeIndicatorForTower(Tower tower, bool enable = true)
     {

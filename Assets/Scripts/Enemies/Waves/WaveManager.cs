@@ -88,6 +88,7 @@ public class WaveManager : MonoBehaviour
             {
                 enemyPrefab.Data = enemyData;
                 Enemy enemyInstance = Instantiate(enemyPrefab, spawnPointManager.spawnPoints[i].transform.position, Quaternion.identity);
+                SceneManager.MoveGameObjectToScene(enemyInstance.gameObject, SceneManager.GetSceneByName("Level1"));
                 enemies.Add(enemyInstance); // Add enemy to the list
             }
             else

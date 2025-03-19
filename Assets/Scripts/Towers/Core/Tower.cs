@@ -11,7 +11,7 @@ public class Tower : MonoBehaviour
     public TowerData.Level CurrentTowerLevel { get; private set; }
     public StateMachine SM { get; private set; }
     
-    private TowerData.TowerStruct towerStruct;
+    public TowerData.TowerStruct TowerStruct;
     private TowerBehaviour towerBehaviour;
 
     [NonSerialized] public bool IsActive;
@@ -35,7 +35,6 @@ public class Tower : MonoBehaviour
     }
     private void OnDestroy()
     {
-        EconomyEventBus.EarnMoney(towerStruct.BasicPrice);
         ShopEventBus.OnTowerUpgraded -= UpgradeTower;
         ShopEventBus.OnShopOpened -= DeactivateTower;
         ShopEventBus.OnShopClosed -= ActivateTower;
@@ -52,7 +51,7 @@ public class Tower : MonoBehaviour
         if(tower!=this) return;
         CurrentTowerLevel++;
         InitTowerAtCurrentLevel();
-        EconomyEventBus.SpendMoney(towerStruct.BasicPrice);
+        EconomyEventBus.SpendMoney(TowerStruct.BasicPrice);
     }
     
     private void InitTowerAtCurrentLevel()
@@ -60,13 +59,13 @@ public class Tower : MonoBehaviour
         Transform oldPrefab = FindChildWithTag(this.transform, "Model");
         if(oldPrefab) Destroy(oldPrefab.gameObject);
         
-        towerStruct = TowerData.GetStructAtLevel(CurrentTowerLevel);
+        TowerStruct = TowerData.GetStructAtLevel(CurrentTowerLevel);
         
-        GameObject newModelPrefab = towerStruct.Model;
+        GameObject newModelPrefab = TowerStruct.Model;
         Instantiate(newModelPrefab, transform);
         newModelPrefab.tag = "Model";
         
-        towerBehaviour.Initialize(TowerData.towerAttackBehaviourType, TowerData.towerTargetSelectingType, towerStruct.Range, towerStruct.Impact, towerStruct.Threshold);
+        towerBehaviour.Initialize(TowerData.towerAttackBehaviourType, TowerData.towerTargetSelectingType, TowerStruct.Range, TowerStruct.Impact, TowerStruct.Threshold);
     }
     
     private Transform FindChildWithTag(Transform parent, string tag)

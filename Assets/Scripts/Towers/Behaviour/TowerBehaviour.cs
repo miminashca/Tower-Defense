@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TowerBehaviour : MonoBehaviour
 {
@@ -127,6 +128,8 @@ public class TowerBehaviour : MonoBehaviour
         {
             //instantiate bullet
             Bullet bullet = Instantiate(GetComponent<Tower>().BulletPrefab, gameObject.transform.position, quaternion.identity);
+            SceneManager.MoveGameObjectToScene(bullet.gameObject, SceneManager.GetSceneByName("Level1"));
+            
             bullet.GetComponent<Rigidbody>().linearVelocity =
                 Vector3.Normalize(enemy.transform.position - gameObject.transform.position) * GetComponent<Tower>().BulletSpeed;
             Debug.Log("Tower attacks enemy!");

@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fd9ecfc6f79424d832100c0602149d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OpenShopAtBeginning: 0
+  OpenShopAtBeginning: 1
 --- !u!114 &1617537240
 MonoBehaviour:
   m_ObjectHideFlags: 0
