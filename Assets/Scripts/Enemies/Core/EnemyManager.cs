@@ -74,6 +74,8 @@ public class EnemyManager : MonoBehaviour
         if (coinPrefab)
         {
             GameObject coin = Instantiate(coinPrefab, enemy.transform.position, Quaternion.identity);
+            SceneManager.MoveGameObjectToScene(coin.gameObject, SceneManager.GetSceneByName("Level1"));
+            
             coin.GetComponentInChildren<TextMeshProUGUI>().text = enemy.GetCarriedMoney().ToString();
         }
 
