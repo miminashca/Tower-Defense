@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    private float timer = -5;
-    private bool gameEnd = false;
+    private float timer;
+    private bool gameEnd;
     public event Action OnTimerEnd;
     public static Timer Instance { get; private set; }
     private void Awake()
@@ -12,20 +12,26 @@ public class Timer : MonoBehaviour
         if (!Instance)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
         
         WaveEventBus.OnWaveStart += SetWaveTimer;
         ShopEventBus.OnShopOpened += SetShopTimer;
         GameStateEventBus.OnGameEnd += EndGame;
+        
+        GameStateEventBus.OnReloadManagers += Reload;
     }
-
+    private void Reload()
+    {
+        timer = -1;
+        gameEnd = false;
+    }
     private void OnDisable()
     {
         WaveEventBus.OnWaveStart -= SetWaveTimer;
         ShopEventBus.OnShopOpened -= SetShopTimer;
         GameStateEventBus.OnGameEnd -= EndGame;
+        
+        GameStateEventBus.OnReloadManagers -= Reload;
     }
 
     private void Update()
@@ -59,7 +65,7 @@ public class Timer : MonoBehaviour
     }
     private void SetWaveTimer(int currentWave)
     {
-        SetTimer(WaveManager.Instance.wavesData.tresholdBetweenWaves);
+        SetTimer(WaveManager.Instance.WavesData.tresholdBetweenWaves);
     }
     private void ResetTimer()
     {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TimeScaler : MonoBehaviour
@@ -11,14 +12,21 @@ public class TimeScaler : MonoBehaviour
             Instance = this;
         }
         
-        ResetTimeScale();
         GameStateEventBus.OnPauseGame += SetZeroTimeScale;
         GameStateEventBus.OnResumeGame += ResetTimeScale;
+        
+        GameStateEventBus.OnReloadManagers += Reload;
+    }
+    private void Reload()
+    {
+        ResetTimeScale();
     }
     private void OnDestroy()
     {
         GameStateEventBus.OnPauseGame -= SetZeroTimeScale;
         GameStateEventBus.OnResumeGame -= ResetTimeScale;
+        
+        GameStateEventBus.OnReloadManagers -= Reload;
     }
 
     private void Update()

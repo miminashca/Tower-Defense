@@ -2,10 +2,16 @@ using System;
 
 public static class GameStateEventBus
 {
-    public static event Action OnResetGame;
-    public static void ResetGame()
+    public static event Action OnRestart;
+    public static void Restart()
     {
-        OnResetGame?.Invoke();
+        OnRestart?.Invoke();
+    }
+    
+    public static event Action OnReloadManagers;
+    public static void ReloadManagers()
+    {
+        OnReloadManagers?.Invoke();
     }
     
     public static event Action OnPauseGame;

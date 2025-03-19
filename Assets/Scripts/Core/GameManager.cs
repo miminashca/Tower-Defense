@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,39 +16,47 @@ public class GameManager : MonoBehaviour
         if (!Instance)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
         
         Timer.Instance.OnTimerEnd += GameLoop;
         ShopEventBus.OnShopOpened += GameStateEventBus.PauseGame;
         ShopEventBus.OnShopClosed += GameStateEventBus.ResumeGame;
         
-        SceneManager.sceneLoaded += OnSceneLoaded;
         GameStateEventBus.OnWin += Win;
         GameStateEventBus.OnLose += Lose;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     private void OnDestroy()
     {
         Timer.Instance.OnTimerEnd -= GameLoop;
         ShopEventBus.OnShopOpened -= GameStateEventBus.PauseGame;
         ShopEventBus.OnShopClosed -= GameStateEventBus.ResumeGame;
-
-
         
-        SceneManager.sceneLoaded -= OnSceneLoaded;
         GameStateEventBus.OnWin -= Win;
         GameStateEventBus.OnLose -= Lose;
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    private void Start()
-    { 
-        if(OpenShopAtBeginning) ShopManager.Instance.ActivateShop();
-        else
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level1")
         {
-            ShopManager.Instance.DeactivateShop();
-            WaveManager.Instance.SpawnNewWave();
+            if(OpenShopAtBeginning) ShopManager.Instance.ActivateShop();
+            else
+            {
+                ShopManager.Instance.DeactivateShop();
+                Invoke("SpawnWave", 0.5f);
+            }
         }
     }
+
+    private void SpawnWave()
+    {
+        WaveManager.Instance.SpawnNewWave();
+    }
+
     public void GameLoop()
     {
         if (ShopManager.Instance.ShopIsOpen)
@@ -57,7 +66,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (WaveManager.Instance.currentWave < WaveManager.Instance.wavesData.GetNumberOfWaves())
+            if (WaveManager.Instance.CurrentWave < WaveManager.Instance.WavesData.GetNumberOfWaves())
             {
                 ShopManager.Instance.ActivateShop();
             }
@@ -67,12 +76,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        GameStateEventBus.ResetGame();
-        //Debug.Log("Scene Loaded: " + scene.name);
-    }
-
+    
     private void Win()
     {
         gameWon = true;

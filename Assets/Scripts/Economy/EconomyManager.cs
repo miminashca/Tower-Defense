@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EconomyManager : MonoBehaviour
@@ -12,16 +13,24 @@ public class EconomyManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        moneyEarned = StartCapital;
         
         EconomyEventBus.OnMoneySpent += SpendMoney;
         EconomyEventBus.OnMoneyEarned += EarnMoney;
+        
+        GameStateEventBus.OnReloadManagers += Reload;
     }
+
+    private void Reload()
+    {
+        moneyEarned = StartCapital;
+    }
+
     private void OnDestroy()
     {
         EconomyEventBus.OnMoneySpent -= SpendMoney;
         EconomyEventBus.OnMoneyEarned -= EarnMoney;
+        
+        GameStateEventBus.OnReloadManagers -= Reload;
     }
     
     private void EarnMoney(int amount)

@@ -25,7 +25,6 @@ public class ShopManager : MonoBehaviour
         ShopIsOpen = true;
         Debug.Log("open shop");
         ShopEventBus.OpenShop();
-        //Invoke("DeactivateShop", shopData.ShopDuration);
     }
     public void DeactivateShop()
     {

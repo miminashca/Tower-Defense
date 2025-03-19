@@ -1,38 +1,48 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TowerManager : MonoBehaviour
 {
-    public GameObject TowerParentObject;
     public Tower TowerPrefab;
     
+    [NonSerialized] public GameObject TowerParentObject;
     [NonSerialized] public GameObject ActiveTower = null;
     [NonSerialized] public List<Tower> TowersInScene;
     public static TowerManager Instance { get; private set; }
-    private void Awake()
+    private void Awake() 
     {
         if (!Instance)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
-    
-        TowersInScene = new List<Tower>();
         
         TowerEventBus.OnTowerStartDrag += SetActiveTower;
         TowerEventBus.OnTowerEndDrag += UnsetActiveTower;
 
         TowerEventBus.OnTowerPlaced += AddTower;
         TowerEventBus.OnTowerRemoved += RemoveTower;
+        
+        GameStateEventBus.OnReloadManagers += Reload;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
-    private void Start()
+    
+    private void Reload()
     {
-        foreach (Tower tower in FindObjectsByType<Tower>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        if (TowersInScene == null) TowersInScene = new List<Tower>();
+        else TowersInScene.Clear();
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level1")
         {
-            AddTower(tower);
+            TowerParentObject = GameObject.FindWithTag("TowerParent");
+            
+            foreach (Tower tower in FindObjectsByType<Tower>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                AddTower(tower);
+            }
         }
     }
 
@@ -61,5 +71,8 @@ public class TowerManager : MonoBehaviour
         
         TowerEventBus.OnTowerPlaced -= AddTower;
         TowerEventBus.OnTowerRemoved -= RemoveTower;
+        
+        GameStateEventBus.OnReloadManagers -= Reload;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

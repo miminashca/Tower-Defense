@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 { 
@@ -12,15 +13,22 @@ public class InputManager : MonoBehaviour
         if (!Instance)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
-    private void Start()
+    private void OnDestroy()
     {
-        sceneCamera = Camera.main;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level1")
+        {
+            sceneCamera = Camera.main;
+        }
+    }
+    
     public Vector3 GetSelectedMapPosition(LayerMask mapLayerMask)
     {
         if (sceneCamera)

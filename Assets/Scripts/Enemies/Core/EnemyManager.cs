@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private Transform targetTransform;
     [SerializeField] private int maxEnemiesAllowedAtTarget = 5;
     [SerializeField] private GameObject coinPrefab;
-    public Vector3 TargetPosition { get; private set; }
     
+    private Vector3 TargetPosition;
     private List<Enemy> mainEnemiesList;
     private int currentEnemiesAtGoal;
     
@@ -19,22 +19,33 @@ public class EnemyManager : MonoBehaviour
         if (!Instance)
         {
             Instance = this;
-            DontDestroyOnLoad(Instance);
         }
-        else Destroy(gameObject);
-        
-        mainEnemiesList = new List<Enemy>();
         
         WaveEventBus.OnWavesCompleted += CheckGameFinalState;
         
         EnemyEventBus.OnEnemyDeath += OnEnemyDie;
         EnemyEventBus.OnEnemyReachedTarget += EnemyReachedTarget;
+
+        GameStateEventBus.OnReloadManagers += Reload;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Start()
+    private void Reload()
     {
-        if (!targetTransform) Debug.Log("target not set in enemy controller, using default");
-        TargetPosition = targetTransform.transform.position;
+        if (mainEnemiesList == null)  mainEnemiesList = new List<Enemy>();
+        else
+        {
+            mainEnemiesList.Clear();
+        }
+
+        currentEnemiesAtGoal = 0;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level1")
+        {
+             TargetPosition = GameObject.FindWithTag("FinishTransform").transform.position;
+        }
     }
 
     private void OnDestroy()
@@ -42,6 +53,9 @@ public class EnemyManager : MonoBehaviour
         WaveEventBus.OnWavesCompleted -= CheckGameFinalState;
         EnemyEventBus.OnEnemyDeath -= OnEnemyDie;
         EnemyEventBus.OnEnemyReachedTarget -= EnemyReachedTarget;
+        
+        GameStateEventBus.OnReloadManagers -= Reload;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
     public void AddEnemies(List<Enemy> enemiesToAdd)

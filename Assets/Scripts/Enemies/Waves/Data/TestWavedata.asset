@@ -19,4 +19,4 @@ MonoBehaviour:
     number: 3
   - type: {fileID: 11400000, guid: 6465fdfc9c9ad4e9d8940aa47e4838f0, type: 2}
     number: 5
-  tresholdBetweenWaves: 5
+  tresholdBetweenWaves: 10

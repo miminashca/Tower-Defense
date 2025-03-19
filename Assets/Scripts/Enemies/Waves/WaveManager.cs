@@ -1,17 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class WaveManager : MonoBehaviour
-{
-    public int currentWave = 0;
+{ 
     private SpawnPointsManager spawnPointsManagerInstance;
+    private Transform enemySpawnTransform;
 
-    public EnemyWaveData wavesData;
+    public int CurrentWave;
+    public EnemyWaveData WavesData;
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private SpawnPointsManager spawnPointsManagerPrefab;
     [SerializeField] private SpawnPoint pointPrefab;
-    [SerializeField] private Transform enemySpawnTransform;
 
     public static WaveManager Instance { get; private set; }
 
@@ -26,30 +29,49 @@ public class WaveManager : MonoBehaviour
         
         if (!spawnPointsManagerPrefab) Debug.Log("spawn points manager prefab not set in wave controller");
         if (!enemyPrefab) Debug.Log("enemy prefab not set in wave controller");
+        
+        GameStateEventBus.OnReloadManagers += Reload;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    private void Start()
+
+    private void OnDestroy()
     {
-        spawnPointsManagerInstance = Instantiate(spawnPointsManagerPrefab, enemySpawnTransform.position, enemySpawnTransform.rotation);
-        spawnPointsManagerInstance.spawnPoint = pointPrefab; 
+        GameStateEventBus.OnReloadManagers -= Reload;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void Reload()
+    {
+        CurrentWave = 0;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level1")
+        {
+            enemySpawnTransform = GameObject.FindWithTag("EnemySpawn").transform;
+            
+            spawnPointsManagerInstance = Instantiate(spawnPointsManagerPrefab, enemySpawnTransform.position, enemySpawnTransform.rotation);
+            spawnPointsManagerInstance.spawnPoint = pointPrefab;
+        }
     }
     
     public void SpawnNewWave()
     {
         Debug.Log("Spawn wave");
-        if (currentWave < wavesData.GetNumberOfWaves())
+        if (CurrentWave < WavesData.GetNumberOfWaves())
         {
-            WaveEventBus.StartWave(currentWave);
-            
-            spawnPointsManagerInstance.Init(wavesData.waves.ElementAt(currentWave).number);
+            if(spawnPointsManagerInstance)spawnPointsManagerInstance.Init(WavesData.waves.ElementAt(CurrentWave).number);
 
             List<Enemy> newEnemiesList = new List<Enemy>();
-            SpawnEnemies(newEnemiesList, wavesData.waves.ElementAt(currentWave).type,
+            SpawnEnemies(newEnemiesList, WavesData.waves.ElementAt(CurrentWave).type,
                 spawnPointsManagerInstance);
 
             EnemyManager.Instance.AddEnemies(newEnemiesList);
-            currentWave++;
+            
+            CurrentWave++;
+            WaveEventBus.StartWave(CurrentWave);
 
-            Invoke("EndWaveInSeconds", wavesData.tresholdBetweenWaves);
+            Invoke("EndWaveInSeconds", WavesData.tresholdBetweenWaves);
         }
         else
         {
@@ -77,6 +99,6 @@ public class WaveManager : MonoBehaviour
     
     private void EndWaveInSeconds()
     {
-        WaveEventBus.EndWave(currentWave);
+        WaveEventBus.EndWave(CurrentWave);
     }
 }

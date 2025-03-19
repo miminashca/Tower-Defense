@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -25,13 +26,18 @@ public class UIManager : MonoBehaviour
         
         GameStateEventBus.OnLose += ShowLoseGameState;
         GameStateEventBus.OnWin += ShowWinGameState;
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Start()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        UpdateWaveText(0); 
-        UpdateMoneyText();
-        UpdateEnemyCountText();
+        if (scene.name == "Level1")
+        {
+            UpdateWaveText(WaveManager.Instance.CurrentWave);
+            UpdateMoneyText();
+            UpdateEnemyCountText();
+        }
     }
 
     private void Update()
@@ -51,7 +57,7 @@ public class UIManager : MonoBehaviour
     
     private void UpdateWaveText(int waveNum)
     {
-        waveText.text = waveNum + "/" + WaveManager.Instance.wavesData.GetNumberOfWaves();
+        waveText.text = waveNum + "/" + WaveManager.Instance.WavesData.GetNumberOfWaves();
     }
     
     private void UpdateEnemyCountText()
@@ -85,5 +91,11 @@ public class UIManager : MonoBehaviour
         EnemyEventBus.OnUpdateEnemyCountAtTarget -= UpdateEnemyCountText;
         GameStateEventBus.OnLose -= ShowLoseGameState;
         GameStateEventBus.OnWin -= ShowWinGameState;
+        
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void Restart()
+    {
+        GameStateEventBus.Restart();
     }
 }
