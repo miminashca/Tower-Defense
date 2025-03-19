@@ -69,7 +69,8 @@ public class EnemyManager : MonoBehaviour
     private void EnemyReachedTarget()
     {
         currentEnemiesAtGoal++;
-        if(currentEnemiesAtGoal==maxEnemiesAllowedAtTarget) EventBus.Lose();
+        EnemyEventBus.UpdateEnemyCountAtTarget();
+        if(currentEnemiesAtGoal==maxEnemiesAllowedAtTarget) GameStateEventBus.Lose();
     }
 
     public int GetEnemiesAtGoal()
@@ -83,10 +84,10 @@ public class EnemyManager : MonoBehaviour
 
     private void CheckGameFinalState()
     {
-        if(currentEnemiesAtGoal<maxEnemiesAllowedAtTarget && !GameManager.Instance.gameLost) EventBus.Win();
+        if(currentEnemiesAtGoal<maxEnemiesAllowedAtTarget && !GameManager.Instance.gameLost) GameStateEventBus.Win();
         else if(!GameManager.Instance.gameWon)
         {
-            EventBus.Lose();
+            GameStateEventBus.Lose();
         }
     }
 }

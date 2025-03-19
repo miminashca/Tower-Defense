@@ -27,4 +27,9 @@ public static class EnemyEventBus
         OnUpdateEnemyHP?.Invoke(enemy);
     }
 
+    public static event Action OnUpdateEnemyCountAtTarget;
+    public static void UpdateEnemyCountAtTarget()
+    {
+        OnUpdateEnemyCountAtTarget?.Invoke();
+    }
 }

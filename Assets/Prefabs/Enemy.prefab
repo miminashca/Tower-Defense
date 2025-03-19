@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94143d04e3074e659282efa8a24ce72d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRange: 0.2
+  targetRange: 1
 --- !u!195 &-7353107383892771021
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -228,6 +228,10 @@ PrefabInstance:
     - target: {fileID: 4597871900046352458, guid: 57f7872ae6e1a470ba5f70b2a5ccf8da, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847716060491421554, guid: 57f7872ae6e1a470ba5f70b2a5ccf8da, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7441817403051467245, guid: 57f7872ae6e1a470ba5f70b2a5ccf8da, type: 3}
       propertyPath: m_Name

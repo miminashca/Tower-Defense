@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public bool gameWon = false;
-    public bool gameLost = false;
+    [NonSerialized] public bool gameWon = false;
+    [NonSerialized] public bool gameLost = false;
+    
     public bool OpenShopAtBeginning = false;
     
     public static GameManager Instance { get; private set; }
@@ -16,26 +18,26 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-
+        
         Timer.Instance.OnTimerEnd += GameLoop;
-        ShopEventBus.OnShopOpened += EventBus.PauseGame;
-        ShopEventBus.OnShopClosed += EventBus.ResumeGame;
+        ShopEventBus.OnShopOpened += GameStateEventBus.PauseGame;
+        ShopEventBus.OnShopClosed += GameStateEventBus.ResumeGame;
         
         SceneManager.sceneLoaded += OnSceneLoaded;
-        EventBus.OnWin += Win;
-        EventBus.OnLose += Lose;
+        GameStateEventBus.OnWin += Win;
+        GameStateEventBus.OnLose += Lose;
     }
     private void OnDestroy()
     {
         Timer.Instance.OnTimerEnd -= GameLoop;
-        ShopEventBus.OnShopOpened -= EventBus.PauseGame;
-        ShopEventBus.OnShopClosed -= EventBus.ResumeGame;
+        ShopEventBus.OnShopOpened -= GameStateEventBus.PauseGame;
+        ShopEventBus.OnShopClosed -= GameStateEventBus.ResumeGame;
 
 
         
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        EventBus.OnWin -= Win;
-        EventBus.OnLose -= Lose;
+        GameStateEventBus.OnWin -= Win;
+        GameStateEventBus.OnLose -= Lose;
     }
     private void Start()
     { 
@@ -67,17 +69,19 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        EventBus.ResetGame();
+        GameStateEventBus.ResetGame();
         //Debug.Log("Scene Loaded: " + scene.name);
     }
 
     private void Win()
     {
         gameWon = true;
+        GameStateEventBus.PauseGame();
     }
     private void Lose()
     {
         gameLost = true;
+        GameStateEventBus.PauseGame();
     }
 }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     private float timer = -5;
+    private bool gameEnd = false;
     public event Action OnTimerEnd;
     public static Timer Instance { get; private set; }
     private void Awake()
@@ -17,19 +18,21 @@ public class Timer : MonoBehaviour
         
         WaveEventBus.OnWaveStart += SetWaveTimer;
         ShopEventBus.OnShopOpened += SetShopTimer;
+        GameStateEventBus.OnGameEnd += EndGame;
     }
 
     private void OnDisable()
     {
         WaveEventBus.OnWaveStart -= SetWaveTimer;
         ShopEventBus.OnShopOpened -= SetShopTimer;
+        GameStateEventBus.OnGameEnd -= EndGame;
     }
 
     private void Update()
     {
         if (timer > 0f)
         {
-            if(Time.timeScale == 0) timer -= Time.unscaledDeltaTime * TimeScaler.Instance.TimeScale;
+            if(Time.timeScale == 0 && !gameEnd) timer -= Time.unscaledDeltaTime * TimeScaler.Instance.TimeScale;
             else
             {
                 timer -= Time.deltaTime;
@@ -43,7 +46,8 @@ public class Timer : MonoBehaviour
     }
     public int GetTimeLeft()
     {
-        return Mathf.RoundToInt(timer);
+        if(timer > 0f) return Mathf.RoundToInt(timer);
+        else return 0;
     }
     private void SetTimer(int seconds)
     {
@@ -60,5 +64,9 @@ public class Timer : MonoBehaviour
     private void ResetTimer()
     {
         SetTimer(0);
+    }
+    private void EndGame()
+    {
+        gameEnd = true;
     }
 }

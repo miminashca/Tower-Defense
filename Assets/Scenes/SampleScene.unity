@@ -2818,7 +2818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 1436308692}
-  maxEnemiesAllowedAtTarget: 5
+  maxEnemiesAllowedAtTarget: 3
   coinPrefab: {fileID: 825662309094898627, guid: d059fb3e6989f439598932d59137d885, type: 3}
 --- !u!1 &1513580076
 GameObject:
@@ -3398,8 +3398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fd9ecfc6f79424d832100c0602149d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWon: 0
-  gameLost: 0
   OpenShopAtBeginning: 1
 --- !u!114 &1859786088
 MonoBehaviour:

@@ -1,6 +1,6 @@
 using System;
 
-public static class EventBus
+public static class GameStateEventBus
 {
     public static event Action OnResetGame;
     public static void ResetGame()
@@ -13,22 +13,26 @@ public static class EventBus
     {
         OnPauseGame?.Invoke();
     }
+    
     public static event Action OnResumeGame;
     public static void ResumeGame()
     {
         OnResumeGame?.Invoke();
     }
     
+    public static event Action OnGameEnd;
     public static event Action OnLose;
-    public static event Action OnWin;
     public static void Lose()
     {
         OnLose?.Invoke();
+        OnGameEnd?.Invoke();
     }
     
+    public static event Action OnWin;
     public static void Win()
     {
         OnWin?.Invoke();
+        OnGameEnd?.Invoke();
     }
     
 }

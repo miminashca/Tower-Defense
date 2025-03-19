@@ -32,6 +32,8 @@ public class Enemy : MonoBehaviour
     public void GetDamage(float amountOfDmg = 1)
     {
         currentHP -= amountOfDmg;
+        EnemyEventBus.UpdateEnemyHP(this);
+        
         if (GetCurrentHP() <= 0)
         {
             EnemyEventBus.EnemyDied(this);

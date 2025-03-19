@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021475b88f51a4d81a96ec3976c0d00c, type: 3}
   m_Name: BasicEnemyData
   m_EditorClassIdentifier: 
-  HealthPoints: 2
-  Speed: 2
+  HealthPoints: 10
+  Speed: 8
   CarriedMoney: 10
   Model: {fileID: 919132149155446097, guid: c45d5fbca0f064c398c6b946e4610769, type: 3}

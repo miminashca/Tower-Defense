@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86e0124af3a4c02acba1f47507b9d56, type: 3}
   m_Name: TowerDataTest
   m_EditorClassIdentifier: 
-  towerAttackBehaviourType: 1
+  towerAttackBehaviourType: 0
   towerTargetSelectingType: 1
   basicPrice: 10
   basicUiImage: {fileID: 21300000, guid: b94a3a088f197456a8cd7f2dbe378fc4, type: 3}

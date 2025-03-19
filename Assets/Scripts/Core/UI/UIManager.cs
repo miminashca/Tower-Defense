@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +9,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI targetEnemyCounterText;
     [SerializeField] private TextMeshProUGUI finalGameStateMessage;
-
     public static UIManager Instance { get; private set; }
     private void Awake()
     {
@@ -18,20 +18,20 @@ public class UIManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-    
-        if (waveText) WaveEventBus.OnWaveStart += UpdateWaveText;
-        EventBus.OnLose += ShowLoseGameState;
-        EventBus.OnWin += ShowWinGameState;
+        
+        WaveEventBus.OnWaveStart += UpdateWaveText;
+        EconomyEventBus.OnMoneyAmountChange += UpdateMoneyText;
+        EnemyEventBus.OnUpdateEnemyCountAtTarget += UpdateEnemyCountText;
+        
+        GameStateEventBus.OnLose += ShowLoseGameState;
+        GameStateEventBus.OnWin += ShowWinGameState;
     }
 
     private void Start()
     {
-        if (moneyText)
-        {
-            EconomyEventBus.OnMoneyAmountChange += UpdateMoneyText;
-            moneyText.text = EconomyManager.Instance.GetMoney().ToString();
-        }
-        if (targetEnemyCounterText) EnemyEventBus.OnEnemyReachedTarget += UpdateEnemyCountText;
+        UpdateWaveText(0); 
+        UpdateMoneyText();
+        UpdateEnemyCountText();
     }
 
     private void Update()
@@ -82,8 +82,8 @@ public class UIManager : MonoBehaviour
     {
         EconomyEventBus.OnMoneyAmountChange -= UpdateMoneyText;
         WaveEventBus.OnWaveStart -= UpdateWaveText;
-        EnemyEventBus.OnEnemyReachedTarget -= UpdateEnemyCountText;
-        EventBus.OnLose -= ShowLoseGameState;
-        EventBus.OnWin -= ShowWinGameState;
+        EnemyEventBus.OnUpdateEnemyCountAtTarget -= UpdateEnemyCountText;
+        GameStateEventBus.OnLose -= ShowLoseGameState;
+        GameStateEventBus.OnWin -= ShowWinGameState;
     }
 }

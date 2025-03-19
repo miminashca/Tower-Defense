@@ -12,13 +12,13 @@ public class TimeScaler : MonoBehaviour
         }
         
         ResetTimeScale();
-        EventBus.OnPauseGame += SetZeroTimeScale;
-        EventBus.OnResumeGame += ResetTimeScale;
+        GameStateEventBus.OnPauseGame += SetZeroTimeScale;
+        GameStateEventBus.OnResumeGame += ResetTimeScale;
     }
     private void OnDestroy()
     {
-        EventBus.OnPauseGame -= SetZeroTimeScale;
-        EventBus.OnResumeGame -= ResetTimeScale;
+        GameStateEventBus.OnPauseGame -= SetZeroTimeScale;
+        GameStateEventBus.OnResumeGame -= ResetTimeScale;
     }
 
     private void Update()
