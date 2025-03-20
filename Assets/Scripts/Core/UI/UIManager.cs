@@ -54,7 +54,17 @@ public class UIManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        timerText.text = Timer.Instance.GetTimeLeft().ToString();
+        String seconds;
+        if(Timer.Instance.GetTimeLeft()>=10) seconds = Timer.Instance.GetTimeLeft().ToString();
+        else seconds = "0" + Timer.Instance.GetTimeLeft();
+        
+        timerText.text = "00:" + seconds;
+        
+        if(Timer.Instance.GetTimeLeft()<=3) timerText.color = Color.red;
+        else
+        {
+            timerText.color = Color.black;
+        }
     }
     
     private void UpdateWaveText(int waveNum)
@@ -73,14 +83,14 @@ public class UIManager : MonoBehaviour
 
     private void ShowLoseGameState()
     {
-        finalGameStateMessage.gameObject.SetActive(true);
+        finalGameStateMessage.gameObject.transform.parent.gameObject.SetActive(true);
         finalGameStateMessage.text = "YOU LOST!";
         finalGameStateMessage.color = Color.red;
         Debug.Log("GAME LOST!");
     }
     private void ShowWinGameState()
     {
-        finalGameStateMessage.gameObject.SetActive(true);
+        finalGameStateMessage.gameObject.transform.parent.gameObject.SetActive(true);
         finalGameStateMessage.text = "YOU WON!";
         finalGameStateMessage.color = Color.cyan;
         Debug.Log("GAME WON!");
