@@ -1,39 +1,24 @@
 using UnityEngine;
 
 /// <summary>
-/// A generic state machine for a tower, deciding which state the tower should be in 
-/// (e.g., dragging in the shop, idle in the shop, or attacking in the game).
+/// A generic abstract state machine class. To be extended by subclasses.
 /// </summary>
-public class StateMachine : MonoBehaviour
+public abstract class StateMachine : MonoBehaviour
 {
-    /// <summary>
-    /// The current state the tower is in.
-    /// </summary>
     private State currentState;
 
     /// <summary>
-    /// Called when the object is first enabled. Determines the initial state 
-    /// based on whether the shop is open and whether the tower is already placed.
+    /// Called when the object is first enabled. Determines the initial state.
     /// </summary>
-    private void Start()
+    protected virtual void Start()
     {
-        if (ShopManager.Instance.ShopIsOpen)
-        {
-            if (GetComponent<Placeable>().WasAlreadyPlaced)
-                TransitToState(new IdleShopStateTower(this));
-            else 
-                TransitToState(new DraggingShopStateTower(this));
-        }
-        else
-        {
-            TransitToState(new AttackStateTower(this));
-        }
+        TransitToState(new IdleState(this));
     }
 
     /// <summary>
     /// Unity's Update loop calls the current state's Handle method each frame.
     /// </summary>
-    private void Update()
+    protected virtual void Update()
     {
         if (currentState != null)
         {
@@ -46,7 +31,7 @@ public class StateMachine : MonoBehaviour
     /// on the old state and the enter method on the new state.
     /// </summary>
     /// <param name="pState">The new state to transition to.</param>
-    public void TransitToState(State pState)
+    public virtual void TransitToState(State pState)
     {
         if (currentState != null)
         {
@@ -60,7 +45,7 @@ public class StateMachine : MonoBehaviour
     /// When this object is destroyed, ensures the current state properly exits 
     /// to avoid leaving behind event subscriptions or other references.
     /// </summary>
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         if (currentState != null)
         {

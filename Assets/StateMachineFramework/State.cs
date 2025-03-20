@@ -1,5 +1,5 @@
 /// <summary>
-/// The abstract base class for all states within the tower's StateMachine. 
+/// The abstract base class for all states within the StateMachine. 
 /// Derived classes must implement OnEnterState, Handle, and OnExitState to define 
 /// specific behaviors when entering, actively handling logic, and exiting a state.
 /// </summary>
