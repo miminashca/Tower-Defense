@@ -16,3 +16,4 @@ MonoBehaviour:
   TowersToBuy:
   - {fileID: 11400000, guid: efece0382b81a43dfac497ec75819a80, type: 2}
   - {fileID: 11400000, guid: 3db3004665d3f473fbe047e39e7955de, type: 2}
+  - {fileID: 11400000, guid: 8f926ba2b903f4629a82b770ec068ab1, type: 2}

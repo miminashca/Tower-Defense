@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Bullet that is being shot by the tower.
+/// Follows a target until reaching it, or until lifetime ends.
+/// </summary>
 public class Bullet : MonoBehaviour
 {
     public event Action<Enemy> OnBulletReachedTarget;

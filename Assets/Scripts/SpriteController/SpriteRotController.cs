@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Rotates the World-Space sprites to always face Main Camera.
+/// </summary>
 public class SpriteRotController : MonoBehaviour
 {
     private Camera mainCam;

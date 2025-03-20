@@ -1,14 +1,45 @@
 using UnityEngine;
 
+/// <summary>
+/// The Placeable class allows an object (e.g., a tower) to be placed on a grid.
+/// It snaps the object's position to grid cells and manages occupying or unoccupying those cells.
+/// </summary>
 public class Placeable : MonoBehaviour
 {
+    /// <summary>
+    /// Indicates whether the object was already placed on the grid. 
+    /// If true, the cell is considered occupied at startup.
+    /// </summary>
     public bool WasAlreadyPlaced = false;
     
+    /// <summary>
+    /// The layer mask used to ensure the raycast for placement only hits valid ground or grid layers.
+    /// </summary>
     [SerializeField] private LayerMask placementLayerMask;
+    
+    /// <summary>
+    /// A reference to the grid component in the object's parent, used to snap the object's position.
+    /// </summary>
     private Grid grid;
+    
+    /// <summary>
+    /// Stores the initial position of the object before the user starts dragging it.
+    /// </summary>
     private Vector3 initialPosition;
-    private Vector3Int lastGridPos = Vector3Int.zero; // Track the last grid position to reduce redundant updates
+    
+    /// <summary>
+    /// Caches the last known grid cell position to avoid unnecessary position updates.
+    /// </summary>
+    private Vector3Int lastGridPos = Vector3Int.zero;
+    
+    /// <summary>
+    /// A flag indicating whether the placement process (dragging) is currently in progress.
+    /// </summary>
     private bool placementInProgress = false;
+
+    /// <summary>
+    /// Initializes the object's position on the grid at startup, and marks the cell occupied if it was already placed.
+    /// </summary>
     private void Start()
     {
         if (!GetComponentInParent<Grid>())
@@ -23,36 +54,67 @@ public class Placeable : MonoBehaviour
         snappedPosition.y = transform.position.y;
         transform.position = snappedPosition;
         
-        if(WasAlreadyPlaced) TileFloor.Instance.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
+        if (WasAlreadyPlaced)
+        {
+            TileFloor.Instance.OccupyCell(
+                new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), 
+                gameObject
+            );
+        }
     }
 
+    /// <summary>
+    /// Subscribes to tower drag events when the object becomes enabled.
+    /// </summary>
     private void OnEnable()
     {
         TowerEventBus.OnTowerStartDrag += StartPlacement;
         TowerEventBus.OnTowerEndDrag += EndPlacement;
     }
+
+    /// <summary>
+    /// Unsubscribes from tower drag events when the object is disabled.
+    /// </summary>
     private void OnDisable()
     {
         TowerEventBus.OnTowerStartDrag -= StartPlacement;
         TowerEventBus.OnTowerEndDrag -= EndPlacement;
     }
     
+    /// <summary>
+    /// Called when dragging begins on this object. Stores the initial position and unoccupies its current cell.
+    /// </summary>
+    /// <param name="obj">The GameObject being dragged (must match this object to proceed).</param>
     public void StartPlacement(GameObject obj)
     {
         if(obj != gameObject) return;
         
-        initialPosition =  transform.position;
-        TileFloor.Instance.UnoccupyCell(new Vector3Int((int)initialPosition.x, (int)initialPosition.y, (int)initialPosition.z));
+        initialPosition = transform.position;
+        TileFloor.Instance.UnoccupyCell(
+            new Vector3Int((int)initialPosition.x, (int)initialPosition.y, (int)initialPosition.z)
+        );
 
         placementInProgress = true;
     }
+
+    /// <summary>
+    /// Called when dragging ends on this object. If the new position is occupied and the object was not 
+    /// previously placed, it is destroyed. Otherwise, it reverts to the initial position or occupies the new cell.
+    /// </summary>
+    /// <param name="obj">The GameObject that stopped being dragged (must match this object to proceed).</param>
     public void EndPlacement(GameObject obj)
     {
         placementInProgress = false;
         
         if(obj != gameObject) return;
         
-        if (TileFloor.Instance.CellIsOccupied(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z)))
+        Vector3Int newPosition = new Vector3Int(
+            (int)transform.position.x, 
+            (int)transform.position.y, 
+            (int)transform.position.z
+        );
+        
+        if (TileFloor.Instance.CellIsOccupied(newPosition))
         {
             if (!WasAlreadyPlaced)
             {
@@ -61,9 +123,15 @@ public class Placeable : MonoBehaviour
             }
             transform.position = initialPosition;
         }
-        TileFloor.Instance.OccupyCell(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), gameObject);
+
+        TileFloor.Instance.OccupyCell(newPosition, gameObject);
         WasAlreadyPlaced = true;
     }
+
+    /// <summary>
+    /// Updates the object's snapped position on the grid while placement is in progress, 
+    /// using raycast data from the InputManager.
+    /// </summary>
     public void Update()
     {
         if (!grid || !placementInProgress) return;
@@ -78,8 +146,9 @@ public class Placeable : MonoBehaviour
             snappedPosition.y = transform.position.y;
             transform.position = snappedPosition;
             
-            TowerEventBus.TowerMovedToSnappedPosition(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
+            TowerEventBus.TowerMovedToSnappedPosition(
+                new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z)
+            );
         }
     }
-
 }

@@ -15,8 +15,12 @@ MonoBehaviour:
   waves:
   - type: {fileID: 11400000, guid: 6465fdfc9c9ad4e9d8940aa47e4838f0, type: 2}
     number: 2
-  - type: {fileID: 11400000, guid: 27e6569c185af42d3b930a0f89c0f8fd, type: 2}
+  - type: {fileID: 11400000, guid: 6465fdfc9c9ad4e9d8940aa47e4838f0, type: 2}
     number: 3
   - type: {fileID: 11400000, guid: 27e6569c185af42d3b930a0f89c0f8fd, type: 2}
+    number: 4
+  - type: {fileID: 11400000, guid: 27e6569c185af42d3b930a0f89c0f8fd, type: 2}
     number: 5
+  - type: {fileID: 11400000, guid: 27e6569c185af42d3b930a0f89c0f8fd, type: 2}
+    number: 6
   tresholdBetweenWaves: 10
