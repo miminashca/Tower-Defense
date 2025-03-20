@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 021475b88f51a4d81a96ec3976c0d00c, type: 3}
-  m_Name: BasicEnemyData
+  m_Script: {fileID: 11500000, guid: a7bf1eecaf9d94934887fc7be4c10f51, type: 3}
+  m_Name: ShopData
   m_EditorClassIdentifier: 
-  HealthPoints: 10
-  Speed: 8
-  CarriedMoney: 10
-  Model: {fileID: 919132149155446097, guid: c45d5fbca0f064c398c6b946e4610769, type: 3}
+  ShopDuration: 10000000
+  TowersToBuy:
+  - {fileID: 11400000, guid: efece0382b81a43dfac497ec75819a80, type: 2}
+  - {fileID: 11400000, guid: 3db3004665d3f473fbe047e39e7955de, type: 2}

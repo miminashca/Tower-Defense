@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3027163008528951898}
   - component: {fileID: 4500979439048711781}
   - component: {fileID: 5418180081099278659}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -99,7 +99,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerData: {fileID: 11400000, guid: efece0382b81a43dfac497ec75819a80, type: 2}
   BulletPrefab: {fileID: 7422464646055222650, guid: 05b3286ac922146b5990080874499158, type: 3}
-  BulletSpeed: 15
 --- !u!1 &9038701890916083123
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +110,7 @@ GameObject:
   - component: {fileID: 7132358096371954189}
   - component: {fileID: 6563924309866434893}
   - component: {fileID: 5597114957239521284}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Upgrade
   m_Icon: {fileID: 0}

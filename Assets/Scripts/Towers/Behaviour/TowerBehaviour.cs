@@ -128,10 +128,9 @@ public class TowerBehaviour : MonoBehaviour
         {
             //instantiate bullet
             Bullet bullet = Instantiate(GetComponent<Tower>().BulletPrefab, gameObject.transform.position, quaternion.identity);
+            bullet.Target = enemy.gameObject;
             SceneManager.MoveGameObjectToScene(bullet.gameObject, SceneManager.GetSceneByName("Level1"));
             
-            bullet.GetComponent<Rigidbody>().linearVelocity =
-                Vector3.Normalize(enemy.transform.position - gameObject.transform.position) * GetComponent<Tower>().BulletSpeed;
             Debug.Log("Tower attacks enemy!");
             attackBehavior.Attack(enemy, impact, bullet);
         }

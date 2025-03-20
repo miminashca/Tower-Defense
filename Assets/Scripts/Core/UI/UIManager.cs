@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
     {
         if (scene.name == "Level1")
         {
-            finalGameStateMessage.gameObject.SetActive(false);
+            finalGameStateMessage.gameObject.transform.parent.gameObject.SetActive(false);
 
             UpdateWaveText(WaveManager.Instance.CurrentWave);
             UpdateMoneyText();

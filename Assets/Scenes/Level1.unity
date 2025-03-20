@@ -456,7 +456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4366500638276356892, guid: f27850952b317472f967810702217283, type: 3}
       propertyPath: m_Name
-      value: TowerClosest
+      value: Tower2
       objectReference: {fileID: 0}
     - target: {fileID: 4366500638276356892, guid: f27850952b317472f967810702217283, type: 3}
       propertyPath: m_Layer
@@ -881,7 +881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4366500638276356892, guid: f27850952b317472f967810702217283, type: 3}
       propertyPath: m_Name
-      value: TowerClosest (1)
+      value: Tower3
       objectReference: {fileID: 0}
     - target: {fileID: 4366500638276356892, guid: f27850952b317472f967810702217283, type: 3}
       propertyPath: m_Layer
@@ -1200,7 +1200,7 @@ PrefabInstance:
       objectReference: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 4366500638276356892, guid: f27850952b317472f967810702217283, type: 3}
       propertyPath: m_Name
-      value: TowerClosest (2)
+      value: Tower1
       objectReference: {fileID: 0}
     - target: {fileID: 4366500638276356892, guid: f27850952b317472f967810702217283, type: 3}
       propertyPath: m_Layer

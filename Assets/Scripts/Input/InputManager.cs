@@ -44,6 +44,21 @@ public class InputManager : MonoBehaviour
         }
         return lastPosition;
     }
+
+    private void Update()
+    {
+        if (sceneCamera)
+        {
+            Ray ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                Debug.Log(hit.transform.gameObject);
+            }
+        }
+    }
+
     public bool CheckPressOnGameObject(GameObject target)
     {
         if (sceneCamera)
@@ -51,7 +66,6 @@ public class InputManager : MonoBehaviour
             Ray ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // Ensure raycast only hits objects on the correct layer
             if (Physics.Raycast(ray, out hit, 100))
             {
                 if (hit.transform.gameObject == target) return true;

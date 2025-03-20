@@ -7,7 +7,7 @@ public class StateMachine : MonoBehaviour
     {
         if (ShopManager.Instance.ShopIsOpen)
         {
-            if(GetComponent<Tower>().WasAlreadyPlaced) TransitToState(new IdleShopStateTower(this));
+            if(GetComponent<Placeable>().WasAlreadyPlaced) TransitToState(new IdleShopStateTower(this));
             else TransitToState(new DraggingShopStateTower(this));
         }
         else
@@ -18,7 +18,10 @@ public class StateMachine : MonoBehaviour
 
     void Update()
     {
-        if(currentState != null) currentState.Handle();
+        if (currentState != null)
+        {
+            currentState.Handle();
+        }
     }
 
     public void TransitToState(State pState)

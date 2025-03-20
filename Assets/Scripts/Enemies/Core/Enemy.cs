@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
         if(debuffed) return;
         
         debuffed = true;
-        currentSpeed *= 0.5f;
+        currentSpeed *= 0.3f;
         Invoke("RemoveDebuff", debuffDuration);
     }
     private void RemoveDebuff()

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e86e0124af3a4c02acba1f47507b9d56, type: 3}
-  m_Name: TowerDataTest
+  m_Name: AOE_DebuffTowerData
   m_EditorClassIdentifier: 
-  towerAttackBehaviourType: 0
+  towerAttackBehaviourType: 1
   towerTargetSelectingType: 1
   basicPrice: 10
-  basicUiImage: {fileID: 21300000, guid: b94a3a088f197456a8cd7f2dbe378fc4, type: 3}
-  basicModelPrefab: {fileID: 919132149155446097, guid: 9752feba6849946da905dc8f7da532f6, type: 3}
-  basicRange: 2
-  basicImpact: 2
+  basicUiImage: {fileID: 21300000, guid: 73daf0256b8414b37837f25df5191b55, type: 3}
+  basicModelPrefab: {fileID: 919132149155446097, guid: 3cb3d4c12c67f47afba1ae26b356c33a, type: 3}
+  basicRange: 1
+  basicImpact: 3
   basicThreshold: 1.5
   upgrade1BasicPrice: 20
-  u1UiImage: {fileID: 21300000, guid: 0c94e8dd4f0ef49d9973578759abfdf4, type: 3}
-  upgrade1ModelPrefab: {fileID: 919132149155446097, guid: 45e5bf65be7844b379ebb666d2b5b336, type: 3}
+  u1UiImage: {fileID: 21300000, guid: ac4a9641e74b942f4ad1a7967db735ae, type: 3}
+  upgrade1ModelPrefab: {fileID: 919132149155446097, guid: e29602958469643f39286f9b1ba51bc7, type: 3}
   upgrade1RangeModifier: 1.2
   upgrade1ImpactModifier: 1.5
   upgrade1ThresholdModifier: 0.5

@@ -26,7 +26,7 @@ public abstract class MoveBehaviour : MonoBehaviour
 
     protected virtual void Stop()
     {
-        Debug.Log("Enemy reached target");
+        Debug.Log("Enemy reached Target");
         targetReached = true;
         EnemyEventBus.EnemyReachedTarget();
     }

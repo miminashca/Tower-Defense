@@ -5,9 +5,6 @@ public class Tower : MonoBehaviour
 {
     public TowerData TowerData;
     public Bullet BulletPrefab;
-    public float BulletSpeed;
-    
-    public bool WasAlreadyPlaced = false;
     public TowerData.Level CurrentTowerLevel { get; private set; }
     public StateMachine SM { get; private set; }
     
