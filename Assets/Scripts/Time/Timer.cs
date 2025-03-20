@@ -38,11 +38,7 @@ public class Timer : MonoBehaviour
     {
         if (timer > 0f)
         {
-            if(Time.timeScale == 0 && !gameEnd) timer -= Time.unscaledDeltaTime * TimeScaler.Instance.TimeScale;
-            else
-            {
-                timer -= Time.deltaTime;
-            }
+            timer -= Time.deltaTime;
         }
         else if ((int)timer == 0)
         {

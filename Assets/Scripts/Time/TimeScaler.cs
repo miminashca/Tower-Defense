@@ -4,6 +4,7 @@ using UnityEngine;
 public class TimeScaler : MonoBehaviour
 {
     public float TimeScale = 1;
+    [NonSerialized] public float TimeScaleForGameObjects = 1;
     public static TimeScaler Instance { get; private set; }
     private void Awake()
     {
@@ -31,14 +32,17 @@ public class TimeScaler : MonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale != 0f) ResetTimeScale();
+        Time.timeScale = TimeScale;
+        
+        if (TimeScaleForGameObjects != 0f) ResetTimeScale();
     }
     private void SetZeroTimeScale()
     {
-        Time.timeScale = 0f; 
+        Debug.Log("set 0 time");
+        TimeScaleForGameObjects = 0f; 
     }
     private void ResetTimeScale()
     {
-        Time.timeScale = TimeScale; 
+        TimeScaleForGameObjects = TimeScale; 
     }
 }

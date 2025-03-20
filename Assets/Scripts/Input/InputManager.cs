@@ -45,19 +45,19 @@ public class InputManager : MonoBehaviour
         return lastPosition;
     }
 
-    private void Update()
-    {
-        if (sceneCamera)
-        {
-            Ray ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-                Debug.Log(hit.transform.gameObject);
-            }
-        }
-    }
+    // private void Update()
+    // {
+    //     if (sceneCamera)
+    //     {
+    //         Ray ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
+    //         RaycastHit hit;
+    //
+    //         if (Physics.Raycast(ray, out hit, 100))
+    //         {
+    //             //Debug.Log(hit.transform.gameObject);
+    //         }
+    //     }
+    // }
 
     public bool CheckPressOnGameObject(GameObject target)
     {

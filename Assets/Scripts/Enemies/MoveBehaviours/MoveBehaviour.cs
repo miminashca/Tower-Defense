@@ -33,7 +33,11 @@ public abstract class MoveBehaviour : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        speed = gameObject.GetComponent<Enemy>().GetCurrentSpeed();
+        if(TimeScaler.Instance.TimeScaleForGameObjects!=0f) speed = gameObject.GetComponent<Enemy>().GetCurrentSpeed();
+        else
+        {
+            speed = 0;
+        }
         //Debug.Log(speed);
         if (Vector3.Magnitude(gameObject.transform.position - targetPos) <= targetRange && !targetReached)
         { 

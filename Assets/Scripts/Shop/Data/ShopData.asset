@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7bf1eecaf9d94934887fc7be4c10f51, type: 3}
   m_Name: ShopData
   m_EditorClassIdentifier: 
-  ShopDuration: 10000000
+  ShopDuration: 30
   TowersToBuy:
   - {fileID: 11400000, guid: efece0382b81a43dfac497ec75819a80, type: 2}
   - {fileID: 11400000, guid: 3db3004665d3f473fbe047e39e7955de, type: 2}

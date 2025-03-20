@@ -16,7 +16,10 @@ public class Bullet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.Normalize(Target.transform.position - gameObject.transform.position) * BulletSpeed;
+        if (TimeScaler.Instance.TimeScaleForGameObjects != 0f)
+            gameObject.GetComponent<Rigidbody>().linearVelocity =
+                Vector3.Normalize(Target.transform.position - gameObject.transform.position) * BulletSpeed;
+        else gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
     }
 
     private void OnTriggerEnter(Collider other)
