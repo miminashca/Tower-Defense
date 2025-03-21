@@ -136,6 +136,8 @@ public class EnemyManager : Manager<EnemyManager>
     /// </summary>
     private void EnemyReachedTarget()
     {
+        if(DebugOptions.InvincibleBase) return; // no effect
+        
         currentEnemiesAtGoal++;
         EnemyEventBus.UpdateEnemyCountAtTarget();
         if (currentEnemiesAtGoal == maxEnemiesAllowedAtTarget)

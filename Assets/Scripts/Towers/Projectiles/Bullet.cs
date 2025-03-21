@@ -20,6 +20,8 @@ public class Bullet : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if(!Target) return;
+        
         if (TimeScaler.Instance.TimeScaleForGameObjects != 0f)
             gameObject.GetComponent<Rigidbody>().linearVelocity =
                 Vector3.Normalize(Target.transform.position - gameObject.transform.position) * BulletSpeed;

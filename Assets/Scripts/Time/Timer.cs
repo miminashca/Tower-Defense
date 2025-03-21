@@ -73,7 +73,7 @@ public class Timer : MonoBehaviour
         }
         else if ((int)timer == 0)
         {
-            Debug.Log("Timer ends");
+            //Debug.Log("Timer ends");
             OnTimerEnd?.Invoke();
         }
     }

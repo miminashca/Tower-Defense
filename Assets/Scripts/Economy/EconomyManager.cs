@@ -68,6 +68,8 @@ public class EconomyManager : Manager<EconomyManager>
     /// <param name="amount">How much money to deduct.</param>
     private void SpendMoney(int amount)
     {
+        if(DebugOptions.InfiniteMoney) return; // no effect
+        
         if(amount > GetMoney()) return;
         moneyEarned -= amount;
     }

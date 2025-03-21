@@ -66,6 +66,11 @@ public class Enemy : MonoBehaviour
     /// <param name="amountOfDmg">Amount of damage dealt to the enemy.</param>
     public void GetDamage(float amountOfDmg = 1)
     {
+        if(DebugOptions.InstantKill)
+        {
+            amountOfDmg = currentHP; // instantly kill enemy
+        }
+        
         currentHP -= amountOfDmg;
         EnemyEventBus.UpdateEnemyHP(this);
         
