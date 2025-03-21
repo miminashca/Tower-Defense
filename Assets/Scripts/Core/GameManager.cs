@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// and win/lose states. It listens to global events and reacts by spawning waves, opening
 /// or closing the shop, and pausing/resuming the game as necessary.
 /// </summary>
-public class GameManager : MonoBehaviour
+public class GameManager : Manager<GameManager>
 {
     /// <summary>
     /// Indicates whether the player has won the current game session.
@@ -26,23 +26,13 @@ public class GameManager : MonoBehaviour
     /// when the Level1 scene is loaded.
     /// </summary>
     public bool OpenShopAtBeginning = false;
-    
-    /// <summary>
-    /// Provides a globally accessible instance of GameManager, 
-    /// following a Singleton-like pattern.
-    /// </summary>
-    public static GameManager Instance { get; private set; }
 
     /// <summary>
-    /// Subscribes to relevant events (e.g., timer end, shop open/close, win/lose)
-    /// and ensures this object becomes the active GameManager if not already set.
+    /// Subscribes to relevant events (e.g., timer end, shop open/close, win/lose).
     /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!Instance)
-        {
-            Instance = this;
-        }
+        base.Awake();
         
         Timer.Instance.OnTimerEnd += GameLoop;
         ShopEventBus.OnShopOpened += GameStateEventBus.PauseGame;
@@ -50,42 +40,42 @@ public class GameManager : MonoBehaviour
         
         GameStateEventBus.OnWin += Win;
         GameStateEventBus.OnLose += Lose;
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     /// <summary>
     /// Unsubscribes from all previously subscribed events 
     /// when this GameObject is destroyed.
     /// </summary>
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         Timer.Instance.OnTimerEnd -= GameLoop;
         ShopEventBus.OnShopOpened -= GameStateEventBus.PauseGame;
         ShopEventBus.OnShopClosed -= GameStateEventBus.ResumeGame;
         
         GameStateEventBus.OnWin -= Win;
         GameStateEventBus.OnLose -= Lose;
-        
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    protected override void Reload() {}
 
     /// <summary>
     /// Called each time a new scene is loaded.
     /// it either activates the shop immediately or spawns the first wave
     /// after a short delay, depending on OpenShopAtBeginning.
     /// </summary>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "Bootstrap") return;
+        base.OnSceneLoaded(scene, mode);
 
         if(OpenShopAtBeginning)
         { 
-            if(ShopManager.Instance) ShopManager.Instance.ActivateShop();
+            ServiceLocator.Get<ShopManager>().ActivateShop();
         }
         else
         {
-            if(ShopManager.Instance) ShopManager.Instance.DeactivateShop();
+            ServiceLocator.Get<ShopManager>().DeactivateShop();
             Invoke("SpawnWave", 0.5f);
         }
     }
@@ -95,7 +85,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SpawnWave()
     {
-        WaveManager.Instance.SpawnNewWave();
+        ServiceLocator.Get<WaveManager>().SpawnNewWave();
     }
 
     /// <summary>
@@ -105,16 +95,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GameLoop()
     {
-        if (ShopManager.Instance.ShopIsOpen)
+        if (ServiceLocator.Get<ShopManager>().ShopIsOpen)
         {
-            ShopManager.Instance.DeactivateShop();
-            WaveManager.Instance.SpawnNewWave();
+            ServiceLocator.Get<ShopManager>().DeactivateShop();
+            ServiceLocator.Get<WaveManager>().SpawnNewWave();
         }
         else
         {
-            if (WaveManager.Instance.CurrentWave < WaveManager.Instance.WavesData.GetNumberOfWaves())
+            if (ServiceLocator.Get<WaveManager>().CurrentWave < ServiceLocator.Get<WaveManager>().WavesData.GetNumberOfWaves())
             {
-                ShopManager.Instance.ActivateShop();
+                ServiceLocator.Get<ShopManager>().ActivateShop();
             }
             else
             {

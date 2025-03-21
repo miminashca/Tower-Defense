@@ -4,7 +4,7 @@ using UnityEngine;
 /// Manages the in-game shop by maintaining its open/closed state, 
 /// handling tower purchases, and relaying relevant events through the ShopEventBus.
 /// </summary>
-public class ShopManager : MonoBehaviour
+public class ShopManager : Manager<ShopManager>
 {
     /// <summary>
     /// A reference to the ShopData ScriptableObject, containing store items and configurations.
@@ -16,21 +16,13 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public bool ShopIsOpen { get; private set; } = false;
     
-    /// <summary>
-    /// A singleton-like reference to this ShopManager, allowing global access to shop functionality.
-    /// </summary>
-    public static ShopManager Instance { get; private set; }
 
     /// <summary>
-    /// Sets up the singleton instance and subscribes to the OnTowerBought event for tower purchase logic.
+    /// Subscribes to the OnTowerBought event for tower purchase logic.
     /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!Instance)
-        {
-            Instance = this;
-        }
-   
+        base.Awake();
         ShopEventBus.OnTowerBought += BuyTower;
     }
 
@@ -69,7 +61,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void CheckGameLoop()
     {
-        GameManager.Instance.GameLoop();
+        ServiceLocator.Get<GameManager>().GameLoop();
     }
     
     /// <summary>
@@ -82,10 +74,10 @@ public class ShopManager : MonoBehaviour
         EconomyEventBus.SpendMoney(towerData.GetStructAtLevel(TowerData.Level.Basic).BasicPrice);
 
         Tower newTower = Instantiate(
-            TowerManager.Instance.TowerPrefab, 
+            ServiceLocator.Get<TowerManager>().TowerPrefab, 
             Vector3.zero, 
             Quaternion.identity, 
-            TowerManager.Instance.TowerParentObject.transform
+            ServiceLocator.Get<TowerManager>().TowerParentObject.transform
         );
 
         newTower.TowerData = towerData;
@@ -95,8 +87,11 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     /// Unsubscribes from the tower purchase event when this ShopManager is destroyed.
     /// </summary>
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         ShopEventBus.OnTowerBought -= BuyTower;
     }
+
+    protected override void Reload() {}
 }

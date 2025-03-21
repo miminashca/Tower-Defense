@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// in EnemyWaveData, ensuring enemies appear in the correct spawn points and tracking
 /// how many waves have been spawned so far.
 /// </summary>
-public class WaveManager : MonoBehaviour
+public class WaveManager : Manager<WaveManager>
 {
     /// <summary>
     /// A reference to a spawned instance of the SpawnPointsManager, which holds a collection of spawn points.
@@ -47,49 +47,22 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private SpawnPoint pointPrefab;
 
     /// <summary>
-    /// A singleton-like reference for this WaveManager, ensuring it persists across scene loads.
+    /// Subscribes to manager reload events, and scene loading events.
     /// </summary>
-    public static WaveManager Instance { get; private set; }
-
-    /// <summary>
-    /// Sets up the WaveManager singleton, ensures persistence with DontDestroyOnLoad,
-    /// subscribes to manager reload events, and scene loading events.
-    /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!Instance)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else 
-        {
-            Destroy(gameObject);
-            return;
-        }
-
+        base.Awake();
+        
         if (!spawnPointsManagerPrefab) 
             Debug.Log("spawn points manager prefab not set in wave controller");
         if (!enemyPrefab) 
             Debug.Log("enemy prefab not set in wave controller");
-        
-        GameStateEventBus.OnReloadManagers += Reload;
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    /// <summary>
-    /// Unsubscribes from events when this object is destroyed.
-    /// </summary>
-    private void OnDestroy()
-    {
-        GameStateEventBus.OnReloadManagers -= Reload;
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>
     /// Resets the wave count, typically called when managers are reloaded (e.g., on a game restart).
     /// </summary>
-    private void Reload()
+    protected override void Reload()
     {
         CurrentWave = 0;
     }
@@ -97,9 +70,9 @@ public class WaveManager : MonoBehaviour
     /// <summary>
     /// When a new scene is loaded, spawns the SpawnPointsManager at the designated spawn transform.
     /// </summary>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "Bootstrap") return;
+        base.OnSceneLoaded(scene, mode);
 
         if(!GameObject.FindWithTag("EnemySpawn")) return;
         enemySpawnTransform = GameObject.FindWithTag("EnemySpawn").transform;
@@ -130,7 +103,7 @@ public class WaveManager : MonoBehaviour
                 spawnPointsManagerInstance
             );
 
-            EnemyManager.Instance.AddEnemies(newEnemiesList);
+            ServiceLocator.Get<EnemyManager>().AddEnemies(newEnemiesList);
             
             CurrentWave++;
             WaveEventBus.StartWave(CurrentWave);

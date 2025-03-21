@@ -7,7 +7,7 @@ using UnityEngine;
 /// relevant events from the EconomyEventBus and GameStateEventBus to handle 
 /// updates or resets as needed.
 /// </summary>
-public class EconomyManager : MonoBehaviour
+public class EconomyManager : Manager<EconomyManager>
 {
     /// <summary>
     /// Initial starting money to be set whenever the manager is reloaded.
@@ -18,34 +18,24 @@ public class EconomyManager : MonoBehaviour
     /// Tracks the current amount of money the player has.
     /// </summary>
     private int moneyEarned = 0;
-    
-    /// <summary>
-    /// Singleton-like instance reference for the EconomyManager to be accessed globally.
-    /// </summary>
-    public static EconomyManager Instance { get; private set; }
 
     /// <summary>
-    /// Configures the singleton instance, subscribes to spend/earn events, 
+    /// Subscribes to spend/earn events, 
     /// and reloads state upon manager reset events.
     /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!Instance)
-        {
-            Instance = this;
-        }
+        base.Awake();
         
         EconomyEventBus.OnMoneySpent += SpendMoney;
         EconomyEventBus.OnMoneyEarned += EarnMoney;
-        
-        GameStateEventBus.OnReloadManagers += Reload;
     }
 
     /// <summary>
     /// Resets the manager's moneyEarned to the StartCapital value, 
     /// typically invoked on a game or scene reload.
     /// </summary>
-    private void Reload()
+    protected override void Reload()
     {
         moneyEarned = StartCapital;
     }
@@ -54,12 +44,12 @@ public class EconomyManager : MonoBehaviour
     /// Unsubscribes from all related events upon destruction to prevent 
     /// dangling references or memory leaks.
     /// </summary>
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         EconomyEventBus.OnMoneySpent -= SpendMoney;
         EconomyEventBus.OnMoneyEarned -= EarnMoney;
-        
-        GameStateEventBus.OnReloadManagers -= Reload;
     }
     
     /// <summary>

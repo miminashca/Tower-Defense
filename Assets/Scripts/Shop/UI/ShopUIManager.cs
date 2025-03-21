@@ -207,7 +207,7 @@ public class ShopUIManager : MonoBehaviour
     /// </summary>
     private void FillTheShop()
     {
-        foreach (TowerData towerData in ShopManager.Instance.shopData.TowersToBuy)
+        foreach (TowerData towerData in ServiceLocator.Get<ShopManager>().shopData.TowersToBuy)
         {
             GameObject newShopItem = Instantiate(buttonPrefab, itemsPanel.transform);
             Image childImage = newShopItem.GetComponentsInChildren<Image>()[1]; // Get the second Image
@@ -241,7 +241,7 @@ public class ShopUIManager : MonoBehaviour
     /// if false, removes indicators.</param>
     private void EnableUpgradeIndicators(bool enable = true)
     {
-        foreach (Tower tower in TowerManager.Instance.TowersInScene)
+        foreach (Tower tower in ServiceLocator.Get<TowerManager>().TowersInScene)
         {
             switch (enable)
             {
@@ -308,6 +308,6 @@ public class ShopUIManager : MonoBehaviour
     /// <returns>True if the player can afford it, false otherwise.</returns>
     private bool CheckPurchaseAvailability(int price)
     {
-        return EconomyManager.Instance.GetMoney() >= price;
+        return ServiceLocator.Get<EconomyManager>().GetMoney() >= price;
     }
 }

@@ -32,23 +32,13 @@ public class TileFloor : MonoBehaviour
     /// A dictionary tracking occupied cells, mapping cell positions to the occupying tower GameObject.
     /// </summary>
     private Dictionary<Vector3, GameObject> occupiedCells = new Dictionary<Vector3, GameObject>();
-    
-    /// <summary>
-    /// A singleton-like reference to this TileFloor, allowing global access.
-    /// </summary>
-    public static TileFloor Instance { get; private set; }
 
     /// <summary>
-    /// Sets up the TileFloor singleton, subscribes to tower events related to placement,
+    /// Subscribes to tower events related to placement,
     /// and initializes data structures.
     /// </summary>
     private void Awake()
     {
-        if (!Instance)
-        {
-            Instance = this;
-        }
-        
         TowerEventBus.OnTowerStartDrag += StartPlacement;
         TowerEventBus.OnTowerEndDrag += EndPlacement;
         TowerEventBus.OnTowerRemoved += UnoccupyCellOfTower;

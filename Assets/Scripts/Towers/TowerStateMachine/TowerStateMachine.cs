@@ -15,7 +15,7 @@ public class TowerStateMachine : StateMachine
     /// </summary>
     protected override void Start()
     {
-        if (ShopManager.Instance && ShopManager.Instance.ShopIsOpen)
+        if (ServiceLocator.Get<ShopManager>() && ServiceLocator.Get<ShopManager>().ShopIsOpen)
         {
             if (GetComponent<Placeable>().WasAlreadyPlaced)
                 TransitToState(new IdleShopStateTower(this));

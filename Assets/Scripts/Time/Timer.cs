@@ -106,7 +106,7 @@ public class Timer : MonoBehaviour
     /// </summary>
     private void SetShopTimer()
     {
-        SetTimer(ShopManager.Instance.shopData.ShopDuration);
+        SetTimer(ServiceLocator.Get<ShopManager>().shopData.ShopDuration);
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public class Timer : MonoBehaviour
     /// <param name="currentWave">The index or number of the current wave.</param>
     private void SetWaveTimer(int currentWave)
     {
-        SetTimer(WaveManager.Instance.WavesData.tresholdBetweenWaves);
+        SetTimer(ServiceLocator.Get<WaveManager>().WavesData.tresholdBetweenWaves);
     }
 
     /// <summary>

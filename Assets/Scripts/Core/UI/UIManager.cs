@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// such as wave information, money count, countdown timer, enemy count at the target,
 /// and final game state messages (win/lose).
 /// </summary>
-public class UIManager : MonoBehaviour
+public class UIManager : Manager<UIManager>
 {
     /// <summary>
     /// Text component displaying the current wave number.
@@ -36,28 +36,13 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [SerializeField] private TextMeshProUGUI finalGameStateMessage;
     
-    /// <summary>
-    /// A static reference to this UIManager instance, ensuring a single instance
-    /// can be accessed project-wide.
-    /// </summary>
-    public static UIManager Instance { get; private set; }
 
     /// <summary>
-    /// Sets up the UIManager singleton, subscribes to necessary events, 
-    /// and ensures it persists across scene loads unless destroyed by a duplicate instance.
+    /// Subscribes to necessary events.
     /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!Instance)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        base.Awake();
         
         WaveEventBus.OnWaveStart += UpdateWaveText;
         EconomyEventBus.OnMoneyAmountChange += UpdateMoneyText;
@@ -65,8 +50,10 @@ public class UIManager : MonoBehaviour
         
         GameStateEventBus.OnLose += ShowLoseGameState;
         GameStateEventBus.OnWin += ShowWinGameState;
-        
-        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    protected override void Reload()
+    {
     }
 
     /// <summary>
@@ -74,11 +61,13 @@ public class UIManager : MonoBehaviour
     /// hides the final game state panel and updates the UI elements to reflect 
     /// current wave, money, and enemy count.
     /// </summary>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {      
+        base.OnSceneLoaded(scene, mode);
+        
         finalGameStateMessage.gameObject.transform.parent.gameObject.SetActive(false);
 
-        UpdateWaveText(WaveManager.Instance.CurrentWave);
+        UpdateWaveText(ServiceLocator.Get<WaveManager>().CurrentWave);
         UpdateMoneyText();
         UpdateEnemyCountText();
     }
@@ -97,7 +86,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private void UpdateMoneyText()
     {
-        moneyText.text = EconomyManager.Instance.GetMoney().ToString();
+        moneyText.text = ServiceLocator.Get<EconomyManager>().GetMoney().ToString();
     }
 
     /// <summary>
@@ -125,7 +114,7 @@ public class UIManager : MonoBehaviour
     /// <param name="waveNum">The current wave index/number.</param>
     private void UpdateWaveText(int waveNum)
     {
-        waveText.text = waveNum + "/" + WaveManager.Instance.WavesData.GetNumberOfWaves();
+        waveText.text = waveNum + "/" + ServiceLocator.Get<WaveManager>().WavesData.GetNumberOfWaves();
     }
     
     /// <summary>
@@ -134,8 +123,8 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private void UpdateEnemyCountText()
     {
-        int x = EnemyManager.Instance.GetEnemiesAtGoal();
-        int y = EnemyManager.Instance.GetMaxEnemiesAtGoalAllowed();
+        int x = ServiceLocator.Get<EnemyManager>().GetEnemiesAtGoal();
+        int y = ServiceLocator.Get<EnemyManager>().GetMaxEnemiesAtGoalAllowed();
         if (x > y) x = y;
         
         targetEnemyCounterText.text = x + "/" + y;
@@ -167,15 +156,15 @@ public class UIManager : MonoBehaviour
     /// Unsubscribes from all subscribed events to prevent memory leaks 
     /// when this object is disabled or destroyed.
     /// </summary>
-    private void OnDisable()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         EconomyEventBus.OnMoneyAmountChange -= UpdateMoneyText;
         WaveEventBus.OnWaveStart -= UpdateWaveText;
         EnemyEventBus.OnUpdateEnemyCountAtTarget -= UpdateEnemyCountText;
         GameStateEventBus.OnLose -= ShowLoseGameState;
         GameStateEventBus.OnWin -= ShowWinGameState;
-        
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>

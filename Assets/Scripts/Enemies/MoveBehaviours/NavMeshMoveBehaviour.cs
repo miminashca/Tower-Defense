@@ -36,7 +36,7 @@ public class NavMeshMoveBehaviour : MoveBehaviour
     public override void SetTargetPosition(Vector3 position)
     {
         base.SetTargetPosition(position);
-        agent.destination = position;
+        if(agent.isOnNavMesh) agent.destination = position;
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class NavMeshMoveBehaviour : MoveBehaviour
     protected override void Stop()
     { 
         base.Stop();
-        agent.ResetPath();
+        if(agent.isOnNavMesh) agent.ResetPath();
     }
 
     /// <summary>

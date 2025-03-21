@@ -37,11 +37,15 @@ public class Placeable : MonoBehaviour
     /// </summary>
     private bool placementInProgress = false;
 
+    private TileFloor tileFloor;   
+
     /// <summary>
     /// Initializes the object's position on the grid at startup, and marks the cell occupied if it was already placed.
     /// </summary>
     private void Start()
     {
+        tileFloor = FindFirstObjectByType<TileFloor>();
+        
         if (!GetComponentInParent<Grid>())
         {
             Debug.Log("No grid in Placeable Parent!!!");
@@ -54,9 +58,10 @@ public class Placeable : MonoBehaviour
         snappedPosition.y = transform.position.y;
         transform.position = snappedPosition;
         
+        if(!tileFloor) return;
         if (WasAlreadyPlaced)
         {
-            TileFloor.Instance.OccupyCell(
+            tileFloor.OccupyCell(
                 new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z), 
                 gameObject
             );
@@ -87,10 +92,10 @@ public class Placeable : MonoBehaviour
     /// <param name="obj">The GameObject being dragged (must match this object to proceed).</param>
     public void StartPlacement(GameObject obj)
     {
-        if(obj != gameObject) return;
+        if(obj != gameObject || !tileFloor) return;
         
         initialPosition = transform.position;
-        TileFloor.Instance.UnoccupyCell(
+        tileFloor.UnoccupyCell(
             new Vector3Int((int)initialPosition.x, (int)initialPosition.y, (int)initialPosition.z)
         );
 
@@ -113,8 +118,10 @@ public class Placeable : MonoBehaviour
             (int)transform.position.y, 
             (int)transform.position.z
         );
+        WasAlreadyPlaced = true;
         
-        if (TileFloor.Instance.CellIsOccupied(newPosition))
+        if(!tileFloor) return;
+        if (tileFloor.CellIsOccupied(newPosition))
         {
             if (!WasAlreadyPlaced)
             {
@@ -124,8 +131,7 @@ public class Placeable : MonoBehaviour
             transform.position = initialPosition;
         }
 
-        TileFloor.Instance.OccupyCell(newPosition, gameObject);
-        WasAlreadyPlaced = true;
+        tileFloor.OccupyCell(newPosition, gameObject);
     }
 
     /// <summary>

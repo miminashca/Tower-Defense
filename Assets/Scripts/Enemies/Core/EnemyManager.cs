@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 /// in-game events such as enemy death, adding money when enemies die, 
 /// and triggering the lose condition if too many reach the goal.
 /// </summary>
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : Manager<EnemyManager>
 {
     /// <summary>
     /// The maximum number of enemies allowed to reach the goal before 
@@ -38,36 +38,26 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     private int currentEnemiesAtGoal;
     
-    /// <summary>
-    /// Singleton-like reference for the EnemyManager, accessible project-wide.
-    /// </summary>
-    public static EnemyManager Instance { get; private set; }
 
     /// <summary>
-    /// Sets up the EnemyManager singleton, subscribes to relevant events, 
+    /// Subscribes to relevant events, 
     /// and configures the mainEnemiesList.
     /// </summary>
-    private void Awake()
+    protected override void Awake()
     {
-        if (!Instance)
-        {
-            Instance = this;
-        }
+        base.Awake();
         
         WaveEventBus.OnWavesCompleted += CheckGameFinalState;
         
         EnemyEventBus.OnEnemyDeath += OnEnemyDie;
         EnemyEventBus.OnEnemyReachedTarget += EnemyReachedTarget;
-
-        GameStateEventBus.OnReloadManagers += Reload;
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     /// <summary>
     /// Resets or clears tracked enemies and resets the counter of enemies at the goal.
     /// Invoked when managers are reloaded.
     /// </summary>
-    private void Reload()
+    protected override void Reload()
     {
         if (mainEnemiesList == null)
         {
@@ -85,24 +75,23 @@ public class EnemyManager : MonoBehaviour
     /// Called when a new scene is loaded. If the loaded scene is Level1,
     /// it locates and stores the transform for the finish point used by enemies.
     /// </summary>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "Bootstrap") return;
-
-        TargetPosition = GameObject.FindWithTag("FinishTransform").transform.position;
+        base.OnSceneLoaded(scene, mode);
+        
+        if(GameObject.FindWithTag("FinishTransform")) TargetPosition = GameObject.FindWithTag("FinishTransform").transform.position;
     }
 
     /// <summary>
     /// Cleans up event subscriptions when the EnemyManager is destroyed.
     /// </summary>
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         WaveEventBus.OnWavesCompleted -= CheckGameFinalState;
         EnemyEventBus.OnEnemyDeath -= OnEnemyDie;
         EnemyEventBus.OnEnemyReachedTarget -= EnemyReachedTarget;
-        
-        GameStateEventBus.OnReloadManagers -= Reload;
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
     /// <summary>
@@ -181,11 +170,11 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     private void CheckGameFinalState()
     {
-        if (currentEnemiesAtGoal < maxEnemiesAllowedAtTarget && !GameManager.Instance.gameLost)
+        if (currentEnemiesAtGoal < maxEnemiesAllowedAtTarget && !ServiceLocator.Get<GameManager>().gameLost)
         {
             GameStateEventBus.Win();
         }
-        else if (!GameManager.Instance.gameWon)
+        else if (!ServiceLocator.Get<GameManager>().gameWon)
         {
             GameStateEventBus.Lose();
         }

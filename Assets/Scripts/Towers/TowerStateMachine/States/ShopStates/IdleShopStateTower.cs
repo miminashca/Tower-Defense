@@ -36,7 +36,7 @@ public class IdleShopStateTower : IdleState
     /// </summary>
     private void StartDrag()
     {
-        if (!TowerManager.Instance.ActiveTower && SM.gameObject.GetComponent<Placeable>().WasAlreadyPlaced)
+        if (!ServiceLocator.Get<TowerManager>().ActiveTower && SM.gameObject.GetComponent<Placeable>().WasAlreadyPlaced)
         {
             SM.TransitToState(new DraggingShopStateTower(SM));
         }

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// active tower selection, and responds to tower placement and removal events.
 /// It also supports reloading manager state upon game resets.
 /// </summary>
-public class TowerManager : MonoBehaviour
+public class TowerManager : Manager<TowerManager>
 {
     /// <summary>
     /// A reference to the tower prefab used when spawning or buying new towers.
@@ -32,35 +32,24 @@ public class TowerManager : MonoBehaviour
     [NonSerialized] public List<Tower> TowersInScene;
 
     /// <summary>
-    /// A static reference to this TowerManager, ensuring only one instance exists at runtime.
+    /// Subscribes to tower-related events, and initializes the manager's data structures.
     /// </summary>
-    public static TowerManager Instance { get; private set; }
-
-    /// <summary>
-    /// Sets up the singleton instance, subscribes to tower-related events, 
-    /// and initializes the manager's data structures.
-    /// </summary>
-    private void Awake() 
+    protected override void Awake() 
     {
-        if (!Instance)
-        {
-            Instance = this;
-        }
+        base.Awake();
+        TowersInScene = new List<Tower>();
         
         TowerEventBus.OnTowerStartDrag += SetActiveTower;
         TowerEventBus.OnTowerEndDrag += UnsetActiveTower;
 
         TowerEventBus.OnTowerPlaced += AddTower;
         TowerEventBus.OnTowerRemoved += RemoveTower;
-        
-        GameStateEventBus.OnReloadManagers += Reload;
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     
     /// <summary>
     /// Resets the TowersInScene list when managers are reloaded (e.g., on a game restart).
     /// </summary>
-    private void Reload()
+    protected override void Reload()
     {
         if (TowersInScene == null) 
             TowersInScene = new List<Tower>();
@@ -71,9 +60,9 @@ public class TowerManager : MonoBehaviour
     /// <summary>
     /// Called when a new scene is loaded.
     /// </summary>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "Bootstrap") return;
+        base.OnSceneLoaded(scene, mode);
         
         TowerParentObject = GameObject.FindWithTag("TowerParent");
         
@@ -127,15 +116,14 @@ public class TowerManager : MonoBehaviour
     /// <summary>
     /// Unsubscribes from all tower and game state events when this manager is disabled.
     /// </summary>
-    private void OnDisable()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         TowerEventBus.OnTowerStartDrag -= SetActiveTower;
         TowerEventBus.OnTowerEndDrag -= UnsetActiveTower;
         
         TowerEventBus.OnTowerPlaced -= AddTower;
         TowerEventBus.OnTowerRemoved -= RemoveTower;
-        
-        GameStateEventBus.OnReloadManagers -= Reload;
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
