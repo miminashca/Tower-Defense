@@ -272,7 +272,7 @@ public class ShopUI : MonoBehaviour
     /// <param name="tower">The newly placed tower to check for upgrade availability.</param>
     private void CheckUpgradeAvailabilityForTower(Tower tower)
     {
-        EnableUpgradeIndicatorForTower(tower);
+        CheckUpgradeAvailability();
     }
 
     /// <summary>
