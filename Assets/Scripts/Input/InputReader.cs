@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// The InputManager class handles mouse-based input for selecting map positions 
+/// The InputReader class handles mouse-based input for selecting map positions 
 /// and interacting with GameObjects in the scene. It maintains references to the 
 /// main scene camera once Level1 is loaded, providing raycast-based position and 
 /// object checks.
 /// </summary>
-public class InputManager : MonoBehaviour
+public class InputReader : MonoBehaviour
 {
     /// <summary>
     /// A reference to the main camera of the current scene,
@@ -22,12 +22,12 @@ public class InputManager : MonoBehaviour
     private Vector3 lastPosition;
 
     /// <summary>
-    /// A Singleton-like reference to the active InputManager instance.
+    /// A Singleton-like reference to the active InputReader instance.
     /// </summary>
-    public static InputManager Instance { get; private set; }
+    public static InputReader Instance { get; private set; }
 
     /// <summary>
-    /// Initializes the InputManager Singleton instance and subscribes to the sceneLoaded event.
+    /// Initializes the InputReader Singleton instance and subscribes to the sceneLoaded event.
     /// </summary>
     private void Awake()
     {

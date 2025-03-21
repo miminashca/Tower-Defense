@@ -19,7 +19,7 @@ public class IdleShopStateTower : IdleState
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (InputManager.Instance.CheckPressOnGameObject(SM.gameObject))
+            if (InputReader.Instance.CheckPressOnGameObject(SM.gameObject))
             {
                 StartDrag();
             }

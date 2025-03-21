@@ -136,13 +136,13 @@ public class Placeable : MonoBehaviour
 
     /// <summary>
     /// Updates the object's snapped position on the grid while placement is in progress, 
-    /// using raycast data from the InputManager.
+    /// using raycast data from the InputReader.
     /// </summary>
     public void Update()
     {
         if (!grid || !placementInProgress) return;
         
-        Vector3 mousePos = InputManager.Instance.GetSelectedMapPosition(placementLayerMask);
+        Vector3 mousePos = InputReader.Instance.GetSelectedMapPosition(placementLayerMask);
         Vector3Int currentGridPos = grid.WorldToCell(mousePos);
 
         if (currentGridPos != lastGridPos)

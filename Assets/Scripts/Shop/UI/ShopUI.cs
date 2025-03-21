@@ -8,7 +8,7 @@ using Image = UnityEngine.UI.Image;
 /// Manages the UI for the in-game shop, including displaying tower items, 
 /// handling tower purchases and upgrades, and showing item details in an info panel.
 /// </summary>
-public class ShopUIManager : MonoBehaviour
+public class ShopUI : MonoBehaviour
 {
     /// <summary>
     /// A prefab for creating a button representing each shop item available for purchase.
