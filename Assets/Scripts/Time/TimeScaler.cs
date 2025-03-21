@@ -80,7 +80,7 @@ public class TimeScaler : MonoBehaviour
     /// </summary>
     private void SetZeroTimeScale()
     {
-        Debug.Log("set 0 time");
+        //Debug.Log("set 0 time");
         TimeScaleForGameObjects = 0f; 
     }
 

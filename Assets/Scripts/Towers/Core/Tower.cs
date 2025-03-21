@@ -39,20 +39,12 @@ public class Tower : MonoBehaviour
     private TowerBehaviour towerBehaviour;
 
     /// <summary>
-    /// Indicates whether the tower is currently active in gameplay (e.g., attacking) 
-    /// or deactivated (e.g., during shop phase).
-    /// </summary>
-    [NonSerialized] public bool IsActive;
-
-    /// <summary>
     /// Subscribes to upgrade and shop open/close events, configures the tower's state machine, 
     /// and adds a TowerBehaviour script.
     /// </summary>
     private void Awake()
     {
         ShopEventBus.OnTowerUpgraded += UpgradeTower;
-        ShopEventBus.OnShopOpened += DeactivateTower;
-        ShopEventBus.OnShopClosed += ActivateTower;
     
         if(GetComponent<StateMachine>()) 
             SM = GetComponent<StateMachine>();
@@ -74,8 +66,6 @@ public class Tower : MonoBehaviour
     private void OnDestroy()
     {
         ShopEventBus.OnTowerUpgraded -= UpgradeTower;
-        ShopEventBus.OnShopOpened -= DeactivateTower;
-        ShopEventBus.OnShopClosed -= ActivateTower;
         TowerEventBus.RemoveTower(this);
     }
 
@@ -143,22 +133,5 @@ public class Tower : MonoBehaviour
             }
         }
         return null; // No child with this tag found
-    }
-
-    /// <summary>
-    /// Called when the shop closes, marking the tower as active for gameplay.
-    /// </summary>
-    private void ActivateTower()
-    {
-        IsActive = true;
-    }
-
-    /// <summary>
-    /// Called when the shop opens, marking the tower as inactive 
-    /// so it does not attack or function during the shop phase.
-    /// </summary>
-    private void DeactivateTower()
-    {
-        IsActive = false;
     }
 }

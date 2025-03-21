@@ -32,7 +32,7 @@ public class Bootstrap : MonoBehaviour
     private void Start()
     {
         GameStateEventBus.ReloadManagers();
-        SceneManager.LoadScene("Level1", LoadSceneMode.Additive);
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 
     /// <summary>
@@ -41,8 +41,8 @@ public class Bootstrap : MonoBehaviour
     /// </summary>
     private void Reload()
     {
-        SceneManager.UnloadSceneAsync("Level1");
+        SceneManager.UnloadSceneAsync(1);
         GameStateEventBus.ReloadManagers();
-        SceneManager.LoadScene("Level1", LoadSceneMode.Additive);
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 }

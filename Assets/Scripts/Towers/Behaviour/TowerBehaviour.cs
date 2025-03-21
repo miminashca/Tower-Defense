@@ -124,14 +124,15 @@ public class TowerBehaviour : MonoBehaviour
 
     protected void Attack(Enemy enemy)
     {
-        if (enemy && GetComponent<Tower>().IsActive)
+        if (enemy)
         {
+            //Debug.Log("attack");
             //instantiate bullet
             Bullet bullet = Instantiate(GetComponent<Tower>().BulletPrefab, gameObject.transform.position, quaternion.identity);
             bullet.Target = enemy.gameObject;
-            SceneManager.MoveGameObjectToScene(bullet.gameObject, SceneManager.GetSceneByName("Level1"));
+            if(SceneManager.sceneCount>1) SceneManager.MoveGameObjectToScene(bullet.gameObject, SceneManager.GetSceneAt(1));
             
-            Debug.Log("Tower attacks enemy!");
+            //Debug.Log("Tower attacks enemy!");
             attackBehavior.Attack(enemy, impact, bullet);
         }
     }

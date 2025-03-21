@@ -70,22 +70,17 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when a new scene is fully loaded. If the loaded scene is "Level1",
+    /// Called when a new scene is fully loaded.
     /// hides the final game state panel and updates the UI elements to reflect 
     /// current wave, money, and enemy count.
     /// </summary>
-    /// <param name="scene">Information about the loaded scene.</param>
-    /// <param name="mode">Specifies how the scene was loaded (e.g., Single or Additive).</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Level1")
-        {
-            finalGameStateMessage.gameObject.transform.parent.gameObject.SetActive(false);
+    {      
+        finalGameStateMessage.gameObject.transform.parent.gameObject.SetActive(false);
 
-            UpdateWaveText(WaveManager.Instance.CurrentWave);
-            UpdateMoneyText();
-            UpdateEnemyCountText();
-        }
+        UpdateWaveText(WaveManager.Instance.CurrentWave);
+        UpdateMoneyText();
+        UpdateEnemyCountText();
     }
 
     /// <summary>

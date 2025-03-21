@@ -95,22 +95,20 @@ public class WaveManager : MonoBehaviour
     }
 
     /// <summary>
-    /// When a new scene is loaded, if it's Level1, spawns the SpawnPointsManager at the designated spawn transform.
+    /// When a new scene is loaded, spawns the SpawnPointsManager at the designated spawn transform.
     /// </summary>
-    /// <param name="scene">Information about the loaded scene.</param>
-    /// <param name="mode">Specifies how the scene was loaded (e.g., Single or Additive).</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Level1")
-        {
-            enemySpawnTransform = GameObject.FindWithTag("EnemySpawn").transform;
-            
-            spawnPointsManagerInstance = Instantiate(spawnPointsManagerPrefab, 
-                enemySpawnTransform.position, 
-                enemySpawnTransform.rotation);
-            
-            spawnPointsManagerInstance.spawnPoint = pointPrefab;
-        }
+        if(scene.name == "Bootstrap") return;
+
+        if(!GameObject.FindWithTag("EnemySpawn")) return;
+        enemySpawnTransform = GameObject.FindWithTag("EnemySpawn").transform;
+        
+        spawnPointsManagerInstance = Instantiate(spawnPointsManagerPrefab, 
+            enemySpawnTransform.position, 
+            enemySpawnTransform.rotation);
+        
+        spawnPointsManagerInstance.spawnPoint = pointPrefab;
     }
 
     /// <summary>
@@ -119,7 +117,7 @@ public class WaveManager : MonoBehaviour
     /// </summary>
     public void SpawnNewWave()
     {
-        Debug.Log("Spawn wave");
+        //Debug.Log("Spawn wave");
         if (CurrentWave < WavesData.GetNumberOfWaves())
         {
             if(spawnPointsManagerInstance)
@@ -166,10 +164,7 @@ public class WaveManager : MonoBehaviour
                     spawnPointManager.spawnPoints[i].transform.position,
                     Quaternion.identity
                 );
-                SceneManager.MoveGameObjectToScene(
-                    enemyInstance.gameObject, 
-                    SceneManager.GetSceneByName("Level1")
-                );
+                if(SceneManager.sceneCount!=1) SceneManager.MoveGameObjectToScene(enemyInstance.gameObject, SceneManager.GetSceneAt(1));
                 enemies.Add(enemyInstance);
             }
             else

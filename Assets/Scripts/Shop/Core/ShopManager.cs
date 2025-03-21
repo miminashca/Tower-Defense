@@ -48,7 +48,7 @@ public class ShopManager : MonoBehaviour
     public void ActivateShop()
     { 
         ShopIsOpen = true;
-        Debug.Log("open shop");
+        //Debug.Log("open shop");
         ShopEventBus.OpenShop();
     }
 
@@ -60,7 +60,7 @@ public class ShopManager : MonoBehaviour
     {
         CancelInvoke(nameof(DeactivateShop));
         ShopIsOpen = false;
-        Debug.Log("close shop");
+        //Debug.Log("close shop");
         ShopEventBus.CloseShop();
     }
 

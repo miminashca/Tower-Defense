@@ -87,10 +87,9 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Level1")
-        {
-            TargetPosition = GameObject.FindWithTag("FinishTransform").transform.position;
-        }
+        if(scene.name == "Bootstrap") return;
+
+        TargetPosition = GameObject.FindWithTag("FinishTransform").transform.position;
     }
 
     /// <summary>
@@ -115,7 +114,7 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (Enemy enemy in enemiesToAdd)
         {
-            if (!mainEnemiesList.Contains(enemy)) 
+            if (mainEnemiesList!=null && !mainEnemiesList.Contains(enemy)) 
                 mainEnemiesList.Add(enemy);
         }
         EnemyEventBus.EnemiesStartMoveToPosition(TargetPosition);
@@ -133,12 +132,12 @@ public class EnemyManager : MonoBehaviour
         if (coinPrefab)
         {
             GameObject coin = Instantiate(coinPrefab, enemy.transform.position, Quaternion.identity);
-            SceneManager.MoveGameObjectToScene(coin.gameObject, SceneManager.GetSceneByName("Level1"));
+            if(SceneManager.sceneCount>1) SceneManager.MoveGameObjectToScene(coin.gameObject, SceneManager.GetSceneAt(1));
             
             coin.GetComponentInChildren<TextMeshProUGUI>().text = enemy.GetCarriedMoney().ToString();
         }
 
-        if (mainEnemiesList.Contains(enemy)) 
+        if (mainEnemiesList!=null && mainEnemiesList.Contains(enemy)) 
             mainEnemiesList.Remove(enemy);
     }
 

@@ -69,20 +69,18 @@ public class TowerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when a new scene is loaded. If the scene is Level1, 
-    /// finds the TowerParentObject and registers any towers already present in the scene.
+    /// Called when a new scene is loaded.
     /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Level1")
+        if(scene.name == "Bootstrap") return;
+        
+        TowerParentObject = GameObject.FindWithTag("TowerParent");
+        
+        // Automatically discover and add existing Tower objects in the loaded scene.
+        foreach (Tower tower in FindObjectsByType<Tower>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
-            TowerParentObject = GameObject.FindWithTag("TowerParent");
-            
-            // Automatically discover and add existing Tower objects in the loaded scene.
-            foreach (Tower tower in FindObjectsByType<Tower>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-            {
-                AddTower(tower);
-            }
+            AddTower(tower);
         }
     }
 
@@ -112,7 +110,7 @@ public class TowerManager : MonoBehaviour
     /// <param name="tower">The tower to add to the list.</param>
     private void AddTower(Tower tower)
     {
-        if(!TowersInScene.Contains(tower)) 
+        if(TowersInScene!=null && !TowersInScene.Contains(tower)) 
             TowersInScene.Add(tower);
     }
 

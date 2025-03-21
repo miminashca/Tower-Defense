@@ -71,25 +71,22 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called each time a new scene is loaded. If the scene is Level1, 
+    /// Called each time a new scene is loaded.
     /// it either activates the shop immediately or spawns the first wave
     /// after a short delay, depending on OpenShopAtBeginning.
     /// </summary>
-    /// <param name="scene">Information about the loaded scene.</param>
-    /// <param name="mode">Specifies how the scene was loaded (e.g., Single or Additive).</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Level1")
+        if(scene.name == "Bootstrap") return;
+
+        if(OpenShopAtBeginning)
+        { 
+            if(ShopManager.Instance) ShopManager.Instance.ActivateShop();
+        }
+        else
         {
-            if(OpenShopAtBeginning)
-            {
-                ShopManager.Instance.ActivateShop();
-            }
-            else
-            {
-                ShopManager.Instance.DeactivateShop();
-                Invoke("SpawnWave", 0.5f);
-            }
+            if(ShopManager.Instance) ShopManager.Instance.DeactivateShop();
+            Invoke("SpawnWave", 0.5f);
         }
     }
 

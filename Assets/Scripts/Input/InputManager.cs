@@ -48,17 +48,12 @@ public class InputManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when a new scene is loaded. If the scene is named "Level1", 
+    /// Called when a new scene is loaded.
     /// it references the main camera for subsequent input raycasts.
     /// </summary>
-    /// <param name="scene">Information about the newly loaded scene.</param>
-    /// <param name="mode">Specifies how the scene was loaded (e.g., Single or Additive).</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Level1")
-        {
-            sceneCamera = Camera.main;
-        }
+        sceneCamera = Camera.main;
     }
     
     /// <summary>
