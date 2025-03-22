@@ -207,7 +207,7 @@ public class ShopUI : MonoBehaviour
     /// </summary>
     private void FillTheShop()
     {
-        foreach (TowerData towerData in ServiceLocator.Get<ShopManager>().shopData.TowersToBuy)
+        foreach (TowerData towerData in ServiceLocator.Get<ShopManager>().ShopData.TowersToBuy)
         {
             GameObject newShopItem = Instantiate(buttonPrefab, itemsPanel.transform);
             Image childImage = newShopItem.GetComponentsInChildren<Image>()[1]; // Get the second Image

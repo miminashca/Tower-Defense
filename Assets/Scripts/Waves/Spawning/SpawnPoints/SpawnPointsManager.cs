@@ -4,20 +4,20 @@ using UnityEngine;
 public class SpawnPointsManager : MonoBehaviour
 {
     private int numberOfPoints = 0;
-    public List<SpawnPoint> spawnPoints { get; private set; }
-    public SpawnPoint spawnPoint;
+    public List<SpawnPoint> SpawnPoints { get; private set; }
+    [SerializeField] private SpawnPoint spawnPoint;
     public void Init(int num)
     {
         if (num != numberOfPoints)
         {
-            spawnPoints = new List<SpawnPoint>(GetComponentsInChildren<SpawnPoint>());
-            if (spawnPoints.Count != 0)
+            SpawnPoints = new List<SpawnPoint>(GetComponentsInChildren<SpawnPoint>());
+            if (SpawnPoints.Count != 0)
             {
-                foreach (SpawnPoint p in spawnPoints)
+                foreach (SpawnPoint p in SpawnPoints)
                 {
                     Destroy(p.gameObject);
                 }
-                spawnPoints.Clear();
+                SpawnPoints.Clear();
             }
             numberOfPoints = num;
             if (numberOfPoints != 0)
@@ -31,7 +31,7 @@ public class SpawnPointsManager : MonoBehaviour
                    Vector3 worldPosition = GetComponent<Grid>().CellToWorld(gridPosition);
 
                    SpawnPoint point = Instantiate(spawnPoint, worldPosition, Quaternion.identity, gameObject.transform);
-                   spawnPoints.Add(point);
+                   SpawnPoints.Add(point);
                 }
             }
         }

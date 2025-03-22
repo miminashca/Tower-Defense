@@ -106,7 +106,7 @@ public class Timer : MonoBehaviour
     /// </summary>
     private void SetShopTimer()
     {
-        SetTimer(ServiceLocator.Get<ShopManager>().shopData.ShopDuration);
+        SetTimer(ServiceLocator.Get<ShopManager>().ShopData.ShopDuration);
     }
 
     /// <summary>

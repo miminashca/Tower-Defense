@@ -11,15 +11,13 @@ public class GameManager : Manager<GameManager>
 {
     /// <summary>
     /// Indicates whether the player has won the current game session.
-    /// Marked NonSerialized so it won't be saved or restored automatically.
     /// </summary>
-    [NonSerialized] public bool gameWon = false;
+    [NonSerialized] public bool GameWon = false;
     
     /// <summary>
     /// Indicates whether the player has lost the current game session.
-    /// Marked NonSerialized so it won't be saved or restored automatically.
     /// </summary>
-    [NonSerialized] public bool gameLost = false;
+    [NonSerialized] public bool GameLost = false;
     
     /// <summary>
     /// Determines if the shop should be opened immediately 
@@ -114,20 +112,20 @@ public class GameManager : Manager<GameManager>
     }
 
     /// <summary>
-    /// Marks the game as won, sets gameWon to true, and pauses the game state.
+    /// Marks the game as won, sets GameWon to true, and pauses the game state.
     /// </summary>
     private void Win()
     {
-        gameWon = true;
+        GameWon = true;
         GameStateEventBus.PauseGame();
     }
 
     /// <summary>
-    /// Marks the game as lost, sets gameLost to true, and pauses the game state.
+    /// Marks the game as lost, sets GameLost to true, and pauses the game state.
     /// </summary>
     private void Lose()
     {
-        gameLost = true;
+        GameLost = true;
         GameStateEventBus.PauseGame();
     }
 }

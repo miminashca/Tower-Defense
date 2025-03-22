@@ -40,11 +40,6 @@ public class WaveManager : Manager<WaveManager>
     /// A prefab for the SpawnPointsManager, responsible for creating and maintaining spawn points in the level.
     /// </summary>
     [SerializeField] private SpawnPointsManager spawnPointsManagerPrefab;
-    
-    /// <summary>
-    /// A prefab for a single spawn point, used by SpawnPointsManager to generate the desired number of points.
-    /// </summary>
-    [SerializeField] private SpawnPoint pointPrefab;
 
     /// <summary>
     /// Subscribes to manager reload events, and scene loading events.
@@ -80,8 +75,6 @@ public class WaveManager : Manager<WaveManager>
         spawnPointsManagerInstance = Instantiate(spawnPointsManagerPrefab, 
             enemySpawnTransform.position, 
             enemySpawnTransform.rotation);
-        
-        spawnPointsManagerInstance.spawnPoint = pointPrefab;
     }
 
     /// <summary>
@@ -125,16 +118,16 @@ public class WaveManager : Manager<WaveManager>
     /// <param name="spawnPointManager">Manages the positions at which enemies should spawn.</param>
     private void SpawnEnemies(List<Enemy> enemies, EnemyData enemyData, SpawnPointsManager spawnPointManager)
     {
-        if (spawnPointManager.spawnPoints.Count == 0) return;
+        if (spawnPointManager.SpawnPoints.Count == 0) return;
         
-        for (int i = 0; i < spawnPointManager.spawnPoints.Count; i++)
+        for (int i = 0; i < spawnPointManager.SpawnPoints.Count; i++)
         {
             if (enemyPrefab)
             {
                 enemyPrefab.Data = enemyData;
                 Enemy enemyInstance = Instantiate(
                     enemyPrefab,
-                    spawnPointManager.spawnPoints[i].transform.position,
+                    spawnPointManager.SpawnPoints[i].transform.position,
                     Quaternion.identity
                 );
                 if(SceneManager.sceneCount!=1) SceneManager.MoveGameObjectToScene(enemyInstance.gameObject, SceneManager.GetSceneAt(1));

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -122,7 +121,7 @@ public class TowerBehaviour : MonoBehaviour
         }
     }
 
-    protected void Attack(Enemy enemy)
+    private void Attack(Enemy enemy)
     {
         if (enemy)
         {
@@ -137,7 +136,7 @@ public class TowerBehaviour : MonoBehaviour
         }
     }
 
-    protected List<Enemy> ChooseTargets(List<Enemy> pTargets)
+    private List<Enemy> ChooseTargets(List<Enemy> pTargets)
     {
         return selectingBehaviour.GetTargets(pTargets, transform.position);
     }

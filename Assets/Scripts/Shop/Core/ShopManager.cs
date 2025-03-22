@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Manages the in-game shop by maintaining its open/closed state, 
@@ -9,7 +10,7 @@ public class ShopManager : Manager<ShopManager>
     /// <summary>
     /// A reference to the ShopData ScriptableObject, containing store items and configurations.
     /// </summary>
-    public ShopData shopData;
+    public ShopData ShopData;
     
     /// <summary>
     /// Indicates whether the shop is currently open. True if open, false otherwise.
@@ -31,7 +32,7 @@ public class ShopManager : Manager<ShopManager>
     /// </summary>
     private void Start()
     {
-        if(!shopData) Debug.Log("Shop data not set in shop manager!");
+        if(!ShopData) Debug.Log("Shop data not set in shop manager!");
     }
 
     /// <summary>

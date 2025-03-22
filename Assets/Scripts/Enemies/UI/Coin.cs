@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public float LifeTimeInSeconds = 3;
+    [SerializeField] private float lifeTimeInSeconds = 3;
     private float timer = 0;
     private void FixedUpdate()
     {
         timer += Time.deltaTime;
-        if(timer>=LifeTimeInSeconds) Destroy(gameObject);
+        if(timer>=lifeTimeInSeconds) Destroy(gameObject);
     }
 }

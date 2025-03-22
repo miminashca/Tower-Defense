@@ -172,11 +172,11 @@ public class EnemyManager : Manager<EnemyManager>
     /// </summary>
     private void CheckGameFinalState()
     {
-        if (currentEnemiesAtGoal < maxEnemiesAllowedAtTarget && !ServiceLocator.Get<GameManager>().gameLost)
+        if (currentEnemiesAtGoal < maxEnemiesAllowedAtTarget && !ServiceLocator.Get<GameManager>().GameLost)
         {
             GameStateEventBus.Win();
         }
-        else if (!ServiceLocator.Get<GameManager>().gameWon)
+        else if (!ServiceLocator.Get<GameManager>().GameWon)
         {
             GameStateEventBus.Lose();
         }

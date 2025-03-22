@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 { 
-    public bool isActive = false;
+    [SerializeField] private bool isActive = true;
 }

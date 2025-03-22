@@ -195,6 +195,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5043380248034821522, guid: d842a9d78d0c74272a15cbee5a576328, type: 3}
+      propertyPath: ShopData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7138f9ecfe7184888809acf835cd5b50, type: 2}
     - target: {fileID: 6136893203264427635, guid: d842a9d78d0c74272a15cbee5a576328, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -275,6 +279,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8236287476184116501, guid: d842a9d78d0c74272a15cbee5a576328, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -23.40039
+      objectReference: {fileID: 0}
     - target: {fileID: 8717045062451343864, guid: d842a9d78d0c74272a15cbee5a576328, type: 3}
       propertyPath: m_Name
       value: UI
@@ -301,9 +309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90a39323d394ffe8c84504656090943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instantKillToggle: {fileID: 0}
-  infiniteMoneyToggle: {fileID: 0}
-  invincibleBaseToggle: {fileID: 0}
+  instantKillToggle: 0
+  infiniteMoneyToggle: 0
+  invincibleBaseToggle: 0
 --- !u!1001 &2365252088131965562
 PrefabInstance:
   m_ObjectHideFlags: 0
